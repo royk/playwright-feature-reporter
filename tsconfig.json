@@ -1,0 +1,10 @@
+{
+  "compilerOptions": {
+    "outDir": "./dist",      // Output compiled JS files to 'dist'
+    "moduleResolution": "nodenext",
+    "module": "NodeNext",      // Or "CommonJS" if you're using CommonJS
+    "target": "ES6",         // You can adjust the target as needed
+    "declaration": true      // Generate .d.ts files for TypeScript typings
+  },
+  "include": ["src/**/*"]
+}

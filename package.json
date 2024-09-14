@@ -2,7 +2,7 @@
   "name": "playwright-feature-reporter",
   "version": "1.0.0",
   "description": "Custom Playwright reporter that generates a Markdown file documenting app features based on test cases",
-  "main": "index.ts",
+  "main": "dist/index.js",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/royk/playwright-feature-reporter.git"
@@ -23,5 +23,8 @@
     "@playwright/test": "^1.46.1",
     "@types/node": "^22.5.3"
   },
-  "type": "module"
+  "type": "module",
+  "dependencies": {
+    "typescript": "^5.6.2"
+  }
 }
