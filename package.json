@@ -1,0 +1,26 @@
+{
+  "name": "playwright-feature-reporter",
+  "version": "1.0.0",
+  "description": "Custom Playwright reporter that generates a Markdown file documenting app features based on test cases",
+  "main": "index.ts",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/royk/playwright-feature-reporter.git"
+  },
+  "keywords": [
+    "playwright",
+    "custom",
+    "reporter",
+    "markdown"
+  ],
+  "author": "Roy Klein",
+  "license": "Apache-2.0",
+  "bugs": {
+    "url": "https://github.com/royk/playwright-feature-reporter/issues"
+  },
+  "homepage": "https://github.com/royk/playwright-feature-reporter#readme",
+  "devDependencies": {
+    "@playwright/test": "^1.46.1",
+    "@types/node": "^22.5.3"
+  }
+}
