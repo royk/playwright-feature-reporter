@@ -3,8 +3,13 @@
     "outDir": "./dist",      // Output compiled JS files to 'dist'
     "moduleResolution": "nodenext",
     "module": "NodeNext",      // Or "CommonJS" if you're using CommonJS
+    "allowImportingTsExtensions": true,
+    "noEmit": true,
     "target": "ES6",         // You can adjust the target as needed
-    "declaration": true      // Generate .d.ts files for TypeScript typings
+    "declaration": true,     // Generate .d.ts files for TypeScript typings
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true
+    
   },
   "include": ["src/**/*"]
 }
