@@ -30,13 +30,23 @@ describe('MyReporter', () => {
   afterEach(() => {
     jest.clearAllMocks();
   });
+  describe("markdown generation", () => {
+    it('for a single feature with a single subfeature that passes', () => {
+      mockSuite.tests.push(mockTestCase);
+      reporter.onBegin({} as any, mockSuite);
+      reporter.onEnd({} as any);
 
-  test('onEnd generates correct markdown', () => {
-    mockSuite.tests.push(mockTestCase);
-    reporter.onBegin({} as any, mockSuite);
-    reporter.onEnd({} as any);
+      const expectedMarkdown = `## ${featureTitle}\n- :white_check_mark: ${subfeatureTitle}\n`;
+      expect(fs.writeFileSync).toHaveBeenCalledWith('test-output.md', expectedMarkdown);
+    });
+    it('for a single feature with a single subfeature that fails', () => {
+      mockTestCase.outcome = jest.fn().mockReturnValue('unexpected');
+      mockSuite.tests.push(mockTestCase);
+      reporter.onBegin({} as any, mockSuite);
+      reporter.onEnd({} as any);
 
-    const expectedMarkdown = `## ${featureTitle}\n- :white_check_mark: ${subfeatureTitle}\n`;
-    expect(fs.writeFileSync).toHaveBeenCalledWith('test-output.md', expectedMarkdown);
+      const expectedMarkdown = `## ${featureTitle}\n- :x: ${subfeatureTitle}\n`;
+      expect(fs.writeFileSync).toHaveBeenCalledWith('test-output.md', expectedMarkdown);
+    });
   });
 });
