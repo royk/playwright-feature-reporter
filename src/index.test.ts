@@ -48,5 +48,17 @@ describe('MyReporter', () => {
       const expectedMarkdown = `## ${featureTitle}\n- :x: ${subfeatureTitle}\n`;
       expect(fs.writeFileSync).toHaveBeenCalledWith('test-output.md', expectedMarkdown);
     });
+    describe("annotations", () => {
+      it("includes annotation of type 'comment' in the markdown", () => {
+        const description = "This is a comment";
+        mockTestCase.annotations = [{ type: 'comment', description }];
+        mockSuite.tests.push(mockTestCase);
+        reporter.onBegin({} as any, mockSuite);
+        reporter.onEnd({} as any);
+
+        const expectedMarkdown = `## ${featureTitle}\n- :white_check_mark: ${subfeatureTitle} *(${description})*\n`;
+        expect(fs.writeFileSync).toHaveBeenCalledWith('test-output.md', expectedMarkdown);
+      });
+    });
   });
 });

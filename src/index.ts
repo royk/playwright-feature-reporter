@@ -57,7 +57,8 @@ import type {
           nestedLevel++;
         }
         s.tests.forEach((test) => {
-          stringBuilder += `${mdListPrefix} ${getOutcome(test)} ${test.title}\n`;
+          const comment = test.annotations?.find((a) => a.type === 'comment')?.description;
+          stringBuilder += `${mdListPrefix} ${getOutcome(test)} ${test.title}${comment ? ` *(${comment})*` : ''}\n`;
         });
         s.suites.forEach((ss) => {
           printSuite(ss);
