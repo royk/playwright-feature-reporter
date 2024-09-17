@@ -9,17 +9,19 @@ describe('MyReporter', () => {
   let mockSuite: Suite;
   let mockTestCase: TestCase;
   let mockTestResult: TestResult;
+  const featureTitle = 'Feature title';
+  const subfeatureTitle = 'Subfeature title';
 
   beforeEach(() => {
     reporter = new MyReporter({ outputFile: 'test-output.md' });
     mockSuite = {
       type: 'describe',
-      title: 'Test Suite',
+      title: featureTitle,
       tests: [],
       suites: [],
     } as Suite;
     mockTestCase = {
-      title: 'Test Case',
+      title: subfeatureTitle,
       outcome: jest.fn().mockReturnValue('expected'),
     } as unknown as TestCase;
     mockTestResult = {} as TestResult;
@@ -34,7 +36,7 @@ describe('MyReporter', () => {
     reporter.onBegin({} as any, mockSuite);
     reporter.onEnd({} as any);
 
-    const expectedMarkdown = '## Feature: Test Suite\n- :white_check_mark: Test Case\n';
+    const expectedMarkdown = `## ${featureTitle}\n- :white_check_mark: ${subfeatureTitle}\n`;
     expect(fs.writeFileSync).toHaveBeenCalledWith('test-output.md', expectedMarkdown);
   });
 });

@@ -49,16 +49,14 @@ import type {
           return;
         }
         if (s.type === 'describe') {
-          console.log(`${consolePrefix} Feature: ${s.title}`);
           if (nestedLevel===0) {
-            stringBuilder += `${mdHeaderPrefix} Feature: ${s.title}\n`;
+            stringBuilder += `${mdHeaderPrefix} ${s.title}\n`;
           } else {
             stringBuilder += `${mdHeaderPrefix} ${s.title}\n`;
           }
           nestedLevel++;
         }
         s.tests.forEach((test) => {
-          console.log(`${consolePrefix}\t${test.title}`);
           stringBuilder += `${mdListPrefix} ${getOutcome(test)} ${test.title}\n`;
         });
         s.suites.forEach((ss) => {
