@@ -3,6 +3,10 @@ Custom Playwright reporter that generates a Markdown file documenting app featur
 
 (still under development)
 
+## TODO
+- Add title
+- Add generation date
+- Add support for skipping a test from being reported
 ## Usage
 
 Include as a reporter in your playwright.config.ts. eg:
