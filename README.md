@@ -16,8 +16,11 @@ export default defineConfig({
 ```
 
 ## Features
-- accepts outputFile as a parameter
 - 'Describe' block is rendered as a header
+- Nested describe blocks are indented to represent subfeatures.
 - 'Test' block is rendered as a list item
 - passing, failing and skipped tests are represented by appropriate markers
 - 'Comment' annotation is rendered as a comment
+
+## Configuration
+- `outputFile` - name and location of the generated Markdown
