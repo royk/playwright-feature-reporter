@@ -1,15 +1,14 @@
 {
   "compilerOptions": {
     "outDir": "./dist",      // Output compiled JS files to 'dist'
-    "moduleResolution": "nodenext",
+    "moduleResolution": "NodeNext",
     "module": "NodeNext",      // Or "CommonJS" if you're using CommonJS
-    "allowImportingTsExtensions": true,
-    "noEmit": true,
     "target": "ES6",         // You can adjust the target as needed
     "declaration": true,     // Generate .d.ts files for TypeScript typings
     "esModuleInterop": true,
-    "allowSyntheticDefaultImports": true
+    "allowSyntheticDefaultImports": true,
     
   },
-  "include": ["src/**/*"]
+  "include": ["src/**/*"],
+  "exclude": ["src/**/*.test.ts", "src/**/*.spec.ts"]
 }
