@@ -38,6 +38,20 @@ import type {
       let nestedLevel = 0;
       let projectCount = 0;
       let stringBuilder = '';
+      function mergeSuites(s: Suite, suiteStructure: Record<string, Suite>) {
+        if (suiteStructure[s.title]) {
+          suiteStructure[s.title].tests.push(...s.tests);
+          suiteStructure[s.title].suites.push(...s.suites);
+          s.tests = [];
+          s.suites = [];
+        } else {
+          suiteStructure[s.title] = s;
+        }
+        s.suites.forEach((ss) => {
+          mergeSuites(ss, suiteStructure);
+        });
+        return suiteStructure;
+      }
       function printSuite(s: Suite) {
         const consolePrefix = '\t'.repeat(nestedLevel);
         const mdHeaderPrefix = '  '.repeat(nestedLevel) + '#'.repeat(nestedLevel+2);
@@ -46,6 +60,9 @@ import type {
           projectCount++;
         }
         if (projectCount > 1) {
+          return;
+        }
+        if (s.tests.length === 0 && s.suites.length === 0) {
           return;
         }
         if (s.type === 'describe') {
@@ -67,6 +84,7 @@ import type {
           nestedLevel--;
         }
       }
+      mergeSuites(_suite, {});
       printSuite(_suite);
       fs.writeFileSync(_outputFile, stringBuilder);
     }

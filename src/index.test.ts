@@ -19,7 +19,7 @@ describe('MyReporter', () => {
       title: featureTitle,
       tests: [],
       suites: [],
-    } as Suite;
+    } as unknown as Suite;
     mockTestCase = {
       title: subfeatureTitle,
       outcome: jest.fn().mockReturnValue('expected'),
@@ -46,6 +46,48 @@ describe('MyReporter', () => {
       reporter.onEnd({} as any);
 
       const expectedMarkdown = `## ${featureTitle}\n- :x: ${subfeatureTitle}\n`;
+      expect(fs.writeFileSync).toHaveBeenCalledWith('test-output.md', expectedMarkdown);
+    });
+    it('supports multiple suites', () => {
+      const featureTitle2 = 'Feature 2';
+      const mockSuite2 = {
+        type: 'describe',
+        title: featureTitle2,
+        tests: [],
+        suites: [],
+      } as unknown as Suite;
+      mockSuite.tests.push(mockTestCase);
+      mockSuite2.tests.push(mockTestCase);
+      const parentSuite = {
+        type: 'root',
+        tests: [],
+        suites: [mockSuite, mockSuite2],
+      } as unknown as Suite;
+      reporter.onBegin({} as any, parentSuite);
+      reporter.onEnd({} as any);
+
+      const expectedMarkdown = `## ${featureTitle}\n- :white_check_mark: ${subfeatureTitle}\n## ${featureTitle2}\n- :white_check_mark: ${subfeatureTitle}\n`;
+      expect(fs.writeFileSync).toHaveBeenCalledWith('test-output.md', expectedMarkdown);
+    });
+    it('merges suites with the same title', () => {
+      const featureTitle2 = featureTitle
+      const mockSuite2 = {
+        type: 'describe',
+        title: featureTitle2,
+        tests: [],
+        suites: [],
+      } as unknown as Suite;
+      mockSuite.tests.push(mockTestCase);
+      mockSuite2.tests.push(mockTestCase);
+      const parentSuite = {
+        type: 'root',
+        tests: [],
+        suites: [mockSuite, mockSuite2],
+      } as unknown as Suite;
+      reporter.onBegin({} as any, parentSuite);
+      reporter.onEnd({} as any);
+
+      const expectedMarkdown = `## ${featureTitle}\n- :white_check_mark: ${subfeatureTitle}\n- :white_check_mark: ${subfeatureTitle}\n`;
       expect(fs.writeFileSync).toHaveBeenCalledWith('test-output.md', expectedMarkdown);
     });
     describe("annotations", () => {
