@@ -8,8 +8,10 @@
     "url": "git+https://github.com/royk/playwright-feature-reporter.git"
   },
   "scripts": {
-    "test": "jest"
+    "test": "jest",
+    "build": "tsc"
   },
+
   "keywords": [
     "playwright",
     "custom",
