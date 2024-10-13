@@ -83,8 +83,13 @@ class MyReporter {
                 }
                 nestedLevel++;
             }
+            const testNames = [];
             s.tests.forEach((test) => {
                 var _a, _b;
+                if (testNames.includes(test.title)) {
+                    return;
+                }
+                testNames.push(test.title);
                 const comment = (_b = (_a = test.annotations) === null || _a === void 0 ? void 0 : _a.find((a) => a.type === 'comment')) === null || _b === void 0 ? void 0 : _b.description;
                 stringBuilder += `${mdListPrefix} ${getOutcome(test)} ${test.title}${comment ? ` *(${comment})*` : ''}\n`;
             });
@@ -95,7 +100,6 @@ class MyReporter {
                 nestedLevel--;
             }
         }
-        console.log(suiteToJson(_suite));
         const mergedSuite = mergeSuites(suiteToJson(_suite), {});
         printSuite(mergedSuite);
         fs.writeFileSync(_outputFile, stringBuilder);
