@@ -22,8 +22,8 @@ import type {
       
     onEnd(result: FullResult) {
   
-      function getOutcome(testCase: TestCase) {
-        switch (testCase.outcome()) {
+      function getOutcome(testCase) {
+        switch (testCase.outcome) {
           case 'skipped':
             return ':construction:';
           case 'expected':
@@ -33,12 +33,30 @@ import type {
           case 'flaky':
             return ':warning:';
         }
-        return testCase.outcome();
+        return testCase.outcome;
       }
       let nestedLevel = 0;
       let projectCount = 0;
       let stringBuilder = '';
-      function mergeSuites(s: Suite, suiteStructure: Record<string, Suite>) {
+      function suiteToJson(s: Suite) {
+        const sJson = {
+          title: s.title,
+          type: s.type,
+          suites: [],
+          tests: [],
+        };
+        sJson.suites = s.suites.map((ss) => suiteToJson(ss));
+        sJson.tests = s.tests.map((t) => {
+          return {
+            title: t.title,
+            outcome: t.outcome(),
+            annotations: t.annotations,
+          }
+        });
+
+        return sJson;
+      }
+      function mergeSuites(s, suiteStructure: Record<string, Suite>) {
         if (suiteStructure[s.title]) {
           suiteStructure[s.title].tests.push(...s.tests);
           suiteStructure[s.title].suites.push(...s.suites);
@@ -50,7 +68,7 @@ import type {
         s.suites.forEach((ss) => {
           mergeSuites(ss, suiteStructure);
         });
-        return suiteStructure;
+        return s;
       }
       function printSuite(s: Suite) {
         const consolePrefix = '\t'.repeat(nestedLevel);
@@ -84,8 +102,8 @@ import type {
           nestedLevel--;
         }
       }
-      mergeSuites(_suite, {});
-      printSuite(_suite);
+      const mergedSuite = mergeSuites(suiteToJson(_suite), {});
+      printSuite(mergedSuite);
       fs.writeFileSync(_outputFile, stringBuilder);
     }
   }
