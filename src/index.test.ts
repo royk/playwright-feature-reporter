@@ -8,9 +8,11 @@ describe('MyReporter', () => {
   let reporter: MyReporter;
   let mockSuite: Suite;
   let mockTestCase: TestCase;
+  let mockTestCase2: TestCase;
   let mockTestResult: TestResult;
   const featureTitle = 'Feature title';
   const subfeatureTitle = 'Subfeature title';
+  const subfeatureTitle2 = 'Subfeature title 2';
 
   beforeEach(() => {
     reporter = new MyReporter({ outputFile: 'test-output.md' });
@@ -22,6 +24,10 @@ describe('MyReporter', () => {
     } as unknown as Suite;
     mockTestCase = {
       title: subfeatureTitle,
+      outcome: jest.fn().mockReturnValue('expected'),
+    } as unknown as TestCase;
+    mockTestCase2 = {
+      title: subfeatureTitle2,
       outcome: jest.fn().mockReturnValue('expected'),
     } as unknown as TestCase;
     mockTestResult = {} as TestResult;
@@ -46,6 +52,30 @@ describe('MyReporter', () => {
       reporter.onEnd({} as any);
 
       const expectedMarkdown = `## ${featureTitle}\n- :x: ${subfeatureTitle}\n`;
+      expect(fs.writeFileSync).toHaveBeenCalledWith('test-output.md', expectedMarkdown);
+    });
+    it('supports multiple projects', () => {
+      mockSuite.tests.push(mockTestCase);
+      const suite = {
+        title: '',
+        type: 'root',
+        suites: [{
+          title: 'project1',
+          suites: [mockSuite],
+          tests: []
+        },
+        {
+          title: 'project2',
+          suites: [mockSuite],
+          tests: []
+        }
+        ],
+        tests: []
+      } as unknown as Suite;
+      reporter.onBegin({} as any, suite);
+      reporter.onEnd({} as any);
+
+      const expectedMarkdown = `## ${featureTitle}\n- :white_check_mark: ${subfeatureTitle}\n`;
       expect(fs.writeFileSync).toHaveBeenCalledWith('test-output.md', expectedMarkdown);
     });
     it('supports multiple suites', () => {
@@ -78,7 +108,7 @@ describe('MyReporter', () => {
         suites: [],
       } as unknown as Suite;
       mockSuite.tests.push(mockTestCase);
-      mockSuite2.tests.push(mockTestCase);
+      mockSuite2.tests.push(mockTestCase2);
       const parentSuite = {
         type: 'root',
         tests: [],
@@ -87,7 +117,7 @@ describe('MyReporter', () => {
       reporter.onBegin({} as any, parentSuite);
       reporter.onEnd({} as any);
 
-      const expectedMarkdown = `## ${featureTitle}\n- :white_check_mark: ${subfeatureTitle}\n- :white_check_mark: ${subfeatureTitle}\n`;
+      const expectedMarkdown = `## ${featureTitle}\n- :white_check_mark: ${subfeatureTitle}\n- :white_check_mark: ${subfeatureTitle2}\n`;
       expect(fs.writeFileSync).toHaveBeenCalledWith('test-output.md', expectedMarkdown);
     });
     describe("annotations", () => {

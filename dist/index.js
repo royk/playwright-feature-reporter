@@ -47,7 +47,7 @@ class MyReporter {
             return sJson;
         }
         function mergeSuites(s, suiteStructure) {
-            if (suiteStructure[s.title]) {
+            if (s.type === 'describe' && suiteStructure[s.title]) {
                 suiteStructure[s.title].tests.push(...s.tests);
                 suiteStructure[s.title].suites.push(...s.suites);
                 s.tests = [];
@@ -95,6 +95,7 @@ class MyReporter {
                 nestedLevel--;
             }
         }
+        console.log(suiteToJson(_suite));
         const mergedSuite = mergeSuites(suiteToJson(_suite), {});
         printSuite(mergedSuite);
         fs.writeFileSync(_outputFile, stringBuilder);

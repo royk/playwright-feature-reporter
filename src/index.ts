@@ -57,7 +57,7 @@ import type {
         return sJson;
       }
       function mergeSuites(s, suiteStructure: Record<string, Suite>) {
-        if (suiteStructure[s.title]) {
+        if (s.type==='describe' && suiteStructure[s.title]) {
           suiteStructure[s.title].tests.push(...s.tests);
           suiteStructure[s.title].suites.push(...s.suites);
           s.tests = [];
@@ -91,7 +91,12 @@ import type {
           }
           nestedLevel++;
         }
+        const testNames = [];
         s.tests.forEach((test) => {
+          if (testNames.includes(test.title)) {
+            return;
+          }
+          testNames.push(test.title);
           const comment = test.annotations?.find((a) => a.type === 'comment')?.description;
           stringBuilder += `${mdListPrefix} ${getOutcome(test)} ${test.title}${comment ? ` *(${comment})*` : ''}\n`;
         });
