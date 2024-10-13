@@ -71,7 +71,6 @@ import type {
         return s;
       }
       function printSuite(s: Suite) {
-        const consolePrefix = '\t'.repeat(nestedLevel);
         const mdHeaderPrefix = '  '.repeat(nestedLevel) + '#'.repeat(nestedLevel+2);
         const mdListPrefix = '  '.repeat(nestedLevel) + '-';
         if (s.type === 'project') {
