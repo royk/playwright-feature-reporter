@@ -13,9 +13,11 @@ describe('MyReporter', () => {
   const featureTitle = 'Feature title';
   const subfeatureTitle = 'Subfeature title';
   const subfeatureTitle2 = 'Subfeature title 2';
+  const outputFile = 'test-output.md';
 
   beforeEach(() => {
-    reporter = new MyReporter({ outputFile: 'test-output.md' });
+
+    reporter = new MyReporter({ outputFile });
     mockSuite = {
       type: 'describe',
       title: featureTitle,
@@ -43,7 +45,7 @@ describe('MyReporter', () => {
       reporter.onEnd({} as any);
 
       const expectedMarkdown = `## ${featureTitle}\n- :white_check_mark: ${subfeatureTitle}\n`;
-      expect(fs.writeFileSync).toHaveBeenCalledWith('test-output.md', expectedMarkdown);
+      expect(fs.writeFileSync).toHaveBeenCalledWith(outputFile, expectedMarkdown);
     });
     it('for a single feature with a single subfeature that fails', () => {
       mockTestCase.outcome = jest.fn().mockReturnValue('unexpected');
@@ -52,7 +54,7 @@ describe('MyReporter', () => {
       reporter.onEnd({} as any);
 
       const expectedMarkdown = `## ${featureTitle}\n- :x: ${subfeatureTitle}\n`;
-      expect(fs.writeFileSync).toHaveBeenCalledWith('test-output.md', expectedMarkdown);
+      expect(fs.writeFileSync).toHaveBeenCalledWith(outputFile, expectedMarkdown);
     });
     it('supports multiple projects', () => {
       mockSuite.tests.push(mockTestCase);
@@ -76,7 +78,7 @@ describe('MyReporter', () => {
       reporter.onEnd({} as any);
 
       const expectedMarkdown = `## ${featureTitle}\n- :white_check_mark: ${subfeatureTitle}\n`;
-      expect(fs.writeFileSync).toHaveBeenCalledWith('test-output.md', expectedMarkdown);
+      expect(fs.writeFileSync).toHaveBeenCalledWith(outputFile, expectedMarkdown);
     });
     it('supports multiple suites', () => {
       const featureTitle2 = 'Feature 2';
@@ -97,7 +99,7 @@ describe('MyReporter', () => {
       reporter.onEnd({} as any);
 
       const expectedMarkdown = `## ${featureTitle}\n- :white_check_mark: ${subfeatureTitle}\n## ${featureTitle2}\n- :white_check_mark: ${subfeatureTitle}\n`;
-      expect(fs.writeFileSync).toHaveBeenCalledWith('test-output.md', expectedMarkdown);
+      expect(fs.writeFileSync).toHaveBeenCalledWith(outputFile, expectedMarkdown);
     });
     it('merges suites with the same title', () => {
       const featureTitle2 = featureTitle
@@ -118,7 +120,7 @@ describe('MyReporter', () => {
       reporter.onEnd({} as any);
 
       const expectedMarkdown = `## ${featureTitle}\n- :white_check_mark: ${subfeatureTitle}\n- :white_check_mark: ${subfeatureTitle2}\n`;
-      expect(fs.writeFileSync).toHaveBeenCalledWith('test-output.md', expectedMarkdown);
+      expect(fs.writeFileSync).toHaveBeenCalledWith(outputFile, expectedMarkdown);
     });
     describe("annotations", () => {
       it("includes annotation of type 'comment' in the markdown", () => {
@@ -129,7 +131,7 @@ describe('MyReporter', () => {
         reporter.onEnd({} as any);
 
         const expectedMarkdown = `## ${featureTitle}\n- :white_check_mark: ${subfeatureTitle} *(${description})*\n`;
-        expect(fs.writeFileSync).toHaveBeenCalledWith('test-output.md', expectedMarkdown);
+        expect(fs.writeFileSync).toHaveBeenCalledWith(outputFile, expectedMarkdown);
       });
     });
   });
