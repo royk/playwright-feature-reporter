@@ -116,7 +116,7 @@ class MyReporter {
         const mergedSuite = mergeSuites(suiteToJson(_suite), {});
         let nestedLevel = 0;
         let projectCount = 0;
-        let stringBuilder = '';
+        let stringBuilder = '\n';
         printSuite(mergedSuite);
         generateMarkdown(stringBuilder);
     }
