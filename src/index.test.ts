@@ -135,17 +135,20 @@ describe('MyReporter', () => {
       });
     });
     describe("embedding in an existing file", () => {
-      it("places the content after the placeholder and preserves the rest of the content", () => {
+      it("places the content between placeholders and deletes any content that was between the placeholders", () => {
         const additionalContent = "This is some additional content.";
-        const existingContent = `This is some existing content.\n${embeddingPlaceholder}`;
+        const embeddingPlaceholderEnd = "<!-- end -->";
+        const initialContent = `This is some existing content.\n${embeddingPlaceholder}`;
+        const contentToDelete = "hello";
         mockSuite.tests.push(mockTestCase);
         fs.existsSync = jest.fn().mockReturnValue(true);
-        fs.readFileSync = jest.fn().mockReturnValue(existingContent+additionalContent);
+        fs.readFileSync = jest.fn().mockReturnValue(initialContent+contentToDelete+embeddingPlaceholderEnd+additionalContent);
         fs.writeFileSync = jest.fn();
         reporter.onBegin({} as any, mockSuite);
         reporter.onEnd({} as any);
         const expectedMarkdown = `## ${featureTitle}\n- :white_check_mark: ${subfeatureTitle}\n`;
-        expect(fs.writeFileSync).toHaveBeenCalledWith(outputFile, existingContent + expectedMarkdown+additionalContent);
+        const expectedContent = initialContent + expectedMarkdown + embeddingPlaceholderEnd + additionalContent;
+        expect(fs.writeFileSync).toHaveBeenCalledWith(outputFile, expectedContent);
       });
     });
   });

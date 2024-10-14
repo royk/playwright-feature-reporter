@@ -108,7 +108,10 @@ export const embeddingPlaceholder = "<!-- jest-playwright-markdown-reporter-plac
       function generateMarkdown(stringBuilder: string) {
         const existingContent = fs.existsSync(_outputFile) ? fs.readFileSync(_outputFile, 'utf8') : '';
         if (existingContent.includes(embeddingPlaceholder)) {
-          const newContent = existingContent.replace(embeddingPlaceholder, embeddingPlaceholder + stringBuilder);
+          const endPlaceholder = "<!-- end -->";
+          const endPlaceholderIndex = existingContent.indexOf(endPlaceholder);
+          const startPlaceholderIndex = existingContent.indexOf(embeddingPlaceholder);
+          const newContent = existingContent.slice(0, startPlaceholderIndex) + embeddingPlaceholder + stringBuilder + existingContent.slice(endPlaceholderIndex);
           fs.writeFileSync(_outputFile, newContent);
         } else {
           fs.writeFileSync(_outputFile, stringBuilder);
