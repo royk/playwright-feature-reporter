@@ -135,11 +135,11 @@ describe('MyReporter', () => {
       });
     });
     describe("embedding in an existing file", () => {
-      it("replaces a placeholder with the markdown", () => {
-        const existingContent = `This is some existing content.\n`;
+      it("places the content after the placeholder", () => {
+        const existingContent = `This is some existing content.\n${embeddingPlaceholder}`;
         mockSuite.tests.push(mockTestCase);
         fs.existsSync = jest.fn().mockReturnValue(true);
-        fs.readFileSync = jest.fn().mockReturnValue(existingContent+embeddingPlaceholder);
+        fs.readFileSync = jest.fn().mockReturnValue(existingContent);
         fs.writeFileSync = jest.fn();
         reporter.onBegin({} as any, mockSuite);
         reporter.onEnd({} as any);
