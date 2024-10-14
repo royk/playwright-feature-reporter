@@ -4,6 +4,7 @@ import type {
   import fs from 'fs';
   let _suite: Suite;
   let _outputFile: string;
+export const embeddingPlaceholder = "<!-- jest-playwright-markdown-reporter-placeholder -->";
   class MyReporter implements Reporter {
     constructor(options: { outputFile?: string } = {}) {
       _outputFile = options.outputFile || 'FEATURES.md';
@@ -108,7 +109,13 @@ import type {
       }
       const mergedSuite = mergeSuites(suiteToJson(_suite), {});
       printSuite(mergedSuite);
-      fs.writeFileSync(_outputFile, stringBuilder);
+      const existingContent = fs.existsSync(_outputFile) ? fs.readFileSync(_outputFile, 'utf8') : '';
+      if (existingContent.includes(embeddingPlaceholder)) {
+        const newContent = existingContent.replace(embeddingPlaceholder, stringBuilder);
+        fs.writeFileSync(_outputFile, newContent);
+      } else {
+        fs.writeFileSync(_outputFile, stringBuilder);
+      }
     }
   }
   

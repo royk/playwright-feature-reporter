@@ -1,4 +1,4 @@
-import MyReporter from './index.ts';
+import MyReporter, { embeddingPlaceholder } from './index.ts';
 import { Suite, TestCase, TestResult } from '@playwright/test/reporter';
 import fs from 'fs';
 
@@ -132,6 +132,19 @@ describe('MyReporter', () => {
 
         const expectedMarkdown = `## ${featureTitle}\n- :white_check_mark: ${subfeatureTitle} *(${description})*\n`;
         expect(fs.writeFileSync).toHaveBeenCalledWith(outputFile, expectedMarkdown);
+      });
+    });
+    describe("embedding in an existing file", () => {
+      it("replaces a placeholder with the markdown", () => {
+        const existingContent = `This is some existing content.\n`;
+        mockSuite.tests.push(mockTestCase);
+        fs.existsSync = jest.fn().mockReturnValue(true);
+        fs.readFileSync = jest.fn().mockReturnValue(existingContent+embeddingPlaceholder);
+        fs.writeFileSync = jest.fn();
+        reporter.onBegin({} as any, mockSuite);
+        reporter.onEnd({} as any);
+        const expectedMarkdown = `## ${featureTitle}\n- :white_check_mark: ${subfeatureTitle}\n`;
+        expect(fs.writeFileSync).toHaveBeenCalledWith(outputFile, existingContent + expectedMarkdown);
       });
     });
   });
