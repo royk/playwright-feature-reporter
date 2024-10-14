@@ -75,7 +75,14 @@ test.describe("Features", () => {
       expect(actualMarkdown).toBe(expectedMarkdown);
     });
     test("Supports comment annotations", () => {
-
+      const description = 'This is a comment';
+      mockTestCase.annotations = [{type: 'comment', description}]
+      mockSuite.tests.push(mockTestCase);
+      reporter.onBegin({} as any, mockSuite);
+      reporter.onEnd({} as any);
+      const expectedMarkdown = `\n## ${featureTitle}\n- :white_check_mark: ${caseTitle} *(${description})*\n`;
+      const actualMarkdown = writeFileSyncStub.getCall(0)?.args[1];
+      expect(actualMarkdown).toBe(expectedMarkdown);
     });
     test("Supports embedding markdown in an existing file", () => {
 
