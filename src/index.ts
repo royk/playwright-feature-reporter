@@ -2,9 +2,11 @@ import type {
     FullConfig, FullResult, Reporter, Suite, TestCase, TestResult
   } from '@playwright/test/reporter';
   import fs from 'fs';
-  let _suite: Suite;
-  let _outputFile: string;
+let _suite: Suite;
+let _outputFile: string;
 export const embeddingPlaceholder = "<!-- jest-playwright-markdown-reporter-placeholder -->";
+export const embeddingPlaceholderEnd = "<!-- jest-playwright-markdown-reporter-placeholder-end -->";
+
   class MyReporter implements Reporter {
     constructor(options: { outputFile?: string } = {}) {
       _outputFile = options.outputFile || 'FEATURES.md';
@@ -108,8 +110,8 @@ export const embeddingPlaceholder = "<!-- jest-playwright-markdown-reporter-plac
       function generateMarkdown(stringBuilder: string) {
         const existingContent = fs.existsSync(_outputFile) ? fs.readFileSync(_outputFile, 'utf8') : '';
         if (existingContent.includes(embeddingPlaceholder)) {
-          const endPlaceholder = "<!-- end -->";
-          const endPlaceholderIndex = existingContent.indexOf(endPlaceholder);
+          
+          const endPlaceholderIndex = existingContent.indexOf(embeddingPlaceholderEnd);
           const startPlaceholderIndex = existingContent.indexOf(embeddingPlaceholder);
           const newContent = existingContent.slice(0, startPlaceholderIndex) + embeddingPlaceholder + stringBuilder + existingContent.slice(endPlaceholderIndex);
           fs.writeFileSync(_outputFile, newContent);

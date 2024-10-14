@@ -1,4 +1,4 @@
-import MyReporter, { embeddingPlaceholder } from './index.ts';
+import MyReporter, { embeddingPlaceholder, embeddingPlaceholderEnd } from './index.ts';
 import { Suite, TestCase, TestResult } from '@playwright/test/reporter';
 import fs from 'fs';
 
@@ -137,7 +137,6 @@ describe('MyReporter', () => {
     describe("embedding in an existing file", () => {
       it("places the content between placeholders and deletes any content that was between the placeholders", () => {
         const additionalContent = "This is some additional content.";
-        const embeddingPlaceholderEnd = "<!-- end -->";
         const initialContent = `This is some existing content.\n${embeddingPlaceholder}`;
         const contentToDelete = "hello";
         mockSuite.tests.push(mockTestCase);
