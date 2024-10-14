@@ -3,8 +3,15 @@ Custom Playwright reporter that populates a Markdown file documenting app featur
 
 (still under development)
 
-## Features
 <!-- jest-playwright-feature-reporter--placeholder -->
+## Features
+  ### Markdown generation
+  - :white_check_mark: Supports nested describe blocks
+  - :white_check_mark: Marks passing, failing and skipped tests
+  - :white_check_mark: Supports comment annotations
+  - :white_check_mark: Supports embedding markdown in an existing file
+  ### Configuration
+  - :white_check_mark: Define output file with 'outputFile' option
 <!-- jest-playwright-feature-reporter--placeholder-end -->
 
 ## TODO
