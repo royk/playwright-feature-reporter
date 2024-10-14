@@ -1,6 +1,6 @@
 {
   "name": "playwright-feature-reporter",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "Custom Playwright reporter that generates a Markdown file documenting app features based on test cases",
   "main": "dist/index.js",
   "repository": {
