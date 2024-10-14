@@ -1,5 +1,5 @@
-test-watch:
-	npm run test -- --watch
+test:
+	npx playwright test
 
 build:
 	npm run build

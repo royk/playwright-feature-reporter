@@ -18,6 +18,7 @@ Custom Playwright reporter that populates a Markdown file documenting app featur
 - :construction: Display generation date
 - :construction: Support for skipping a test from being reported
 - :construction: Support for skipping a describe block and still report its children
+- :construction: Support custom emojis
 <!-- jest-playwright-feature-reporter--placeholder-end -->
 
 ## Usage

@@ -154,4 +154,7 @@ test.describe("To do", () => {
   test.skip("Support for skipping a describe block and still report its children", () => {
 
   });
+  test.skip("Support custom emojis", () => {
+
+  });
 });
