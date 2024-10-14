@@ -113,6 +113,28 @@ test.describe("Features", () => {
       const actualMarkdown = writeFileSyncStub.getCall(0)?.args[1];
       expect(actualMarkdown).toBe(expectedContent);
     });
+    test("Merges features from across suites", () => {
+      const featureTitle2 = featureTitle
+      const mockSuite2 = {
+        type: 'describe',
+        title: featureTitle2,
+        tests: [],
+        suites: [],
+      } as unknown as Suite;
+      mockSuite.tests.push(mockTestCase);
+      mockSuite2.tests.push(mockTestCase2);
+      const parentSuite = {
+        type: 'root',
+        tests: [],
+        suites: [mockSuite, mockSuite2],
+      } as unknown as Suite;
+      reporter.onBegin({} as any, parentSuite);
+      reporter.onEnd({} as any);
+
+      const expectedMarkdown = `\n## ${featureTitle}\n- :white_check_mark: ${caseTitle}\n- :white_check_mark: ${caseTitle2}\n`;
+      const actualMarkdown = writeFileSyncStub.getCall(0)?.args[1];
+      expect(actualMarkdown).toBe(expectedMarkdown);
+    });
   });
   test.describe("Configuration", () => {
     test("Define output file with 'outputFile' option", () => {
