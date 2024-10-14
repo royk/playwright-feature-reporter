@@ -1,6 +1,7 @@
 import fs from 'fs';
 let _suite;
 let _outputFile;
+export const embeddingPlaceholder = "<!-- jest-playwright-markdown-reporter-placeholder -->";
 class MyReporter {
     constructor(options = {}) {
         _outputFile = options.outputFile || 'FEATURES.md';
@@ -26,9 +27,6 @@ class MyReporter {
             }
             return testCase.outcome;
         }
-        let nestedLevel = 0;
-        let projectCount = 0;
-        let stringBuilder = '';
         function suiteToJson(s) {
             const sJson = {
                 title: s.title,
@@ -62,7 +60,6 @@ class MyReporter {
             return s;
         }
         function printSuite(s) {
-            const consolePrefix = '\t'.repeat(nestedLevel);
             const mdHeaderPrefix = '  '.repeat(nestedLevel) + '#'.repeat(nestedLevel + 2);
             const mdListPrefix = '  '.repeat(nestedLevel) + '-';
             if (s.type === 'project') {
@@ -100,9 +97,22 @@ class MyReporter {
                 nestedLevel--;
             }
         }
+        function generateMarkdown(stringBuilder) {
+            const existingContent = fs.existsSync(_outputFile) ? fs.readFileSync(_outputFile, 'utf8') : '';
+            if (existingContent.includes(embeddingPlaceholder)) {
+                const newContent = existingContent.replace(embeddingPlaceholder, embeddingPlaceholder + stringBuilder);
+                fs.writeFileSync(_outputFile, newContent);
+            }
+            else {
+                fs.writeFileSync(_outputFile, stringBuilder);
+            }
+        }
         const mergedSuite = mergeSuites(suiteToJson(_suite), {});
+        let nestedLevel = 0;
+        let projectCount = 0;
+        let stringBuilder = '';
         printSuite(mergedSuite);
-        fs.writeFileSync(_outputFile, stringBuilder);
+        generateMarkdown(stringBuilder);
     }
 }
 export default MyReporter;
