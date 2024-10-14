@@ -5,8 +5,7 @@ import sinon from 'sinon';
 import fs from 'fs';
 import { mock } from 'node:test';
 
-const writeFileSyncStub = sinon.stub(fs, 'writeFileSync');
-writeFileSyncStub.returns(undefined);
+
 
 test.describe("Features", () => {
   let reporter: MyReporter;
@@ -25,7 +24,10 @@ test.describe("Features", () => {
   const failingEmoji = ':x:';
   const skippedEmoji = ':construction:';
   const flakyEmoji = ':warning:';
+  let writeFileSyncStub: sinon.SinonStub;
   test.beforeEach(() => {
+    writeFileSyncStub = sinon.stub(fs, 'writeFileSync');
+    writeFileSyncStub.returns(undefined);
     reporter = new MyReporter({ outputFile });
     mockSuite = {
       type: 'describe',
@@ -84,8 +86,32 @@ test.describe("Features", () => {
       const actualMarkdown = writeFileSyncStub.getCall(0)?.args[1];
       expect(actualMarkdown).toBe(expectedMarkdown);
     });
-    test("Supports embedding markdown in an existing file", () => {
-
+    test("Supports embedding markdown in an existing file between placeholders", () => {
+      const additionalContent = "This is some additional content.";
+      const initialContent = `This is some existing content.\n${embeddingPlaceholder}`;
+      const contentToDelete = "hello";
+      mockSuite.tests.push(mockTestCase);
+      sinon.stub(fs, 'existsSync').returns(true);
+      sinon.stub(fs, 'readFileSync').returns(initialContent+contentToDelete+embeddingPlaceholderEnd+additionalContent);
+      reporter.onBegin({} as any, mockSuite);
+      reporter.onEnd({} as any);
+      const expectedMarkdown = `\n## ${featureTitle}\n- :white_check_mark: ${caseTitle}\n`;
+      const expectedContent = initialContent + expectedMarkdown + embeddingPlaceholderEnd + additionalContent;
+      const actualMarkdown = writeFileSyncStub.getCall(0)?.args[1];
+      expect(actualMarkdown).toBe(expectedContent);
+    });
+    test("Supports embedding markdown in an existing file without closing placeholder", () => {
+      const initialContent = `This is some existing content.\n${embeddingPlaceholder}`;
+      const contentToDelete = "hello";
+      mockSuite.tests.push(mockTestCase);
+      sinon.stub(fs, 'existsSync').returns(true);
+      sinon.stub(fs, 'readFileSync').returns(initialContent+contentToDelete);
+      reporter.onBegin({} as any, mockSuite);
+      reporter.onEnd({} as any);
+      const expectedMarkdown = `\n## ${featureTitle}\n- :white_check_mark: ${caseTitle}\n`;
+      const expectedContent = initialContent + expectedMarkdown;
+      const actualMarkdown = writeFileSyncStub.getCall(0)?.args[1];
+      expect(actualMarkdown).toBe(expectedContent);
     });
   });
   test.describe("Configuration", () => {
