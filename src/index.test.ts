@@ -135,16 +135,17 @@ describe('MyReporter', () => {
       });
     });
     describe("embedding in an existing file", () => {
-      it("places the content after the placeholder", () => {
+      it("places the content after the placeholder and preserves the rest of the content", () => {
+        const additionalContent = "This is some additional content.";
         const existingContent = `This is some existing content.\n${embeddingPlaceholder}`;
         mockSuite.tests.push(mockTestCase);
         fs.existsSync = jest.fn().mockReturnValue(true);
-        fs.readFileSync = jest.fn().mockReturnValue(existingContent);
+        fs.readFileSync = jest.fn().mockReturnValue(existingContent+additionalContent);
         fs.writeFileSync = jest.fn();
         reporter.onBegin({} as any, mockSuite);
         reporter.onEnd({} as any);
         const expectedMarkdown = `## ${featureTitle}\n- :white_check_mark: ${subfeatureTitle}\n`;
-        expect(fs.writeFileSync).toHaveBeenCalledWith(outputFile, existingContent + expectedMarkdown);
+        expect(fs.writeFileSync).toHaveBeenCalledWith(outputFile, existingContent + expectedMarkdown+additionalContent);
       });
     });
   });
