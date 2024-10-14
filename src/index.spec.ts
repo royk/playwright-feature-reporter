@@ -137,18 +137,21 @@ test.describe("Features", () => {
     });
   });
   test.describe("Configuration", () => {
-    test("Define output file with 'outputFile' option", () => {
-
+    test("Define output file with 'outputFile' option", 
+      {annotation: [{type: 'comment', description: 'Implicitly tested'}]}, () => {
     });
   });
 
 });
 
 test.describe("To do", () => {
-  test("Display generation date", () => {
+  test.skip("Display generation date", () => {
 
   });
-  test("Support for skipping a test from being reported", () => {
+  test.skip("Support for skipping a test from being reported", () => {
+
+  });
+  test.skip("Support for skipping a describe block and still report its children", () => {
 
   });
 });

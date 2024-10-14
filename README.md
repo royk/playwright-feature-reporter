@@ -13,10 +13,11 @@ Custom Playwright reporter that populates a Markdown file documenting app featur
   - :white_check_mark: Supports embedding markdown in an existing file without closing placeholder
   - :white_check_mark: Merges features from across suites
   ### Configuration
-  - :white_check_mark: Define output file with 'outputFile' option
+  - :white_check_mark: Define output file with 'outputFile' option *(Implicitly tested)*
 ## To do
-- :white_check_mark: Display generation date
-- :white_check_mark: Support for skipping a test from being reported
+- :construction: Display generation date
+- :construction: Support for skipping a test from being reported
+- :construction: Support for skipping a describe block and still report its children
 <!-- jest-playwright-feature-reporter--placeholder-end -->
 
 ## Usage
