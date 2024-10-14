@@ -36,9 +36,7 @@ export const embeddingPlaceholder = "<!-- jest-playwright-markdown-reporter-plac
         }
         return testCase.outcome;
       }
-      let nestedLevel = 0;
-      let projectCount = 0;
-      let stringBuilder = '';
+      
       function suiteToJson(s: Suite) {
         const sJson = {
           title: s.title,
@@ -117,6 +115,9 @@ export const embeddingPlaceholder = "<!-- jest-playwright-markdown-reporter-plac
         }
       }
       const mergedSuite = mergeSuites(suiteToJson(_suite), {});
+      let nestedLevel = 0;
+      let projectCount = 0;
+      let stringBuilder = '';
       printSuite(mergedSuite);
       generateMarkdown(stringBuilder);
     }
