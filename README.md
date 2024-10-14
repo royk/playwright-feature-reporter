@@ -52,13 +52,3 @@ For exmaple:
 <!-- jest-playwright-feature-reporter--placeholder -->
 << your features will be rendered here >>
 ```
-
-## Features
-- 'Describe' block is rendered as a header
-- Nested describe blocks are indented to represent subfeatures.
-- 'Test' block is rendered as a list item
-- passing, failing and skipped tests are represented by appropriate markers
-- 'Comment' annotation is rendered as a comment
-- Test results are appended to the feature file without overwriting it.
-## Configuration
-- `outputFile` - name and location of the generated Markdown
