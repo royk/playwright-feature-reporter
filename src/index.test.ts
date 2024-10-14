@@ -44,7 +44,7 @@ describe('MyReporter', () => {
       reporter.onBegin({} as any, mockSuite);
       reporter.onEnd({} as any);
 
-      const expectedMarkdown = `## ${featureTitle}\n- :white_check_mark: ${subfeatureTitle}\n`;
+      const expectedMarkdown = `\n## ${featureTitle}\n- :white_check_mark: ${subfeatureTitle}\n`;
       expect(fs.writeFileSync).toHaveBeenCalledWith(outputFile, expectedMarkdown);
     });
     it('for a single feature with a single subfeature that fails', () => {
@@ -53,7 +53,7 @@ describe('MyReporter', () => {
       reporter.onBegin({} as any, mockSuite);
       reporter.onEnd({} as any);
 
-      const expectedMarkdown = `## ${featureTitle}\n- :x: ${subfeatureTitle}\n`;
+      const expectedMarkdown = `\n## ${featureTitle}\n- :x: ${subfeatureTitle}\n`;
       expect(fs.writeFileSync).toHaveBeenCalledWith(outputFile, expectedMarkdown);
     });
     it('supports multiple projects', () => {
@@ -77,7 +77,7 @@ describe('MyReporter', () => {
       reporter.onBegin({} as any, suite);
       reporter.onEnd({} as any);
 
-      const expectedMarkdown = `## ${featureTitle}\n- :white_check_mark: ${subfeatureTitle}\n`;
+      const expectedMarkdown = `\n## ${featureTitle}\n- :white_check_mark: ${subfeatureTitle}\n`;
       expect(fs.writeFileSync).toHaveBeenCalledWith(outputFile, expectedMarkdown);
     });
     it('supports multiple suites', () => {
@@ -98,7 +98,7 @@ describe('MyReporter', () => {
       reporter.onBegin({} as any, parentSuite);
       reporter.onEnd({} as any);
 
-      const expectedMarkdown = `## ${featureTitle}\n- :white_check_mark: ${subfeatureTitle}\n## ${featureTitle2}\n- :white_check_mark: ${subfeatureTitle}\n`;
+      const expectedMarkdown = `\n## ${featureTitle}\n- :white_check_mark: ${subfeatureTitle}\n## ${featureTitle2}\n- :white_check_mark: ${subfeatureTitle}\n`;
       expect(fs.writeFileSync).toHaveBeenCalledWith(outputFile, expectedMarkdown);
     });
     it('merges suites with the same title', () => {
@@ -119,7 +119,7 @@ describe('MyReporter', () => {
       reporter.onBegin({} as any, parentSuite);
       reporter.onEnd({} as any);
 
-      const expectedMarkdown = `## ${featureTitle}\n- :white_check_mark: ${subfeatureTitle}\n- :white_check_mark: ${subfeatureTitle2}\n`;
+      const expectedMarkdown = `\n## ${featureTitle}\n- :white_check_mark: ${subfeatureTitle}\n- :white_check_mark: ${subfeatureTitle2}\n`;
       expect(fs.writeFileSync).toHaveBeenCalledWith(outputFile, expectedMarkdown);
     });
     describe("annotations", () => {
@@ -130,7 +130,7 @@ describe('MyReporter', () => {
         reporter.onBegin({} as any, mockSuite);
         reporter.onEnd({} as any);
 
-        const expectedMarkdown = `## ${featureTitle}\n- :white_check_mark: ${subfeatureTitle} *(${description})*\n`;
+        const expectedMarkdown = `\n## ${featureTitle}\n- :white_check_mark: ${subfeatureTitle} *(${description})*\n`;
         expect(fs.writeFileSync).toHaveBeenCalledWith(outputFile, expectedMarkdown);
       });
     });
@@ -145,7 +145,7 @@ describe('MyReporter', () => {
         fs.writeFileSync = jest.fn();
         reporter.onBegin({} as any, mockSuite);
         reporter.onEnd({} as any);
-        const expectedMarkdown = `## ${featureTitle}\n- :white_check_mark: ${subfeatureTitle}\n`;
+        const expectedMarkdown = `\n## ${featureTitle}\n- :white_check_mark: ${subfeatureTitle}\n`;
         const expectedContent = initialContent + expectedMarkdown + embeddingPlaceholderEnd + additionalContent;
         expect(fs.writeFileSync).toHaveBeenCalledWith(outputFile, expectedContent);
       });
@@ -158,7 +158,7 @@ describe('MyReporter', () => {
         fs.writeFileSync = jest.fn();
         reporter.onBegin({} as any, mockSuite);
         reporter.onEnd({} as any);
-        const expectedMarkdown = `## ${featureTitle}\n- :white_check_mark: ${subfeatureTitle}\n`;
+        const expectedMarkdown = `\n## ${featureTitle}\n- :white_check_mark: ${subfeatureTitle}\n`;
         const expectedContent = initialContent + expectedMarkdown;
         expect(fs.writeFileSync).toHaveBeenCalledWith(outputFile, expectedContent);
       });
