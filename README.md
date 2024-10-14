@@ -34,7 +34,7 @@ For exmaple:
 
 ```
 # Features
-<!-- jest-playwright-feature-reporter-placeholder -->
+<!-- jest-playwright-feature-reporter--placeholder -->
 << your features will be rendered here >>
 ```
 
