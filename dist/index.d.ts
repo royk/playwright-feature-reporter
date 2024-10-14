@@ -1,6 +1,6 @@
 import type { FullConfig, FullResult, Reporter, Suite, TestCase, TestResult } from '@playwright/test/reporter';
-export declare const embeddingPlaceholder = "<!-- jest-playwright-markdown-reporter-placeholder -->";
-export declare const embeddingPlaceholderEnd = "<!-- jest-playwright-markdown-reporter-placeholder-end -->";
+export declare const embeddingPlaceholder = "<!-- jest-playwright-feature-reporter--placeholder -->";
+export declare const embeddingPlaceholderEnd = "<!-- jest-playwright-feature-reporter--placeholder-end -->";
 declare class MyReporter implements Reporter {
     constructor(options?: {
         outputFile?: string;

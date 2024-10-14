@@ -1,8 +1,8 @@
 import fs from 'fs';
 let _suite;
 let _outputFile;
-export const embeddingPlaceholder = "<!-- jest-playwright-markdown-reporter-placeholder -->";
-export const embeddingPlaceholderEnd = "<!-- jest-playwright-markdown-reporter-placeholder-end -->";
+export const embeddingPlaceholder = "<!-- jest-playwright-feature-reporter--placeholder -->";
+export const embeddingPlaceholderEnd = "<!-- jest-playwright-feature-reporter--placeholder-end -->";
 class MyReporter {
     constructor(options = {}) {
         _outputFile = options.outputFile || 'FEATURES.md';
