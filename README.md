@@ -3,6 +3,10 @@ Custom Playwright reporter that populates a Markdown file documenting app featur
 
 (still under development)
 
+## Features
+<!-- jest-playwright-feature-reporter--placeholder -->
+<!-- jest-playwright-feature-reporter--placeholder-end -->
+
 ## TODO
 - Add generation date
 - Add support for skipping a test from being reported
