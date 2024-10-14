@@ -22,19 +22,19 @@ export default defineConfig({
 If you want to append the results to an existing file, include the following prefix in the file:
 
 ```
-<!-- jest-playwright-markdown-reporter-placeholder -->
+<!-- jest-playwright-feature-reporter--placeholder -->
 ```
 You can additionally include a closing placeholder:
 
 ```
-<!-- jest-playwright-markdown-reporter-placeholder-end -->
+<!-- jest-playwright-feature-reporter--placeholder-end -->
 ```
 
 For exmaple:
 
 ```
 # Features
-<!-- jest-playwright-markdown-reporter-placeholder -->
+<!-- jest-playwright-feature-reporter-placeholder -->
 << your features will be rendered here >>
 ```
 

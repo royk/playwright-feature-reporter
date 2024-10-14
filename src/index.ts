@@ -4,8 +4,8 @@ import type {
   import fs from 'fs';
 let _suite: Suite;
 let _outputFile: string;
-export const embeddingPlaceholder = "<!-- jest-playwright-markdown-reporter-placeholder -->";
-export const embeddingPlaceholderEnd = "<!-- jest-playwright-markdown-reporter-placeholder-end -->";
+export const embeddingPlaceholder = "<!-- jest-playwright-feature-reporter--placeholder -->";
+export const embeddingPlaceholderEnd = "<!-- jest-playwright-feature-reporter--placeholder-end -->";
 
   class MyReporter implements Reporter {
     constructor(options: { outputFile?: string } = {}) {
