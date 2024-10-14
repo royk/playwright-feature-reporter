@@ -21,6 +21,10 @@ test.describe("Features", () => {
   const subfeatureTitle = 'Subfeature title';
   const subfeatureTitle2 = 'Subfeature title 2';
   const outputFile = 'test-output.md';
+  const passingEmoji = ':white_check_mark:';
+  const failingEmoji = ':x:';
+  const skippedEmoji = ':construction:';
+  const flakyEmoji = ':warning:';
   test.beforeEach(() => {
     reporter = new MyReporter({ outputFile });
     mockSuite = {
@@ -60,6 +64,15 @@ test.describe("Features", () => {
       expect(actualMarkdown).toBe(expectedMarkdown);
     });
     test("Marks passing, failing and skipped tests", () => {
+      mockTestCase.outcome = sinon.stub().returns('unexpected');
+      mockTestCase2.outcome = sinon.stub().returns('skipped');  
+      mockSuite.tests.push(mockTestCase);
+      mockSuite.tests.push(mockTestCase2);
+      reporter.onBegin({} as any, mockSuite);
+      reporter.onEnd({} as any);
+      const expectedMarkdown = `\n## ${featureTitle}\n- ${failingEmoji} ${caseTitle}\n- ${skippedEmoji} ${caseTitle2}\n`;
+      const actualMarkdown = writeFileSyncStub.getCall(0)?.args[1];
+      expect(actualMarkdown).toBe(expectedMarkdown);
     });
     test("Supports comment annotations", () => {
 
