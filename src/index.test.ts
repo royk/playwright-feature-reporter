@@ -149,6 +149,19 @@ describe('MyReporter', () => {
         const expectedContent = initialContent + expectedMarkdown + embeddingPlaceholderEnd + additionalContent;
         expect(fs.writeFileSync).toHaveBeenCalledWith(outputFile, expectedContent);
       });
+      it("replaces the content from the placeholder if the end placeholder is missing", () => {
+        const initialContent = `This is some existing content.\n${embeddingPlaceholder}`;
+        const contentToDelete = "hello";
+        mockSuite.tests.push(mockTestCase);
+        fs.existsSync = jest.fn().mockReturnValue(true);
+        fs.readFileSync = jest.fn().mockReturnValue(initialContent+contentToDelete);
+        fs.writeFileSync = jest.fn();
+        reporter.onBegin({} as any, mockSuite);
+        reporter.onEnd({} as any);
+        const expectedMarkdown = `## ${featureTitle}\n- :white_check_mark: ${subfeatureTitle}\n`;
+        const expectedContent = initialContent + expectedMarkdown;
+        expect(fs.writeFileSync).toHaveBeenCalledWith(outputFile, expectedContent);
+      });
     });
   });
 });
