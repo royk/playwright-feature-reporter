@@ -1,7 +1,7 @@
 import { test, expect } from '@playwright/test';
 import { Suite, TestCase, TestResult } from '@playwright/test/reporter';
 import MyReporter, { embeddingPlaceholder, embeddingPlaceholderEnd } from './index.ts';
-import sinon, from 'sinon';
+import sinon from 'sinon';
 import fs from 'fs';
 import { mock } from 'node:test';
 
