@@ -10,13 +10,8 @@ Custom Playwright reporter that populates a Markdown file documenting app featur
   - :white_check_mark: Marks passing, failing and skipped tests
   - :white_check_mark: Supports comment annotations
   - :white_check_mark: Supports embedding markdown in an existing file
-  ### Configuration
-  - :white_check_mark: Define output file with 'outputFile' option
 <!-- jest-playwright-feature-reporter--placeholder-end -->
 
-## TODO
-- Add generation date
-- Add support for skipping a test from being reported
 ## Usage
 
 ### Basic usage
