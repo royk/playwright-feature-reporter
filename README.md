@@ -1,7 +1,7 @@
 # playwright-feature-reporter
-Custom Playwright reporter that populates a Markdown file documenting app features based on test cases
+Custom Playwright reporter for self-documenting via tests. Populates a Markdown file documenting app features based on test cases.
 
-(the below features and to do sections are auto-generated from the test cases)
+(the below features and to do sections are auto-generated from the reporter's test cases)
 
 <!-- jest-playwright-feature-reporter--placeholder -->
 ## Features
