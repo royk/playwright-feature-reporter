@@ -89,10 +89,10 @@ test.describe("Features", () => {
     test("Supports embedding markdown in an existing file between placeholders", () => {
       const initialContent = "This is static content in the header";
       const additionalContent = "this is additional content in the footer";
-      const contentToDelete = "this is old generated content";
+      const oldContent = "this is old generated content";
       mockDescribBlock.tests.push(mockTestCase);
       sinon.stub(fs, 'existsSync').returns(true);
-      sinon.stub(fs, 'readFileSync').returns(initialContent+embeddingPlaceholder+contentToDelete+embeddingPlaceholderEnd+additionalContent);
+      sinon.stub(fs, 'readFileSync').returns(initialContent+embeddingPlaceholder+oldContent+embeddingPlaceholderEnd+additionalContent);
       reporter.onBegin({} as any, mockDescribBlock);
       reporter.onEnd({} as any);
       const expectedMarkdown = `\n## ${featureTitle}\n- ${passingEmoji} ${caseTitle}\n`;
