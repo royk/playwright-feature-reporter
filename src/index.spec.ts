@@ -148,6 +148,9 @@ test.describe("To do", () => {
   test.skip("Support annotation for test types (behavioral, edge cases, regression, etc)", () => {
 
   });
+  test.skip("Supports embedding different test types in different parts of the document", () => {
+
+  });
   test.skip("Display generation date", () => {
 
   });
