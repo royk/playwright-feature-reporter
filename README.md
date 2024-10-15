@@ -18,7 +18,7 @@ Custom Playwright reporter for self-documenting via tests. Populates a Markdown 
 - :construction: Support annotation for test types (behavioral, edge cases, regression, etc)
 - :construction: Display generation date
 - :construction: Support for skipping a test from being reported
-- :construction: Support for skipping a describe block and still report its children
+- :construction: Support for marking a describe block as skipped, and show all its children as skipped
 - :construction: Support custom emojis
 <!-- jest-playwright-feature-reporter--placeholder-end -->
 
