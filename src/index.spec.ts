@@ -61,7 +61,7 @@ test.describe("Features", () => {
       reporter.onBegin({} as any, mockDescribBlock);
       reporter.onEnd({} as any);
 
-      const expectedMarkdown = `\n## ${featureTitle}\n  ### ${subfeatureTitle}\n  - :white_check_mark: ${caseTitle}\n`;
+      const expectedMarkdown = `\n## ${featureTitle}\n  ### ${subfeatureTitle}\n  - ${passingEmoji} ${caseTitle}\n`;
       const actualMarkdown = writeFileSyncStub.getCall(0)?.args[1];
       expect(actualMarkdown).toBe(expectedMarkdown);
     });
@@ -82,7 +82,7 @@ test.describe("Features", () => {
       mockDescribBlock.tests.push(mockTestCase);
       reporter.onBegin({} as any, mockDescribBlock);
       reporter.onEnd({} as any);
-      const expectedMarkdown = `\n## ${featureTitle}\n- :white_check_mark: ${caseTitle} *(${description})*\n`;
+      const expectedMarkdown = `\n## ${featureTitle}\n- ${passingEmoji} ${caseTitle} *(${description})*\n`;
       const actualMarkdown = writeFileSyncStub.getCall(0)?.args[1];
       expect(actualMarkdown).toBe(expectedMarkdown);
     });
@@ -95,7 +95,7 @@ test.describe("Features", () => {
       sinon.stub(fs, 'readFileSync').returns(initialContent+embeddingPlaceholder+contentToDelete+embeddingPlaceholderEnd+additionalContent);
       reporter.onBegin({} as any, mockDescribBlock);
       reporter.onEnd({} as any);
-      const expectedMarkdown = `\n## ${featureTitle}\n- :white_check_mark: ${caseTitle}\n`;
+      const expectedMarkdown = `\n## ${featureTitle}\n- ${passingEmoji} ${caseTitle}\n`;
       const expectedContent = initialContent + embeddingPlaceholder + expectedMarkdown + embeddingPlaceholderEnd + additionalContent;
       const actualMarkdown = writeFileSyncStub.getCall(0)?.args[1];
       expect(actualMarkdown).toBe(expectedContent);
@@ -108,7 +108,7 @@ test.describe("Features", () => {
       sinon.stub(fs, 'readFileSync').returns(initialContent+embeddingPlaceholder+oldContent+embeddingPlaceholderEnd);
       reporter.onBegin({} as any, mockDescribBlock);
       reporter.onEnd({} as any);
-      const expectedMarkdown = `\n## ${featureTitle}\n- :white_check_mark: ${caseTitle}\n`;
+      const expectedMarkdown = `\n## ${featureTitle}\n- ${passingEmoji} ${caseTitle}\n`;
       const expectedContent = initialContent + embeddingPlaceholder + expectedMarkdown + embeddingPlaceholderEnd;
       const actualMarkdown = writeFileSyncStub.getCall(0)?.args[1];
       expect(actualMarkdown).toBe(expectedContent);
@@ -131,7 +131,7 @@ test.describe("Features", () => {
       reporter.onBegin({} as any, parentSuite);
       reporter.onEnd({} as any);
 
-      const expectedMarkdown = `\n## ${featureTitle}\n- :white_check_mark: ${caseTitle}\n- :white_check_mark: ${caseTitle2}\n`;
+      const expectedMarkdown = `\n## ${featureTitle}\n- ${passingEmoji} ${caseTitle}\n- ${passingEmoji} ${caseTitle2}\n`;
       const actualMarkdown = writeFileSyncStub.getCall(0)?.args[1];
       expect(actualMarkdown).toBe(expectedMarkdown);
     });
