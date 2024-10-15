@@ -9,8 +9,8 @@ import { mock } from 'node:test';
 
 test.describe("Features", () => {
   let reporter: MyReporter;
-  let mockSuite: Suite;
-  let mockSuite2: Suite;
+  let mockDescribBlock: Suite;
+  let mockDescribeBlock2: Suite;
   let mockTestCase: TestCase;
   let mockTestCase2: TestCase;
   let mockTestResult: TestResult;
@@ -29,13 +29,13 @@ test.describe("Features", () => {
     writeFileSyncStub = sinon.stub(fs, 'writeFileSync');
     writeFileSyncStub.returns(undefined);
     reporter = new MyReporter({ outputFile });
-    mockSuite = {
+    mockDescribBlock = {
       type: 'describe',
       title: featureTitle,
       tests: [],
       suites: [],
     } as unknown as Suite;
-    mockSuite2 = {
+    mockDescribeBlock2 = {
       type: 'describe',
       title: subfeatureTitle,
       tests: [],
@@ -56,9 +56,9 @@ test.describe("Features", () => {
   });
   test.describe('Markdown generation', () => {
     test("Supports nested describe blocks", () => {
-      mockSuite.suites.push(mockSuite2);
-      mockSuite2.tests.push(mockTestCase);
-      reporter.onBegin({} as any, mockSuite);
+      mockDescribBlock.suites.push(mockDescribeBlock2);
+      mockDescribeBlock2.tests.push(mockTestCase);
+      reporter.onBegin({} as any, mockDescribBlock);
       reporter.onEnd({} as any);
 
       const expectedMarkdown = `\n## ${featureTitle}\n  ### ${subfeatureTitle}\n  - :white_check_mark: ${caseTitle}\n`;
@@ -68,9 +68,9 @@ test.describe("Features", () => {
     test("Marks passing, failing and skipped tests", () => {
       mockTestCase.outcome = sinon.stub().returns('unexpected');
       mockTestCase2.outcome = sinon.stub().returns('skipped');  
-      mockSuite.tests.push(mockTestCase);
-      mockSuite.tests.push(mockTestCase2);
-      reporter.onBegin({} as any, mockSuite);
+      mockDescribBlock.tests.push(mockTestCase);
+      mockDescribBlock.tests.push(mockTestCase2);
+      reporter.onBegin({} as any, mockDescribBlock);
       reporter.onEnd({} as any);
       const expectedMarkdown = `\n## ${featureTitle}\n- ${failingEmoji} ${caseTitle}\n- ${skippedEmoji} ${caseTitle2}\n`;
       const actualMarkdown = writeFileSyncStub.getCall(0)?.args[1];
@@ -79,8 +79,8 @@ test.describe("Features", () => {
     test("Supports comment annotations", () => {
       const description = 'This is a comment';
       mockTestCase.annotations = [{type: 'comment', description}]
-      mockSuite.tests.push(mockTestCase);
-      reporter.onBegin({} as any, mockSuite);
+      mockDescribBlock.tests.push(mockTestCase);
+      reporter.onBegin({} as any, mockDescribBlock);
       reporter.onEnd({} as any);
       const expectedMarkdown = `\n## ${featureTitle}\n- :white_check_mark: ${caseTitle} *(${description})*\n`;
       const actualMarkdown = writeFileSyncStub.getCall(0)?.args[1];
@@ -90,10 +90,10 @@ test.describe("Features", () => {
       const additionalContent = "This is some additional content.";
       const initialContent = `This is some existing content.\n${embeddingPlaceholder}`;
       const contentToDelete = "hello";
-      mockSuite.tests.push(mockTestCase);
+      mockDescribBlock.tests.push(mockTestCase);
       sinon.stub(fs, 'existsSync').returns(true);
       sinon.stub(fs, 'readFileSync').returns(initialContent+contentToDelete+embeddingPlaceholderEnd+additionalContent);
-      reporter.onBegin({} as any, mockSuite);
+      reporter.onBegin({} as any, mockDescribBlock);
       reporter.onEnd({} as any);
       const expectedMarkdown = `\n## ${featureTitle}\n- :white_check_mark: ${caseTitle}\n`;
       const expectedContent = initialContent + expectedMarkdown + embeddingPlaceholderEnd + additionalContent;
@@ -103,10 +103,10 @@ test.describe("Features", () => {
     test("Supports embedding markdown in an existing file without closing placeholder", () => {
       const initialContent = `This is some existing content.\n${embeddingPlaceholder}`;
       const contentToDelete = "hello";
-      mockSuite.tests.push(mockTestCase);
+      mockDescribBlock.tests.push(mockTestCase);
       sinon.stub(fs, 'existsSync').returns(true);
       sinon.stub(fs, 'readFileSync').returns(initialContent+contentToDelete);
-      reporter.onBegin({} as any, mockSuite);
+      reporter.onBegin({} as any, mockDescribBlock);
       reporter.onEnd({} as any);
       const expectedMarkdown = `\n## ${featureTitle}\n- :white_check_mark: ${caseTitle}\n`;
       const expectedContent = initialContent + expectedMarkdown;
@@ -121,12 +121,12 @@ test.describe("Features", () => {
         tests: [],
         suites: [],
       } as unknown as Suite;
-      mockSuite.tests.push(mockTestCase);
+      mockDescribBlock.tests.push(mockTestCase);
       mockSuite2.tests.push(mockTestCase2);
       const parentSuite = {
         type: 'root',
         tests: [],
-        suites: [mockSuite, mockSuite2],
+        suites: [mockDescribBlock, mockSuite2],
       } as unknown as Suite;
       reporter.onBegin({} as any, parentSuite);
       reporter.onEnd({} as any);
