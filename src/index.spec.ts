@@ -87,9 +87,9 @@ test.describe("Features", () => {
       expect(actualMarkdown).toBe(expectedMarkdown);
     });
     test("Supports embedding markdown in an existing file between placeholders", () => {
-      const additionalContent = "This is some additional content.";
-      const initialContent = `This is some existing content.`;
-      const contentToDelete = "hello";
+      const initialContent = "This is static content in the header";
+      const additionalContent = "this is additional content in the footer";
+      const contentToDelete = "this is old generated content";
       mockDescribBlock.tests.push(mockTestCase);
       sinon.stub(fs, 'existsSync').returns(true);
       sinon.stub(fs, 'readFileSync').returns(initialContent+embeddingPlaceholder+contentToDelete+embeddingPlaceholderEnd+additionalContent);
@@ -101,7 +101,7 @@ test.describe("Features", () => {
       expect(actualMarkdown).toBe(expectedContent);
     });
     test("Supports embedding markdown in an existing file without closing placeholder", () => {
-      const initialContent = `This is static content`;
+      const initialContent = "This is static content";
       const oldContent = "this is old generated content";
       mockDescribBlock.tests.push(mockTestCase);
       sinon.stub(fs, 'existsSync').returns(true);
