@@ -88,7 +88,7 @@ test.describe("Features", () => {
     });
     test("Supports embedding markdown in an existing file between placeholders", () => {
       const additionalContent = "This is some additional content.";
-      const initialContent = `This is some existing content.\n`;
+      const initialContent = `This is some existing content.`;
       const contentToDelete = "hello";
       mockDescribBlock.tests.push(mockTestCase);
       sinon.stub(fs, 'existsSync').returns(true);
@@ -101,15 +101,15 @@ test.describe("Features", () => {
       expect(actualMarkdown).toBe(expectedContent);
     });
     test("Supports embedding markdown in an existing file without closing placeholder", () => {
-      const initialContent = `This is some existing content.\n${embeddingPlaceholder}`;
-      const contentToDelete = "hello";
+      const initialContent = `This is static content`;
+      const oldContent = "this is old generated content";
       mockDescribBlock.tests.push(mockTestCase);
       sinon.stub(fs, 'existsSync').returns(true);
-      sinon.stub(fs, 'readFileSync').returns(initialContent+contentToDelete);
+      sinon.stub(fs, 'readFileSync').returns(initialContent+embeddingPlaceholder+oldContent+embeddingPlaceholderEnd);
       reporter.onBegin({} as any, mockDescribBlock);
       reporter.onEnd({} as any);
       const expectedMarkdown = `\n## ${featureTitle}\n- :white_check_mark: ${caseTitle}\n`;
-      const expectedContent = initialContent + expectedMarkdown;
+      const expectedContent = initialContent + embeddingPlaceholder + expectedMarkdown + embeddingPlaceholderEnd;
       const actualMarkdown = writeFileSyncStub.getCall(0)?.args[1];
       expect(actualMarkdown).toBe(expectedContent);
     });
