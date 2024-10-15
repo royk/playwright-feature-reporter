@@ -16,6 +16,7 @@ Custom Playwright reporter for self-documenting via tests. Populates a Markdown 
   - :white_check_mark: Define output file with 'outputFile' option *(Implicitly tested)*
 ## To do
 - :construction: Support annotation for test types (behavioral, edge cases, regression, etc)
+- :construction: Supports embedding different test types in different parts of the document
 - :construction: Display generation date
 - :construction: Support for skipping a test from being reported
 - :construction: Support for marking a describe block as skipped, and show all its children as skipped
