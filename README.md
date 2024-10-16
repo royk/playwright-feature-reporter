@@ -3,6 +3,12 @@ Custom Playwright reporter for self-documenting via tests. Populates a Markdown 
 
 (the below features and to-do sections are auto-generated from the reporter's test cases)
 
+## Installation
+
+```
+npm i -D playwright-feature-reporter
+```
+
 <!-- jest-playwright-feature-reporter--placeholder -->
 ## Features
   ### Markdown generation
@@ -22,12 +28,6 @@ Custom Playwright reporter for self-documenting via tests. Populates a Markdown 
 - :construction: Support for marking a describe block as skipped, and show all its children as skipped
 - :construction: Support custom emojis
 <!-- jest-playwright-feature-reporter--placeholder-end -->
-
-## Installation
-
-```
-npm i -D playwright-feature-reporter
-```
 
 ## Usage
 
