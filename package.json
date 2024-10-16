@@ -21,16 +21,24 @@
   },
   "scripts": {
     "build": "tsc",
-    "test": "npx playwright test"
+    "test": "npx playwright test",
+    "release": "release-it"
   },
   "devDependencies": {
     "@playwright/test": "^1.48.0",
     "@types/node": "^22.5.3",
     "@types/sinon": "^17.0.3",
+    "release-it": "^17.9.0",
     "sinon": "^19.0.2"
   },
   "type": "module",
   "dependencies": {
     "typescript": "^5.6.2"
+  },
+  "release-it": {
+    "$schema": "https://unpkg.com/release-it/schema/release-it.json",
+    "github": {
+      "release": true
+    }
   }
 }
