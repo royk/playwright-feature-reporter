@@ -1,4 +1,4 @@
-.PHONY: test test-watch build
+.PHONY: test test-watch build release
 
 test:
 	npm test
