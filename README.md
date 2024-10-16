@@ -23,6 +23,12 @@ Custom Playwright reporter for self-documenting via tests. Populates a Markdown 
 - :construction: Support custom emojis
 <!-- jest-playwright-feature-reporter--placeholder-end -->
 
+## Installation
+
+```
+npm i -D playwright-feature-reporter
+```
+
 ## Usage
 
 ### Basic usage

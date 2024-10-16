@@ -7,3 +7,5 @@ test-watch:
 build:
 	npm run build
 
+release:
+	npm run release
