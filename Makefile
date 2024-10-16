@@ -1,3 +1,5 @@
+.PHONY: test test-watch build
+
 test:
 	npm test
 
