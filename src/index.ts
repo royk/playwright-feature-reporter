@@ -13,6 +13,7 @@ export const ANNOTATION_COMMENT = 'comment';
 export const TEST_TYPE_BEHAVIOR = 'behavior';
 
 export const PLAYWRIGHT_SUITE_TYPE_DESCRIBE = 'describe';
+// TODO: Add some test that uses this type
 export const PLAYWRIGHT_SUITE_TYPE_PROJECT = 'project';
 
 class MyReporter implements Reporter {
