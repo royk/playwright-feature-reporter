@@ -7,6 +7,9 @@ let _outputFile: string;
 export const embeddingPlaceholder = "<!-- jest-playwright-feature-reporter--placeholder -->";
 export const embeddingPlaceholderEnd = "<!-- jest-playwright-feature-reporter--placeholder-end -->";
 
+export const ANNOTATION_TEST_TYPE = 'test-type';
+
+
   class MyReporter implements Reporter {
     constructor(options: { outputFile?: string } = {}) {
       _outputFile = options.outputFile || 'FEATURES.md';

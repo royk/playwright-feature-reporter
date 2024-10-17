@@ -1,6 +1,6 @@
 import { test, expect } from '@playwright/test';
 import { Suite, TestCase, TestResult } from '@playwright/test/reporter';
-import MyReporter, { embeddingPlaceholder, embeddingPlaceholderEnd } from './index.ts';
+import MyReporter, { embeddingPlaceholder, embeddingPlaceholderEnd, ANNOTATION_TEST_TYPE } from './index.ts';
 import sinon from 'sinon';
 import fs from 'fs';
 import { mock } from 'node:test';
@@ -90,9 +90,9 @@ test.describe("Features", () => {
       const compatibilityType = 'compatibility';
       const behavioralType = 'behavior';
       const compatibilityTest = mockTestCase;
-      const behavioralTest = mockTestCase2;
-      compatibilityTest.annotations = [{type: 'test-type', description: compatibilityType}]
-      behavioralTest.annotations = [{type: 'test-type', description: behavioralType}]
+      const behavioralTest = mockTestCase2; 
+      compatibilityTest.annotations = [{type: ANNOTATION_TEST_TYPE, description: compatibilityType}]
+      behavioralTest.annotations = [{type: ANNOTATION_TEST_TYPE, description: behavioralType}]
       mockDescribBlock.tests.push(compatibilityTest);
       mockDescribBlock.tests.push(behavioralTest);
       reporter.onBegin({} as any, mockDescribBlock);
