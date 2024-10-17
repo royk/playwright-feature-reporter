@@ -1,6 +1,6 @@
 import { test, expect } from '@playwright/test';
 import { Suite, TestCase, TestResult } from '@playwright/test/reporter';
-import MyReporter, { embeddingPlaceholder, embeddingPlaceholderEnd, ANNOTATION_TEST_TYPE, ANNOTATION_COMMENT, TEST_TYPE_BEHAVIOR } from './index.ts';
+import MyReporter, { embeddingPlaceholder, embeddingPlaceholderEnd, ANNOTATION_TEST_TYPE, ANNOTATION_COMMENT, TEST_TYPE_BEHAVIOR, PLAYWRIGHT_SUITE_TYPE_DESCRIBE } from './index.ts';
 import sinon from 'sinon';
 import fs from 'fs';
 import { mock } from 'node:test';
@@ -30,13 +30,13 @@ test.describe("Features", () => {
     writeFileSyncStub.returns(undefined);
     reporter = new MyReporter({ outputFile });
     mockDescribBlock = {
-      type: 'describe',
+      type: PLAYWRIGHT_SUITE_TYPE_DESCRIBE,
       title: featureTitle,
       tests: [],
       suites: [],
     } as unknown as Suite;
     mockDescribeBlock2 = {
-      type: 'describe',
+      type: PLAYWRIGHT_SUITE_TYPE_DESCRIBE,
       title: subfeatureTitle,
       tests: [],
       suites: [],
@@ -131,7 +131,7 @@ test.describe("Features", () => {
     test("Merges features from across suites", () => {
       const featureTitle2 = featureTitle
       const mockSuite2 = {
-        type: 'describe',
+        type: PLAYWRIGHT_SUITE_TYPE_DESCRIBE,
         title: featureTitle2,
         tests: [],
         suites: [],
