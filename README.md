@@ -1,4 +1,15 @@
+# playwright-feature-reporter
+Custom Playwright reporter for self-documenting via tests. Populates a Markdown file documenting app features based on test cases.
 
+(the below features and to-do sections are auto-generated from the reporter's test cases)
+
+## Installation
+
+```
+npm i -D playwright-feature-reporter
+```
+
+<!-- playwright-feature-reporter--start -->
 ## Features
   ### Markdown generation
   - :white_check_mark: Supports nested describe blocks
@@ -17,3 +28,36 @@
 - :construction: Support for marking a describe block as skipped, and show all its children as skipped
 - :construction: Supports marking a block with a test-type annotation and have its children inherit the annotation
 - :construction: Support custom emojis
+<!-- playwright-feature-reporter--end -->
+
+## Usage
+
+### Basic usage
+Include as a reporter in your playwright.config.ts. eg:
+
+```
+export default defineConfig({
+  reporter: process.env.CI ? 'github' :[
+    ['list'],
+    ['playwright-feature-reporter', {  outputFile: '../FEATURES.md' }]
+  ],
+```
+### Appending to an existing file
+If you want to append the results to an existing file, include the following prefix in the file:
+
+```
+<!-- playwright-feature-reporter--start -->
+```
+You can additionally include a closing placeholder:
+
+```
+<!-- playwright-feature-reporter--end -->
+```
+
+For exmaple:
+
+```
+# Features
+<!-- playwright-feature-reporter--start -->
+<< your features will be rendered here >>
+```
