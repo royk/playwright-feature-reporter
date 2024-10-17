@@ -125,15 +125,19 @@ class MyReporter implements Reporter {
     }
     function generateMarkdown(stringBuilder: string) {
       const existingContent = fs.existsSync(_outputFile) ? fs.readFileSync(_outputFile, 'utf8') : '';
-      let newPlacholder = existingContent.includes(embeddingPlaceholder)
-      if (newPlacholder || existingContent.includes(oldPlaceholderStart)) {
-
-        let endPlaceholderIndex = existingContent.indexOf(newPlacholder ? embeddingPlaceholderEnd : oldPlaceholderEnd);
+      let placeholderStartString = embeddingPlaceholder;
+      let placeholderEndString = embeddingPlaceholderEnd;
+      if (existingContent.includes(oldPlaceholderStart)) {
+        placeholderStartString = oldPlaceholderStart;
+        placeholderEndString = oldPlaceholderEnd;
+      }
+      if (existingContent.includes(placeholderStartString)) {
+        let endPlaceholderIndex = existingContent.indexOf(placeholderEndString);
         if (endPlaceholderIndex==-1) {
           endPlaceholderIndex = existingContent.length;
         }
-        let startPlaceholderIndex = existingContent.indexOf(newPlacholder ? embeddingPlaceholder : oldPlaceholderStart);
-        const newContent = existingContent.slice(0, startPlaceholderIndex) + (newPlacholder ? embeddingPlaceholder : oldPlaceholderStart) + stringBuilder + existingContent.slice(endPlaceholderIndex);
+        let startPlaceholderIndex = existingContent.indexOf(placeholderStartString);
+        const newContent = existingContent.slice(0, startPlaceholderIndex) + placeholderStartString + stringBuilder + existingContent.slice(endPlaceholderIndex);
         fs.writeFileSync(_outputFile, newContent);
       } else {
         fs.writeFileSync(_outputFile, stringBuilder);
