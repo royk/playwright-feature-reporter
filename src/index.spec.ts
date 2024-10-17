@@ -1,6 +1,6 @@
 import { test, expect } from '@playwright/test';
 import { Suite, TestCase, TestResult } from '@playwright/test/reporter';
-import MyReporter, { embeddingPlaceholder, embeddingPlaceholderEnd, ANNOTATION_TEST_TYPE } from './index.ts';
+import MyReporter, { embeddingPlaceholder, embeddingPlaceholderEnd, ANNOTATION_TEST_TYPE, ANNOTATION_COMMENT } from './index.ts';
 import sinon from 'sinon';
 import fs from 'fs';
 import { mock } from 'node:test';
@@ -78,7 +78,7 @@ test.describe("Features", () => {
     });
     test("Supports comment annotations", () => {
       const description = 'This is a comment';
-      mockTestCase.annotations = [{type: 'comment', description}]
+      mockTestCase.annotations = [{type: ANNOTATION_COMMENT, description}]
       mockDescribBlock.tests.push(mockTestCase);
       reporter.onBegin({} as any, mockDescribBlock);
       reporter.onEnd({} as any);

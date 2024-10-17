@@ -8,7 +8,7 @@ export const embeddingPlaceholder = "<!-- jest-playwright-feature-reporter--plac
 export const embeddingPlaceholderEnd = "<!-- jest-playwright-feature-reporter--placeholder-end -->";
 
 export const ANNOTATION_TEST_TYPE = 'test-type';
-
+export const ANNOTATION_COMMENT = 'comment';
 
   class MyReporter implements Reporter {
     constructor(options: { outputFile?: string } = {}) {
@@ -99,12 +99,12 @@ export const ANNOTATION_TEST_TYPE = 'test-type';
           if (testNames.includes(test.title)) {
             return;
           }
-          const testType = test.annotations?.find((a) => a.type === 'test-type')?.description;
+          const testType = test.annotations?.find((a) => a.type === ANNOTATION_TEST_TYPE)?.description;
           if (testType && testType !== 'behavior') {
             return;
           }
           testNames.push(test.title);
-          const comment = test.annotations?.find((a) => a.type === 'comment')?.description;
+          const comment = test.annotations?.find((a) => a.type === ANNOTATION_COMMENT)?.description;
           stringBuilder += `${mdListPrefix} ${getOutcome(test)} ${test.title}${comment ? ` *(${comment})*` : ''}\n`;
         });
         s.suites.forEach((ss) => {
