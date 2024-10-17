@@ -28,6 +28,7 @@ npm i -D playwright-feature-reporter
 - :construction: Support for marking a describe block as skipped, and show all its children as skipped
 - :construction: Supports marking a block with a test-type annotation and have its children inherit the annotation
 - :construction: Support custom emojis
+- :construction: Support including a link for a full test report
 <!-- playwright-feature-reporter--end -->
 
 ## Usage
