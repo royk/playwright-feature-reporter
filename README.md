@@ -73,7 +73,7 @@ You can additionally include a closing placeholder:
 <!-- playwright-feature-reporter--end -->
 ```
 
-For exampled:
+For example:
 
 ```
 # Features
