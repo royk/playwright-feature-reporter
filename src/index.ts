@@ -96,7 +96,8 @@ export const embeddingPlaceholderEnd = "<!-- jest-playwright-feature-reporter--p
           if (testNames.includes(test.title)) {
             return;
           }
-          if (test.annotations?.find((a) => a.type === 'test-type' && a.description === 'compatibility')) {
+          const testType = test.annotations?.find((a) => a.type === 'test-type')?.description;
+          if (testType && testType !== 'behavior') {
             return;
           }
           testNames.push(test.title);
