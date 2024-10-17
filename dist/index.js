@@ -1,8 +1,16 @@
 import fs from 'fs';
 let _suite;
 let _outputFile;
-export const embeddingPlaceholder = "<!-- jest-playwright-feature-reporter--placeholder -->";
-export const embeddingPlaceholderEnd = "<!-- jest-playwright-feature-reporter--placeholder-end -->";
+export const embeddingPlaceholder = "<!-- playwright-feature-reporter--start -->";
+export const embeddingPlaceholderEnd = "<!-- playwright-feature-reporter--end -->";
+export const oldPlaceholderStart = "<!-- jest-playwright-feature-reporter--placeholder -->";
+export const oldPlaceholderEnd = "<!-- jest-playwright-feature-reporter--placeholder-end -->";
+export const ANNOTATION_TEST_TYPE = 'test-type';
+export const ANNOTATION_COMMENT = 'comment';
+export const TEST_TYPE_BEHAVIOR = 'behavior';
+export const PLAYWRIGHT_SUITE_TYPE_DESCRIBE = 'describe';
+// TODO: Add some test that uses this type
+export const PLAYWRIGHT_SUITE_TYPE_PROJECT = 'project';
 class MyReporter {
     constructor(options = {}) {
         _outputFile = options.outputFile || 'FEATURES.md';
@@ -46,7 +54,7 @@ class MyReporter {
             return sJson;
         }
         function mergeSuites(s, suiteStructure) {
-            if (s.type === 'describe' && suiteStructure[s.title]) {
+            if (s.type === PLAYWRIGHT_SUITE_TYPE_DESCRIBE && suiteStructure[s.title]) {
                 suiteStructure[s.title].tests.push(...s.tests);
                 suiteStructure[s.title].suites.push(...s.suites);
                 s.tests = [];
@@ -63,7 +71,7 @@ class MyReporter {
         function printSuite(s) {
             const mdHeaderPrefix = '  '.repeat(nestedLevel) + '#'.repeat(nestedLevel + 2);
             const mdListPrefix = '  '.repeat(nestedLevel) + '-';
-            if (s.type === 'project') {
+            if (s.type === PLAYWRIGHT_SUITE_TYPE_PROJECT) {
                 projectCount++;
             }
             if (projectCount > 1) {
@@ -72,7 +80,7 @@ class MyReporter {
             if (s.tests.length === 0 && s.suites.length === 0) {
                 return;
             }
-            if (s.type === 'describe') {
+            if (s.type === PLAYWRIGHT_SUITE_TYPE_DESCRIBE) {
                 if (nestedLevel === 0) {
                     stringBuilder += `${mdHeaderPrefix} ${s.title}\n`;
                 }
@@ -83,30 +91,45 @@ class MyReporter {
             }
             const testNames = [];
             s.tests.forEach((test) => {
-                var _a, _b;
+                var _a, _b, _c, _d;
                 if (testNames.includes(test.title)) {
                     return;
                 }
+                const testType = (_b = (_a = test.annotations) === null || _a === void 0 ? void 0 : _a.find((a) => a.type === ANNOTATION_TEST_TYPE)) === null || _b === void 0 ? void 0 : _b.description;
+                if (testType && testType !== TEST_TYPE_BEHAVIOR) {
+                    return;
+                }
                 testNames.push(test.title);
-                const comment = (_b = (_a = test.annotations) === null || _a === void 0 ? void 0 : _a.find((a) => a.type === 'comment')) === null || _b === void 0 ? void 0 : _b.description;
+                const comment = (_d = (_c = test.annotations) === null || _c === void 0 ? void 0 : _c.find((a) => a.type === ANNOTATION_COMMENT)) === null || _d === void 0 ? void 0 : _d.description;
                 stringBuilder += `${mdListPrefix} ${getOutcome(test)} ${test.title}${comment ? ` *(${comment})*` : ''}\n`;
             });
             s.suites.forEach((ss) => {
                 printSuite(ss);
             });
-            if (s.type === 'describe') {
+            if (s.type === PLAYWRIGHT_SUITE_TYPE_DESCRIBE) {
                 nestedLevel--;
             }
         }
+        function getPlaceholderNames(existingContent) {
+            let placeholderStartString = embeddingPlaceholder;
+            let placeholderEndString = embeddingPlaceholderEnd;
+            // backwards compatibility for old placeholder names
+            if (existingContent.includes(oldPlaceholderStart)) {
+                placeholderStartString = oldPlaceholderStart;
+                placeholderEndString = oldPlaceholderEnd;
+            }
+            return { placeholderStartString, placeholderEndString };
+        }
         function generateMarkdown(stringBuilder) {
             const existingContent = fs.existsSync(_outputFile) ? fs.readFileSync(_outputFile, 'utf8') : '';
-            if (existingContent.includes(embeddingPlaceholder)) {
-                let endPlaceholderIndex = existingContent.indexOf(embeddingPlaceholderEnd);
+            let { placeholderStartString, placeholderEndString } = getPlaceholderNames(existingContent);
+            if (existingContent.includes(placeholderStartString)) {
+                let endPlaceholderIndex = existingContent.indexOf(placeholderEndString);
                 if (endPlaceholderIndex == -1) {
                     endPlaceholderIndex = existingContent.length;
                 }
-                const startPlaceholderIndex = existingContent.indexOf(embeddingPlaceholder);
-                const newContent = existingContent.slice(0, startPlaceholderIndex) + embeddingPlaceholder + stringBuilder + existingContent.slice(endPlaceholderIndex);
+                let startPlaceholderIndex = existingContent.indexOf(placeholderStartString);
+                const newContent = existingContent.slice(0, startPlaceholderIndex) + placeholderStartString + stringBuilder + existingContent.slice(endPlaceholderIndex);
                 fs.writeFileSync(_outputFile, newContent);
             }
             else {
