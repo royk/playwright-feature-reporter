@@ -10,6 +10,8 @@ export const embeddingPlaceholderEnd = "<!-- jest-playwright-feature-reporter--p
 export const ANNOTATION_TEST_TYPE = 'test-type';
 export const ANNOTATION_COMMENT = 'comment';
 
+export const TEST_TYPE_BEHAVIOR = 'behavior';
+
   class MyReporter implements Reporter {
     constructor(options: { outputFile?: string } = {}) {
       _outputFile = options.outputFile || 'FEATURES.md';
@@ -100,7 +102,7 @@ export const ANNOTATION_COMMENT = 'comment';
             return;
           }
           const testType = test.annotations?.find((a) => a.type === ANNOTATION_TEST_TYPE)?.description;
-          if (testType && testType !== 'behavior') {
+          if (testType && testType !== TEST_TYPE_BEHAVIOR) {
             return;
           }
           testNames.push(test.title);
