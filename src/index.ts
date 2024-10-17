@@ -6,6 +6,9 @@ let _suite: Suite;
 let _outputFile: string;
 export const embeddingPlaceholder = "<!-- jest-playwright-feature-reporter--placeholder -->";
 export const embeddingPlaceholderEnd = "<!-- jest-playwright-feature-reporter--placeholder-end -->";
+export const oldPlaceholderStart = "<!-- jest-playwright-feature-reporter--placeholder -->";
+export const oldPlaceholderEnd = "<!-- jest-playwright-feature-reporter--placeholder-end -->";
+
 
 export const ANNOTATION_TEST_TYPE = 'test-type';
 export const ANNOTATION_COMMENT = 'comment';

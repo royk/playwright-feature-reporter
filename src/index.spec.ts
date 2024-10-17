@@ -1,6 +1,9 @@
 import { test, expect } from '@playwright/test';
 import { Suite, TestCase, TestResult } from '@playwright/test/reporter';
-import MyReporter, { embeddingPlaceholder, embeddingPlaceholderEnd, ANNOTATION_TEST_TYPE, ANNOTATION_COMMENT, TEST_TYPE_BEHAVIOR, PLAYWRIGHT_SUITE_TYPE_DESCRIBE } from './index.ts';
+import MyReporter, { embeddingPlaceholder, embeddingPlaceholderEnd, 
+  oldPlaceholderStart, oldPlaceholderEnd,
+  ANNOTATION_TEST_TYPE, ANNOTATION_COMMENT, TEST_TYPE_BEHAVIOR, 
+  PLAYWRIGHT_SUITE_TYPE_DESCRIBE } from './index.ts';
 import sinon from 'sinon';
 import fs from 'fs';
 import { mock } from 'node:test';
@@ -159,8 +162,6 @@ test.describe("Features", () => {
 
   test("Compatible with old placeholder tag",
     {annotation: [{type: ANNOTATION_TEST_TYPE, description: 'compatibility'}]}, () => {
-    const oldPlaceholderStart = "<!-- jest-playwright-feature-reporter--placeholder -->";
-    const oldPlaceholderEnd = "<!-- jest-playwright-feature-reporter--placeholder-end -->";
     const initialContent = "This is static content in the header";
     const additionalContent = "this is additional content in the footer";
     const oldContent = "this is old generated content";
