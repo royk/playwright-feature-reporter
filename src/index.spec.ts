@@ -197,4 +197,7 @@ test.describe("To do", () => {
   test.skip("Support custom emojis", () => {
 
   });
+  test.skip("Support including a link for a full test report", () => {
+
+  });
 });
