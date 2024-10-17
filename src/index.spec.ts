@@ -86,6 +86,21 @@ test.describe("Features", () => {
       const actualMarkdown = writeFileSyncStub.getCall(0)?.args[1];
       expect(actualMarkdown).toBe(expectedMarkdown);
     });
+    test("Supports test-type annotations, and doesn't report non-behavioral tests", () => {
+      const compatibilityType = 'compatibility';
+      const behavioralType = 'behavior';
+      const compatibilityTest = mockTestCase;
+      const behavioralTest = mockTestCase2;
+      compatibilityTest.annotations = [{type: 'test-type', description: compatibilityType}]
+      behavioralTest.annotations = [{type: 'test-type', description: behavioralType}]
+      mockDescribBlock.tests.push(compatibilityTest);
+      mockDescribBlock.tests.push(behavioralTest);
+      reporter.onBegin({} as any, mockDescribBlock);
+      reporter.onEnd({} as any);
+      const expectedMarkdown = `\n## ${featureTitle}\n- ${passingEmoji} ${behavioralTest.title}\n`;
+      const actualMarkdown = writeFileSyncStub.getCall(0)?.args[1];
+      expect(actualMarkdown).toBe(expectedMarkdown);
+    });
     test("Supports embedding markdown in an existing file between placeholders", () => {
       const initialContent = "This is static content in the header";
       const additionalContent = "this is additional content in the footer";
@@ -145,9 +160,6 @@ test.describe("Features", () => {
 });
 
 test.describe("To do", () => {
-  test.skip("Support annotation for test types (behavioral, edge cases, regression, etc)", () => {
-
-  });
   test.skip("Supports embedding different test types in different parts of the document", () => {
 
   });

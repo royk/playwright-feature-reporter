@@ -96,6 +96,9 @@ export const embeddingPlaceholderEnd = "<!-- jest-playwright-feature-reporter--p
           if (testNames.includes(test.title)) {
             return;
           }
+          if (test.annotations?.find((a) => a.type === 'test-type' && a.description === 'compatibility')) {
+            return;
+          }
           testNames.push(test.title);
           const comment = test.annotations?.find((a) => a.type === 'comment')?.description;
           stringBuilder += `${mdListPrefix} ${getOutcome(test)} ${test.title}${comment ? ` *(${comment})*` : ''}\n`;
