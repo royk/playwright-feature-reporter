@@ -13,6 +13,7 @@ export const ANNOTATION_COMMENT = 'comment';
 export const TEST_TYPE_BEHAVIOR = 'behavior';
 
 export const PLAYWRIGHT_SUITE_TYPE_DESCRIBE = 'describe';
+export const PLAYWRIGHT_SUITE_TYPE_PROJECT = 'project';
 
 class MyReporter implements Reporter {
   constructor(options: { outputFile?: string } = {}) {
@@ -81,7 +82,7 @@ class MyReporter implements Reporter {
     function printSuite(s: Suite) {
       const mdHeaderPrefix = '  '.repeat(nestedLevel) + '#'.repeat(nestedLevel+2);
       const mdListPrefix = '  '.repeat(nestedLevel) + '-';
-      if (s.type === 'project') {
+      if (s.type === PLAYWRIGHT_SUITE_TYPE_PROJECT) {
         projectCount++;
       }
       if (projectCount > 1) {
