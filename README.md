@@ -38,7 +38,7 @@ Include as a reporter in your playwright.config.ts. eg:
 
 ```
 export default defineConfig({
-  reporter: process.env.CI ? 'github' :[
+  reporter: [
     ['list'],
     ['playwright-feature-reporter', {  outputFile: '../FEATURES.md' }]
   ],
