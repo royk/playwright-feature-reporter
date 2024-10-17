@@ -4,8 +4,8 @@ import type {
   import fs from 'fs';
 let _suite: Suite;
 let _outputFile: string;
-export const embeddingPlaceholder = "<!-- jest-playwright-feature-reporter--placeholder -->";
-export const embeddingPlaceholderEnd = "<!-- jest-playwright-feature-reporter--placeholder-end -->";
+export const embeddingPlaceholder = "<!-- playwright-feature-reporter--start -->";
+export const embeddingPlaceholderEnd = "<!-- playwright-feature-reporter--end -->";
 export const oldPlaceholderStart = "<!-- jest-playwright-feature-reporter--placeholder -->";
 export const oldPlaceholderEnd = "<!-- jest-playwright-feature-reporter--placeholder-end -->";
 
@@ -125,13 +125,15 @@ class MyReporter implements Reporter {
     }
     function generateMarkdown(stringBuilder: string) {
       const existingContent = fs.existsSync(_outputFile) ? fs.readFileSync(_outputFile, 'utf8') : '';
-      if (existingContent.includes(embeddingPlaceholder)) {
-        let endPlaceholderIndex = existingContent.indexOf(embeddingPlaceholderEnd);
+      let newPlacholder = existingContent.includes(embeddingPlaceholder)
+      if (newPlacholder || existingContent.includes(oldPlaceholderStart)) {
+
+        let endPlaceholderIndex = existingContent.indexOf(newPlacholder ? embeddingPlaceholderEnd : oldPlaceholderEnd);
         if (endPlaceholderIndex==-1) {
           endPlaceholderIndex = existingContent.length;
         }
-        const startPlaceholderIndex = existingContent.indexOf(embeddingPlaceholder);
-        const newContent = existingContent.slice(0, startPlaceholderIndex) + embeddingPlaceholder + stringBuilder + existingContent.slice(endPlaceholderIndex);
+        let startPlaceholderIndex = existingContent.indexOf(newPlacholder ? embeddingPlaceholder : oldPlaceholderStart);
+        const newContent = existingContent.slice(0, startPlaceholderIndex) + (newPlacholder ? embeddingPlaceholder : oldPlaceholderStart) + stringBuilder + existingContent.slice(endPlaceholderIndex);
         fs.writeFileSync(_outputFile, newContent);
       } else {
         fs.writeFileSync(_outputFile, stringBuilder);
