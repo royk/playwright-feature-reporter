@@ -157,6 +157,24 @@ test.describe("Features", () => {
     });
   });
 
+  test("Compatible with old placeholder tag",
+    {annotation: [{type: ANNOTATION_TEST_TYPE, description: 'compatibility'}]}, () => {
+    const oldPlaceholderStart = "<!-- jest-playwright-feature-reporter--placeholder -->";
+    const oldPlaceholderEnd = "<!-- jest-playwright-feature-reporter--placeholder-end -->";
+    const initialContent = "This is static content in the header";
+    const additionalContent = "this is additional content in the footer";
+    const oldContent = "this is old generated content";
+    mockDescribBlock.tests.push(mockTestCase);
+    sinon.stub(fs, 'existsSync').returns(true);
+    sinon.stub(fs, 'readFileSync').returns(initialContent+oldPlaceholderStart+oldContent+oldPlaceholderEnd+additionalContent);
+    reporter.onBegin({} as any, mockDescribBlock);
+    reporter.onEnd({} as any);
+    const expectedMarkdown = `\n## ${featureTitle}\n- ${passingEmoji} ${caseTitle}\n`;
+    const expectedContent = initialContent + oldPlaceholderStart + expectedMarkdown + oldPlaceholderEnd + additionalContent;
+    const actualMarkdown = writeFileSyncStub.getCall(0)?.args[1];
+    expect(actualMarkdown).toBe(expectedContent);
+  });
+
 });
 
 test.describe("To do", () => {
@@ -170,6 +188,9 @@ test.describe("To do", () => {
 
   });
   test.skip("Support for marking a describe block as skipped, and show all its children as skipped", () => {
+
+  });
+  test.skip("Supports marking a block with a test-type annotation and have its children inherit the annotation", () => {
 
   });
   test.skip("Support custom emojis", () => {

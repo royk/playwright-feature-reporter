@@ -11,6 +11,7 @@ npm i -D playwright-feature-reporter
 
 <!-- jest-playwright-feature-reporter--placeholder -->
 ## Features
+- :white_check_mark: Compatible with old placeholder tag
   ### Markdown generation
   - :white_check_mark: Supports nested describe blocks
   - :white_check_mark: Marks passing, failing and skipped tests
@@ -26,6 +27,7 @@ npm i -D playwright-feature-reporter
 - :construction: Display generation date
 - :construction: Support for skipping a test from being reported
 - :construction: Support for marking a describe block as skipped, and show all its children as skipped
+- :construction: Supports marking a block with a test-type annotation and have its children inherit the annotation
 - :construction: Support custom emojis
 <!-- jest-playwright-feature-reporter--placeholder-end -->
 
