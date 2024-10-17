@@ -123,14 +123,21 @@ class MyReporter implements Reporter {
         nestedLevel--;
       }
     }
-    function generateMarkdown(stringBuilder: string) {
-      const existingContent = fs.existsSync(_outputFile) ? fs.readFileSync(_outputFile, 'utf8') : '';
+
+    function getPlaceholderNames(existingContent: string) {
       let placeholderStartString = embeddingPlaceholder;
       let placeholderEndString = embeddingPlaceholderEnd;
+      // backwards compatibility for old placeholder names
       if (existingContent.includes(oldPlaceholderStart)) {
         placeholderStartString = oldPlaceholderStart;
         placeholderEndString = oldPlaceholderEnd;
       }
+      return { placeholderStartString, placeholderEndString };
+    }
+
+    function generateMarkdown(stringBuilder: string) {
+      const existingContent = fs.existsSync(_outputFile) ? fs.readFileSync(_outputFile, 'utf8') : '';
+      let { placeholderStartString, placeholderEndString } = getPlaceholderNames(existingContent);
       if (existingContent.includes(placeholderStartString)) {
         let endPlaceholderIndex = existingContent.indexOf(placeholderEndString);
         if (endPlaceholderIndex==-1) {
@@ -149,6 +156,8 @@ class MyReporter implements Reporter {
     let stringBuilder = '\n';
     printSuite(mergedSuite);
     generateMarkdown(stringBuilder);
+
+    
   }
 }
 
