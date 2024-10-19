@@ -110,11 +110,7 @@ class MyReporter implements Reporter {
         if (s.suites.length === 0 && printableTests.length === 0) {
           return;
         }
-        if (nestedLevel===0) {
-          stringBuilder += `${mdHeaderPrefix} ${s.title}\n`;
-        } else {
-          stringBuilder += `${mdHeaderPrefix} ${s.title}\n`;
-        }
+        stringBuilder += `${mdHeaderPrefix} ${s.title}\n`;
         nestedLevel++;
       }
       const testNames = [];
