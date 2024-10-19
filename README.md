@@ -91,3 +91,15 @@ For example:
 <!-- playwright-feature-reporter--start -->
 << your features will be rendered here >>
 ```
+## Configuration
+
+### Output file
+The output file is defined with the `outputFile` option.
+
+### Full report link
+You can include a link to a full test report with the `fullReportLink` option. This will include the link at the bottom of the generated report.
+
+Example:
+```
+['playwright-feature-reporter', { outputFile: './README.md', fullReportLink: 'playwright-report/index.html' }]
+```
