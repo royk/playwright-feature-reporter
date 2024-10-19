@@ -185,15 +185,6 @@ test.describe("To do", () => {
   test.skip("Display generation date", () => {
 
   });
-  test.skip("Support for skipping a test from being reported", () => {
-
-  });
-  test.skip("Support for marking a describe block as skipped, and show all its children as skipped", () => {
-
-  });
-  test.skip("Supports marking a block with a test-type annotation and have its children inherit the annotation", () => {
-
-  });
   test.skip("Support custom emojis", () => {
 
   });

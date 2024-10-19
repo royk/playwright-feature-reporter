@@ -24,9 +24,6 @@ npm i -D playwright-feature-reporter
 ## To do
 - :construction: Supports embedding different test types in different parts of the document
 - :construction: Display generation date
-- :construction: Support for skipping a test from being reported
-- :construction: Support for marking a describe block as skipped, and show all its children as skipped
-- :construction: Supports marking a block with a test-type annotation and have its children inherit the annotation
 - :construction: Support custom emojis
 - :construction: Support including a link to a full test report
 <!-- playwright-feature-reporter--end -->
@@ -59,6 +56,16 @@ test('Example of a test with a comment',
 
 test('Example of a test with a test-type annotation', 
   {annotation: [{type: 'test-type', description: 'behavior'}]}, () => {
+});
+```
+
+You can also similarly annotate a describe block. All tests within the describe block will inherit the annotation.
+
+```
+test.describe('Compatibility tests', 
+  {annotation: [{type: 'test-type', description: 'compatibility'}]}, () => {
+    test('this test will be annotated with "compatibility"', () => {
+    });
 });
 ```
 
