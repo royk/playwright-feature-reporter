@@ -107,6 +107,7 @@ class MyReporter implements Reporter {
       if (s.type === PLAYWRIGHT_SUITE_TYPE_DESCRIBE) {
         const printableTests = s.tests.filter((test) => willPrintTest(test));
         // if there are no tests and no nested suites, don't print the suite
+        // TODO: Consider differentiating between no tests and no printable tests
         if (s.suites.length === 0 && printableTests.length === 0) {
           return;
         }
