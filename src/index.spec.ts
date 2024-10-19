@@ -199,7 +199,6 @@ test.describe("Compatibility", {annotation: [{type: ANNOTATION_TEST_TYPE, descri
   test.afterEach(() => {
     sinon.restore();
   });
-  wefwfew
   test("Compatible with old placeholder tag", () => {
     const initialContent = "This is static content in the header";
     const additionalContent = "this is additional content in the footer";
