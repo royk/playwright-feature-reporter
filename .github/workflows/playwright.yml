@@ -19,11 +19,11 @@ jobs:
       run: npm run build
     - name: Run Playwright tests
       run: npx playwright test
-    - name: Check for changes
+    - name: Check for README changes
       id: git-check
       run: |
-        git diff --exit-code || echo "changes=true" >> $GITHUB_OUTPUT
-    - name: Commit and push changes
+        git diff --exit-code -- README.md|| echo "changes=true" >> $GITHUB_OUTPUT
+    - name: Commit and push README
       if: steps.git-check.outputs.changes == 'true'
       run: |
         git config --global user.name "GitHub Actions"
