@@ -28,7 +28,7 @@ npm i -D playwright-feature-reporter
 - :construction: Supports embedding different test types in different parts of the document
 - :construction: Support custom emojis
 
-[Full report](playwright-report/index.html)
+[Full report](https://raw.githack.com/royk/playwright-feature-reporter/refs/heads/main/playwright-report/index.html)
 <!-- playwright-feature-reporter--end -->
 
 ## Usage
