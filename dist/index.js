@@ -151,7 +151,7 @@ class MyReporter {
         let stringBuilder = '\n';
         printSuite(mergedSuite);
         if (_fullReportLink) {
-            stringBuilder += `[Full report](${_fullReportLink})\n`;
+            stringBuilder += `\n[Full report](${_fullReportLink})\n`;
         }
         generateMarkdown(stringBuilder);
     }

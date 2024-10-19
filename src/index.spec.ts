@@ -180,7 +180,7 @@ test.describe("Features", () => {
       reporter.onBegin({} as any, mockDescribBlock);
       reporter.onEnd({} as any);
       const expectedLink = `[Full report](${fullReportLink})`;
-      const expectedMarkdown = `\n## ${featureTitle}\n- ${passingEmoji} ${caseTitle}\n${expectedLink}\n`;
+      const expectedMarkdown = `\n## ${featureTitle}\n- ${passingEmoji} ${caseTitle}\n\n${expectedLink}\n`;
       const actualMarkdown = writeFileSyncStub.getCall(0)?.args[1];
       expect(actualMarkdown).toBe(expectedMarkdown);
     });
