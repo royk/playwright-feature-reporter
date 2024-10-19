@@ -22,7 +22,7 @@ jobs:
     - name: Check for README changes
       id: git-check
       run: |
-        git diff --exit-code -- README.md|| echo "changes=true" >> $GITHUB_OUTPUT
+        git diff --exit-code -- README.md || echo "changes=true" >> $GITHUB_OUTPUT
     - name: Commit and push README
       if: steps.git-check.outputs.changes == 'true'
       run: |
