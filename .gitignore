@@ -47,6 +47,5 @@ jspm_packages/
 .env.production.local
 .env.local
 /test-results/
-/playwright-report/
 /blob-report/
 /playwright/.cache/
