@@ -1,7 +1,7 @@
 # playwright-feature-reporter
-Custom Playwright reporter for self-documenting via tests. Populates a Markdown file documenting app features based on test cases.
+A custom Playwright reporter designed to automatically generate or populate Markdown documentation for your application based on its test suites & cases.
 
-(the below features and to-do sections are auto-generated from the reporter's test cases)
+The below Features and To-Do sections were auto-generated from this reporter's test cases.
 
 ## Installation
 
