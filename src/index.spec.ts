@@ -8,10 +8,7 @@ import sinon from 'sinon';
 import fs from 'fs';
 import { mock } from 'node:test';
 
-
-
-test.describe("Features", () => {
-  let reporter: MyReporter;
+let reporter: MyReporter;
   let mockDescribBlock: Suite;
   let mockDescribeBlock2: Suite;
   let mockTestCase: TestCase;
@@ -54,6 +51,9 @@ test.describe("Features", () => {
     } as unknown as TestCase;
     mockTestResult = {} as TestResult;
   });
+
+test.describe("Features", () => {
+  
   test.afterEach(() => {
     sinon.restore();
   });
@@ -101,6 +101,21 @@ test.describe("Features", () => {
       reporter.onBegin({} as any, mockDescribBlock);
       reporter.onEnd({} as any);
       const expectedMarkdown = `\n## ${featureTitle}\n- ${passingEmoji} ${behavioralTest.title}\n`;
+      const actualMarkdown = writeFileSyncStub.getCall(0)?.args[1];
+      expect(actualMarkdown).toBe(expectedMarkdown);
+    });
+    test("Supports Describe block annotations", () => {
+      // describe block annotation is basically the same as a block whose all children have the same annotation
+      const compatibilityType = 'compatibility';
+      const compatibilityTest1 = mockTestCase;
+      const compatibilityTest2 = mockTestCase2; 
+      compatibilityTest1.annotations = [{type: ANNOTATION_TEST_TYPE, description: compatibilityType}]
+      compatibilityTest2.annotations = [{type: ANNOTATION_TEST_TYPE, description: compatibilityType}]
+      mockDescribBlock.tests.push(compatibilityTest1);
+      mockDescribBlock.tests.push(compatibilityTest2);
+      reporter.onBegin({} as any, mockDescribBlock);
+      reporter.onEnd({} as any);
+      const expectedMarkdown = `\n`;
       const actualMarkdown = writeFileSyncStub.getCall(0)?.args[1];
       expect(actualMarkdown).toBe(expectedMarkdown);
     });
@@ -160,21 +175,8 @@ test.describe("Features", () => {
     });
   });
 
-  test("Compatible with old placeholder tag",
-    {annotation: [{type: ANNOTATION_TEST_TYPE, description: 'compatibility'}]}, () => {
-    const initialContent = "This is static content in the header";
-    const additionalContent = "this is additional content in the footer";
-    const oldContent = "this is old generated content";
-    mockDescribBlock.tests.push(mockTestCase);
-    sinon.stub(fs, 'existsSync').returns(true);
-    sinon.stub(fs, 'readFileSync').returns(initialContent+oldPlaceholderStart+oldContent+oldPlaceholderEnd+additionalContent);
-    reporter.onBegin({} as any, mockDescribBlock);
-    reporter.onEnd({} as any);
-    const expectedMarkdown = `\n## ${featureTitle}\n- ${passingEmoji} ${caseTitle}\n`;
-    const expectedContent = initialContent + oldPlaceholderStart + expectedMarkdown + oldPlaceholderEnd + additionalContent;
-    const actualMarkdown = writeFileSyncStub.getCall(0)?.args[1];
-    expect(actualMarkdown).toBe(expectedContent);
-  });
+ 
+    
 
 });
 
@@ -192,3 +194,24 @@ test.describe("To do", () => {
 
   });
 });
+
+test.describe("Compatibility", {annotation: [{type: ANNOTATION_TEST_TYPE, description: 'compatibility'}]}, () => {
+  test.afterEach(() => {
+    sinon.restore();
+  });
+  test("Compatible with old placeholder tag", () => {
+    const initialContent = "This is static content in the header";
+    const additionalContent = "this is additional content in the footer";
+    const oldContent = "this is old generated content";
+    mockDescribBlock.tests.push(mockTestCase);
+    sinon.stub(fs, 'existsSync').returns(true);
+    sinon.stub(fs, 'readFileSync').returns(initialContent+oldPlaceholderStart+oldContent+oldPlaceholderEnd+additionalContent);
+    reporter.onBegin({} as any, mockDescribBlock);
+    reporter.onEnd({} as any);
+    const expectedMarkdown = `\n## ${featureTitle}\n- ${passingEmoji} ${caseTitle}\n`;
+    const expectedContent = initialContent + oldPlaceholderStart + expectedMarkdown + oldPlaceholderEnd + additionalContent;
+    const actualMarkdown = writeFileSyncStub.getCall(0)?.args[1];
+    expect(actualMarkdown).toBe(expectedContent);
+  });
+});
+

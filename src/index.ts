@@ -105,6 +105,11 @@ class MyReporter implements Reporter {
         return;
       }
       if (s.type === PLAYWRIGHT_SUITE_TYPE_DESCRIBE) {
+        const printableTests = s.tests.filter((test) => willPrintTest(test));
+        // if there are no tests and no nested suites, don't print the suite
+        if (s.suites.length === 0 && printableTests.length === 0) {
+          return;
+        }
         if (nestedLevel===0) {
           stringBuilder += `${mdHeaderPrefix} ${s.title}\n`;
         } else {

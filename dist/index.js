@@ -68,6 +68,14 @@ class MyReporter {
             });
             return s;
         }
+        function willPrintTest(test) {
+            var _a, _b;
+            const testType = (_b = (_a = test.annotations) === null || _a === void 0 ? void 0 : _a.find((a) => a.type === ANNOTATION_TEST_TYPE)) === null || _b === void 0 ? void 0 : _b.description;
+            if (testType && testType !== TEST_TYPE_BEHAVIOR) {
+                return;
+            }
+            return true;
+        }
         function printSuite(s) {
             const mdHeaderPrefix = '  '.repeat(nestedLevel) + '#'.repeat(nestedLevel + 2);
             const mdListPrefix = '  '.repeat(nestedLevel) + '-';
@@ -81,6 +89,11 @@ class MyReporter {
                 return;
             }
             if (s.type === PLAYWRIGHT_SUITE_TYPE_DESCRIBE) {
+                const printableTests = s.tests.filter((test) => willPrintTest(test));
+                // if there are no tests and no nested suites, don't print the suite
+                if (s.suites.length === 0 && printableTests.length === 0) {
+                    return;
+                }
                 if (nestedLevel === 0) {
                     stringBuilder += `${mdHeaderPrefix} ${s.title}\n`;
                 }
@@ -90,17 +103,15 @@ class MyReporter {
                 nestedLevel++;
             }
             const testNames = [];
-            s.tests.forEach((test) => {
-                var _a, _b, _c, _d;
+            s.tests
+                .filter((test) => willPrintTest(test))
+                .forEach((test) => {
+                var _a, _b;
                 if (testNames.includes(test.title)) {
                     return;
                 }
-                const testType = (_b = (_a = test.annotations) === null || _a === void 0 ? void 0 : _a.find((a) => a.type === ANNOTATION_TEST_TYPE)) === null || _b === void 0 ? void 0 : _b.description;
-                if (testType && testType !== TEST_TYPE_BEHAVIOR) {
-                    return;
-                }
                 testNames.push(test.title);
-                const comment = (_d = (_c = test.annotations) === null || _c === void 0 ? void 0 : _c.find((a) => a.type === ANNOTATION_COMMENT)) === null || _d === void 0 ? void 0 : _d.description;
+                const comment = (_b = (_a = test.annotations) === null || _a === void 0 ? void 0 : _a.find((a) => a.type === ANNOTATION_COMMENT)) === null || _b === void 0 ? void 0 : _b.description;
                 stringBuilder += `${mdListPrefix} ${getOutcome(test)} ${test.title}${comment ? ` *(${comment})*` : ''}\n`;
             });
             s.suites.forEach((ss) => {
