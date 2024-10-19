@@ -19,7 +19,7 @@ jobs:
       run: npm run build
     - name: Run Playwright tests
       run: npx playwright test
-    - name: Check for changes
+    - shell: pwsh
       id: check_for_changes
       run: |
         $diff = git diff-index HEAD -- 
