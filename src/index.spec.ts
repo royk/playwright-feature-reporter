@@ -181,16 +181,16 @@ test.describe("Features", () => {
 });
 
 test.describe("To do", () => {
-  test.skip("Supports embedding different test types in different parts of the document", () => {
+  test.skip("Support including a link to a full test report", () => {
 
   });
   test.skip("Display generation date", () => {
 
   });
-  test.skip("Support custom emojis", () => {
+  test.skip("Supports embedding different test types in different parts of the document", () => {
 
   });
-  test.skip("Support including a link to a full test report", () => {
+  test.skip("Support custom emojis", () => {
 
   });
 });
