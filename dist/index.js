@@ -1,6 +1,7 @@
 import fs from 'fs';
 let _suite;
 let _outputFile;
+let _fullReportLink;
 export const embeddingPlaceholder = "<!-- playwright-feature-reporter--start -->";
 export const embeddingPlaceholderEnd = "<!-- playwright-feature-reporter--end -->";
 export const oldPlaceholderStart = "<!-- jest-playwright-feature-reporter--placeholder -->";
@@ -14,6 +15,7 @@ export const PLAYWRIGHT_SUITE_TYPE_PROJECT = 'project';
 class MyReporter {
     constructor(options = {}) {
         _outputFile = options.outputFile || 'FEATURES.md';
+        _fullReportLink = options.fullReportLink;
     }
     onBegin(config, suite) {
         _suite = suite;
@@ -91,15 +93,11 @@ class MyReporter {
             if (s.type === PLAYWRIGHT_SUITE_TYPE_DESCRIBE) {
                 const printableTests = s.tests.filter((test) => willPrintTest(test));
                 // if there are no tests and no nested suites, don't print the suite
+                // TODO: Consider differentiating between no tests and no printable tests
                 if (s.suites.length === 0 && printableTests.length === 0) {
                     return;
                 }
-                if (nestedLevel === 0) {
-                    stringBuilder += `${mdHeaderPrefix} ${s.title}\n`;
-                }
-                else {
-                    stringBuilder += `${mdHeaderPrefix} ${s.title}\n`;
-                }
+                stringBuilder += `${mdHeaderPrefix} ${s.title}\n`;
                 nestedLevel++;
             }
             const testNames = [];
@@ -152,6 +150,9 @@ class MyReporter {
         let projectCount = 0;
         let stringBuilder = '\n';
         printSuite(mergedSuite);
+        if (_fullReportLink) {
+            stringBuilder += `[Full report](${_fullReportLink})\n`;
+        }
         generateMarkdown(stringBuilder);
     }
 }

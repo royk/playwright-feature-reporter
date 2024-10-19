@@ -173,6 +173,17 @@ test.describe("Features", () => {
     test("Define output file with 'outputFile' option", 
       {annotation: [{type: 'comment', description: 'Implicitly tested'}]}, () => {
     });
+    test("Defining a link to a full test report with 'fullReportLink' option, includes the link in the report", () => {
+      const fullReportLink = 'full-report.html';
+      reporter = new MyReporter({ outputFile, fullReportLink });
+      mockDescribBlock.tests.push(mockTestCase);
+      reporter.onBegin({} as any, mockDescribBlock);
+      reporter.onEnd({} as any);
+      const expectedLink = `[Full report](${fullReportLink})`;
+      const expectedMarkdown = `\n## ${featureTitle}\n- ${passingEmoji} ${caseTitle}\n${expectedLink}\n`;
+      const actualMarkdown = writeFileSyncStub.getCall(0)?.args[1];
+      expect(actualMarkdown).toBe(expectedMarkdown);
+    });
   });
 
  
@@ -181,9 +192,7 @@ test.describe("Features", () => {
 });
 
 test.describe("To do", () => {
-  test.skip("Support including a link to a full test report", () => {
-
-  });
+  
   test.skip("Display generation date", () => {
 
   });

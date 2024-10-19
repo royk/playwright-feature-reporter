@@ -11,6 +11,7 @@ export declare const PLAYWRIGHT_SUITE_TYPE_PROJECT = "project";
 declare class MyReporter implements Reporter {
     constructor(options?: {
         outputFile?: string;
+        fullReportLink?: string;
     });
     onBegin(config: FullConfig, suite: Suite): void;
     onTestBegin(test: TestCase, result: TestResult): void;

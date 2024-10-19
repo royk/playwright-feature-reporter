@@ -4,6 +4,7 @@ import type {
   import fs from 'fs';
 let _suite: Suite;
 let _outputFile: string;
+let _fullReportLink: string;
 export const embeddingPlaceholder = "<!-- playwright-feature-reporter--start -->";
 export const embeddingPlaceholderEnd = "<!-- playwright-feature-reporter--end -->";
 export const oldPlaceholderStart = "<!-- jest-playwright-feature-reporter--placeholder -->";
@@ -20,8 +21,9 @@ export const PLAYWRIGHT_SUITE_TYPE_DESCRIBE = 'describe';
 export const PLAYWRIGHT_SUITE_TYPE_PROJECT = 'project';
 
 class MyReporter implements Reporter {
-  constructor(options: { outputFile?: string } = {}) {
+  constructor(options: { outputFile?: string, fullReportLink?: string } = {}) {
     _outputFile = options.outputFile || 'FEATURES.md';
+    _fullReportLink = options.fullReportLink;
   }
   onBegin(config: FullConfig, suite: Suite) {
     _suite = suite;
@@ -164,6 +166,9 @@ class MyReporter implements Reporter {
     let projectCount = 0;
     let stringBuilder = '\n';
     printSuite(mergedSuite);
+    if (_fullReportLink) {
+      stringBuilder += `[Full report](${_fullReportLink})\n`;
+    }
     generateMarkdown(stringBuilder);
 
     
