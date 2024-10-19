@@ -32,7 +32,8 @@ jobs:
         git pull --rebase origin main
         git stash pop
         git add README.md
-        git commit -m "docs: Update README.md with latest test results" || echo "No changes to commit"
+        git add playwright-report
+        git commit -m "docs: Update README.md and latest test results" || echo "No changes to commit"
         git push
     env:
       GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

@@ -22,11 +22,13 @@ npm i -D playwright-feature-reporter
   - :white_check_mark: Merges features from across suites
   ### Configuration
   - :white_check_mark: Define output file with 'outputFile' option *(Implicitly tested)*
+  - :white_check_mark: Defining a link to a full test report with 'fullReportLink' option, includes the link in the report
 ## To do
-- :construction: Support including a link to a full test report
 - :construction: Display generation date
 - :construction: Supports embedding different test types in different parts of the document
 - :construction: Support custom emojis
+
+[Full report](playwright-report/index.html)
 <!-- playwright-feature-reporter--end -->
 
 ## Usage
