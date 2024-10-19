@@ -83,6 +83,15 @@ class MyReporter implements Reporter {
       });
       return s;
     }
+
+    function willPrintTest(test: TestCase) {
+      const testType = test.annotations?.find((a) => a.type === ANNOTATION_TEST_TYPE)?.description;
+      if (testType && testType !== TEST_TYPE_BEHAVIOR) {
+        return;
+      }
+      return true;
+    }
+
     function printSuite(s: Suite) {
       const mdHeaderPrefix = '  '.repeat(nestedLevel) + '#'.repeat(nestedLevel+2);
       const mdListPrefix = '  '.repeat(nestedLevel) + '-';
@@ -104,12 +113,10 @@ class MyReporter implements Reporter {
         nestedLevel++;
       }
       const testNames = [];
-      s.tests.forEach((test) => {
+      s.tests
+      .filter((test) => willPrintTest(test))
+      .forEach((test) => {
         if (testNames.includes(test.title)) {
-          return;
-        }
-        const testType = test.annotations?.find((a) => a.type === ANNOTATION_TEST_TYPE)?.description;
-        if (testType && testType !== TEST_TYPE_BEHAVIOR) {
           return;
         }
         testNames.push(test.title);
