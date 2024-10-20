@@ -35,7 +35,7 @@ npm i -D playwright-feature-reporter
 ## Usage
 
 ### Basic usage
-Include as a reporter in your playwright.config.ts. eg:
+Include as a reporter in your `playwright.config.ts`. eg:
 
 ```
 export default defineConfig({
