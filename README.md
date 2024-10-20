@@ -12,16 +12,16 @@ npm i -D playwright-feature-reporter
 <!-- playwright-feature-reporter--start -->
 ## Features
   ### Markdown generation
-  - :white_check_mark: Nested describe blocks appear as nested headings
-  - :white_check_mark: Features are visually marked as Passing :white_check_mark:, Failing :x: or Skipped :construction:
-  - :white_check_mark: Comment annotations appear as *(italics)* after the test title
-  - :white_check_mark: Annotate tests with test-types. Only document your behavioral tests
-  - :white_check_mark: Describe blocks annotated as non-behavioral are not included in the report
+  - :white_check_mark: Describe blocks appear as headings. Nested describe blocks are nested headings
+  - :white_check_mark: Tests appear as list items representing features. Each feature is visually marked as Passing :white_check_mark:, Failing :x: or Skipped :construction:
+  - :white_check_mark: Comment annotations appear as *(italics)* after the feature description
+  - :white_check_mark: Tests can be annotated with test-types. Behavioral tests appear as features. Unannotated tests are assumed to be behavioral.
+  - :white_check_mark: Describe blocks containing only non-behavioral tests are not shown in the report
   - :white_check_mark: Embed the report in an existing file between placeholders
   - :white_check_mark: Omit the closing placeholder if it's the last content in the file
   - :white_check_mark: Same features from across suites are shown only once
   ### Configuration
-  - :white_check_mark: Define the output file/where to embed with 'outputFile' option *(Implicitly tested)*
+  - :white_check_mark: Define where to embed the report with 'outputFile' option *(Implicitly tested)*
   - :white_check_mark: A link to a full test report will be included when the 'fullReportLink' option is provided
 ## To do
 - :construction: Support nesting features under other features
