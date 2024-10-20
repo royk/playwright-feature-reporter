@@ -68,7 +68,7 @@ test.describe("Features", () => {
       const actualMarkdown = writeFileSyncStub.getCall(0)?.args[1];
       expect(actualMarkdown).toBe(expectedMarkdown);
     });
-    test("Tests are marked as Passing, failing or skipped with emojis", () => {
+    test(`Tests are visually marked as Passing ${passingEmoji}, Failing ${failingEmoji} or Skipped ${skippedEmoji}`, () => {
       mockTestCase.outcome = sinon.stub().returns('unexpected');
       mockTestCase2.outcome = sinon.stub().returns('skipped');  
       mockDescribBlock.tests.push(mockTestCase);
