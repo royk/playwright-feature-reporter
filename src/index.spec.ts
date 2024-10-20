@@ -58,7 +58,7 @@ test.describe("Features", () => {
     sinon.restore();
   });
   test.describe('Markdown generation', () => {
-    test("Nested describe blocks appear as nested headings", () => {
+    test("Describe blocks appear as headings. Nested describe blocks are nested headings", () => {
       mockDescribBlock.suites.push(mockDescribeBlock2);
       mockDescribeBlock2.tests.push(mockTestCase);
       reporter.onBegin({} as any, mockDescribBlock);
@@ -68,7 +68,7 @@ test.describe("Features", () => {
       const actualMarkdown = writeFileSyncStub.getCall(0)?.args[1];
       expect(actualMarkdown).toBe(expectedMarkdown);
     });
-    test(`Features are visually marked as Passing ${passingEmoji}, Failing ${failingEmoji} or Skipped ${skippedEmoji}`, () => {
+    test(`Tests appear as list items representing features. Each feature is visually marked as Passing ${passingEmoji}, Failing ${failingEmoji} or Skipped ${skippedEmoji}`, () => {
       mockTestCase.outcome = sinon.stub().returns('unexpected');
       mockTestCase2.outcome = sinon.stub().returns('skipped');  
       mockDescribBlock.tests.push(mockTestCase);
@@ -79,7 +79,7 @@ test.describe("Features", () => {
       const actualMarkdown = writeFileSyncStub.getCall(0)?.args[1];
       expect(actualMarkdown).toBe(expectedMarkdown);
     });
-    test("Comment annotations appear as *(italics)* after the test title", () => {
+    test("Comment annotations appear as *(italics)* after the feature description", () => {
       const description = 'This is a comment';
       mockTestCase.annotations = [{type: ANNOTATION_COMMENT, description}]
       mockDescribBlock.tests.push(mockTestCase);
@@ -89,7 +89,7 @@ test.describe("Features", () => {
       const actualMarkdown = writeFileSyncStub.getCall(0)?.args[1];
       expect(actualMarkdown).toBe(expectedMarkdown);
     });
-    test("Annotate tests with test-types. Only document your behavioral tests", () => {
+    test("Tests can be annotated with test-types. Behavioral tests appear as features. Unannotated tests are assumed to be behavioral.", () => {
       const compatibilityType = 'compatibility';
       const behavioralType = TEST_TYPE_BEHAVIOR;
       const compatibilityTest = mockTestCase;
@@ -104,7 +104,7 @@ test.describe("Features", () => {
       const actualMarkdown = writeFileSyncStub.getCall(0)?.args[1];
       expect(actualMarkdown).toBe(expectedMarkdown);
     });
-    test("Describe blocks annotated as non-behavioral are not included in the report", () => {
+    test("Describe blocks containing only non-behavioral tests are not shown in the report", () => {
       // describe block annotation is basically the same as a block whose all children have the same annotation
       const compatibilityType = 'compatibility';
       const compatibilityTest1 = mockTestCase;
@@ -170,7 +170,7 @@ test.describe("Features", () => {
     });
   });
   test.describe("Configuration", () => {
-    test("Define the output file/where to embed with 'outputFile' option", 
+    test("Define where to embed the report with 'outputFile' option", 
       {annotation: [{type: 'comment', description: 'Implicitly tested'}]}, () => {
     });
     test("A link to a full test report will be included when the 'fullReportLink' option is provided", () => {
