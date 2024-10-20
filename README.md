@@ -13,7 +13,7 @@ npm i -D playwright-feature-reporter
 ## Features
   ### Markdown generation
   - :white_check_mark: Nested describe blocks appear as nested headings
-  - :white_check_mark: Tests are marked as Passing, failing or skipped with emojis
+  - :white_check_mark: Tests are visually marked as Passing :white_check_mark:, Failing :x: or Skipped :construction:
   - :white_check_mark: Comment annotations appear as *(italics)* after the test title
   - :white_check_mark: Annotate tests with test-types. Only document your behavioral tests
   - :white_check_mark: Describe blocks annotated as non-behavioral are not included in the report
