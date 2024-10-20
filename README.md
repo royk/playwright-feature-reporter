@@ -12,20 +12,20 @@ npm i -D playwright-feature-reporter
 <!-- playwright-feature-reporter--start -->
 ## Features
   ### Markdown generation
-  - :white_check_mark: Supports nested describe blocks
-  - :white_check_mark: Marks passing, failing and skipped tests
-  - :white_check_mark: Supports comment annotations
-  - :white_check_mark: Supports test-type annotations, and doesn't report non-behavioral tests
-  - :white_check_mark: Supports Describe block annotations
-  - :white_check_mark: Supports embedding markdown in an existing file between placeholders
-  - :white_check_mark: Supports embedding markdown in an existing file without closing placeholder
-  - :white_check_mark: Merges features from across suites
+  - :white_check_mark: Nested describe blocks appear as nested headings
+  - :white_check_mark: Tests are marked as Passing, failing or skipped with emojis
+  - :white_check_mark: Comment annotations appear as *(italics)* after the test title
+  - :white_check_mark: Annotate tests with test-types. Only document your behavioral tests
+  - :white_check_mark: Non-behavioral describe blocks are not included in the report
+  - :white_check_mark: Embed the report in an existing file between placeholders
+  - :white_check_mark: Omit the closing placeholder if it's the last content in the file
+  - :white_check_mark: Same features from across suites are shown only once
   ### Configuration
-  - :white_check_mark: Define output file with 'outputFile' option *(Implicitly tested)*
-  - :white_check_mark: Defining a link to a full test report with 'fullReportLink' option, includes the link in the report
+  - :white_check_mark: Define the output file/where to embed with 'outputFile' option *(Implicitly tested)*
+  - :white_check_mark: A link to a full test report will be included when the 'fullReportLink' option is provided
 ## To do
 - :construction: Display generation date
-- :construction: Supports embedding different test types in different parts of the document
+- :construction: Support embedding different test types in different parts of the document
 - :construction: Support custom emojis
 
 [Test report](https://raw.githack.com/royk/playwright-feature-reporter/refs/heads/main/playwright-report/index.html)
