@@ -192,7 +192,7 @@ test.describe("Features", () => {
 });
 
 test.describe("To do", () => {
-  test.skip("Support indentation of items below other items", () => {
+  test.skip("Support nesting features under other features", () => {
 
   });
   test.skip("Display generation date", () => {
