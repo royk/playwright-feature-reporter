@@ -58,7 +58,7 @@ test.describe("Features", () => {
     sinon.restore();
   });
   test.describe('Markdown generation', () => {
-    test("Supports nested describe blocks", () => {
+    test("Nested describe blocks appear as nested headings", () => {
       mockDescribBlock.suites.push(mockDescribeBlock2);
       mockDescribeBlock2.tests.push(mockTestCase);
       reporter.onBegin({} as any, mockDescribBlock);
@@ -68,7 +68,7 @@ test.describe("Features", () => {
       const actualMarkdown = writeFileSyncStub.getCall(0)?.args[1];
       expect(actualMarkdown).toBe(expectedMarkdown);
     });
-    test("Marks passing, failing and skipped tests", () => {
+    test("Tests are marked as Passing, failing or skipped with emojis", () => {
       mockTestCase.outcome = sinon.stub().returns('unexpected');
       mockTestCase2.outcome = sinon.stub().returns('skipped');  
       mockDescribBlock.tests.push(mockTestCase);
@@ -79,7 +79,7 @@ test.describe("Features", () => {
       const actualMarkdown = writeFileSyncStub.getCall(0)?.args[1];
       expect(actualMarkdown).toBe(expectedMarkdown);
     });
-    test("Supports comment annotations", () => {
+    test("Comment annotations appear as *(italics)* after the test title", () => {
       const description = 'This is a comment';
       mockTestCase.annotations = [{type: ANNOTATION_COMMENT, description}]
       mockDescribBlock.tests.push(mockTestCase);
@@ -89,7 +89,7 @@ test.describe("Features", () => {
       const actualMarkdown = writeFileSyncStub.getCall(0)?.args[1];
       expect(actualMarkdown).toBe(expectedMarkdown);
     });
-    test("Supports test-type annotations, and doesn't report non-behavioral tests", () => {
+    test("Annotate tests with test-types. Only document your behavioral tests", () => {
       const compatibilityType = 'compatibility';
       const behavioralType = TEST_TYPE_BEHAVIOR;
       const compatibilityTest = mockTestCase;
@@ -104,7 +104,7 @@ test.describe("Features", () => {
       const actualMarkdown = writeFileSyncStub.getCall(0)?.args[1];
       expect(actualMarkdown).toBe(expectedMarkdown);
     });
-    test("Supports Describe block annotations", () => {
+    test("Non-behavioral describe blocks are not included in the report", () => {
       // describe block annotation is basically the same as a block whose all children have the same annotation
       const compatibilityType = 'compatibility';
       const compatibilityTest1 = mockTestCase;
@@ -119,7 +119,7 @@ test.describe("Features", () => {
       const actualMarkdown = writeFileSyncStub.getCall(0)?.args[1];
       expect(actualMarkdown).toBe(expectedMarkdown);
     });
-    test("Supports embedding markdown in an existing file between placeholders", () => {
+    test("Embed the report in an existing file between placeholders", () => {
       const initialContent = "This is static content in the header";
       const additionalContent = "this is additional content in the footer";
       const oldContent = "this is old generated content";
@@ -133,7 +133,7 @@ test.describe("Features", () => {
       const actualMarkdown = writeFileSyncStub.getCall(0)?.args[1];
       expect(actualMarkdown).toBe(expectedContent);
     });
-    test("Supports embedding markdown in an existing file without closing placeholder", () => {
+    test("Omit the closing placeholder if it's the last content in the file", () => {
       const initialContent = "This is static content";
       const oldContent = "this is old generated content";
       mockDescribBlock.tests.push(mockTestCase);
@@ -146,7 +146,7 @@ test.describe("Features", () => {
       const actualMarkdown = writeFileSyncStub.getCall(0)?.args[1];
       expect(actualMarkdown).toBe(expectedContent);
     });
-    test("Merges features from across suites", () => {
+    test("Same features from across suites are shown only once", () => {
       const featureTitle2 = featureTitle
       const mockSuite2 = {
         type: PLAYWRIGHT_SUITE_TYPE_DESCRIBE,
@@ -170,10 +170,10 @@ test.describe("Features", () => {
     });
   });
   test.describe("Configuration", () => {
-    test("Define output file with 'outputFile' option", 
+    test("Define the output file/where to embed with 'outputFile' option", 
       {annotation: [{type: 'comment', description: 'Implicitly tested'}]}, () => {
     });
-    test("Defining a link to a full test report with 'fullReportLink' option, includes the link in the report", () => {
+    test("A link to a full test report will be included when the 'fullReportLink' option is provided", () => {
       const fullReportLink = 'full-report.html';
       reporter = new MyReporter({ outputFile, fullReportLink });
       mockDescribBlock.tests.push(mockTestCase);
@@ -196,7 +196,7 @@ test.describe("To do", () => {
   test.skip("Display generation date", () => {
 
   });
-  test.skip("Supports embedding different test types in different parts of the document", () => {
+  test.skip("Support embedding different test types in different parts of the document", () => {
 
   });
   test.skip("Support custom emojis", () => {
