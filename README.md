@@ -24,7 +24,7 @@ npm i -D playwright-feature-reporter
   - :white_check_mark: Define the output file/where to embed with 'outputFile' option *(Implicitly tested)*
   - :white_check_mark: A link to a full test report will be included when the 'fullReportLink' option is provided
 ## To do
-- :construction: Support nesting features under other features
+- :construction: Support indentation of items below other items
 - :construction: Display generation date
 - :construction: Support embedding different test types in different parts of the document
 - :construction: Support custom emojis
