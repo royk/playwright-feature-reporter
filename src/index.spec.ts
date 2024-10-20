@@ -104,7 +104,7 @@ test.describe("Features", () => {
       const actualMarkdown = writeFileSyncStub.getCall(0)?.args[1];
       expect(actualMarkdown).toBe(expectedMarkdown);
     });
-    test("Non-behavioral describe blocks are not included in the report", () => {
+    test("Describe blocks annotated as non-behavioral are not included in the report", () => {
       // describe block annotation is basically the same as a block whose all children have the same annotation
       const compatibilityType = 'compatibility';
       const compatibilityTest1 = mockTestCase;
@@ -192,7 +192,9 @@ test.describe("Features", () => {
 });
 
 test.describe("To do", () => {
-  
+  test.skip("Support indentation of items below other items", () => {
+
+  });
   test.skip("Display generation date", () => {
 
   });
