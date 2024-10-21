@@ -79,8 +79,8 @@ class MyReporter {
             return true;
         }
         function printSuite(s) {
-            const mdHeaderPrefix = '  '.repeat(nestedLevel) + '#'.repeat(nestedLevel + 2);
-            const mdListPrefix = '  '.repeat(nestedLevel) + '-';
+            const myNestedLevel = nestedLevel;
+            const headerPrefix = '  '.repeat(nestedLevel) + '#'.repeat(nestedLevel + 2);
             if (s.type === PLAYWRIGHT_SUITE_TYPE_PROJECT) {
                 projectCount++;
             }
@@ -97,7 +97,7 @@ class MyReporter {
                 if (s.suites.length === 0 && printableTests.length === 0) {
                     return;
                 }
-                stringBuilder += `${mdHeaderPrefix} ${s.title}\n`;
+                stringBuilder += `${headerPrefix} ${s.title}\n`;
                 nestedLevel++;
             }
             const testNames = [];
@@ -109,8 +109,15 @@ class MyReporter {
                     return;
                 }
                 testNames.push(test.title);
+                let testTitle = test.title;
+                let additionalNesting = 0;
+                if (testTitle.startsWith('- ')) {
+                    testTitle = testTitle.slice(2);
+                    additionalNesting = 1;
+                }
+                const listPrefix = '  '.repeat(myNestedLevel + additionalNesting) + '-';
                 const comment = (_b = (_a = test.annotations) === null || _a === void 0 ? void 0 : _a.find((a) => a.type === ANNOTATION_COMMENT)) === null || _b === void 0 ? void 0 : _b.description;
-                stringBuilder += `${mdListPrefix} ${getOutcome(test)} ${test.title}${comment ? ` *(${comment})*` : ''}\n`;
+                stringBuilder += `${listPrefix} ${getOutcome(test)} ${testTitle}${comment ? ` *(${comment})*` : ''}\n`;
             });
             s.suites.forEach((ss) => {
                 printSuite(ss);

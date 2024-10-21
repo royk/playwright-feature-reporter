@@ -146,7 +146,7 @@ test.describe("Features", () => {
       const actualMarkdown = writeFileSyncStub.getCall(0)?.args[1];
       expect(actualMarkdown).toBe(expectedContent);
     });
-    test("Same features from across suites are shown only once", () => {
+    test("Same headings from across suites are shown only once", () => {
       const featureTitle2 = featureTitle
       const mockSuite2 = {
         type: PLAYWRIGHT_SUITE_TYPE_DESCRIBE,

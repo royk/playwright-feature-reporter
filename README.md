@@ -19,8 +19,8 @@ npm i -D playwright-feature-reporter
   - :white_check_mark: Describe blocks containing only non-behavioral tests are not shown in the report
   - :white_check_mark: Embed the report in an existing file between placeholders
   - :white_check_mark: Omit the closing placeholder if it's the last content in the file
-  - :white_check_mark: Same features from across suites are shown only once
-  - :white_check_mark: Support nesting features under other features
+  - :white_check_mark: Same headings from across suites are shown only once
+    - :white_check_mark: Support nesting features under other features
   ### Configuration
   - :white_check_mark: Define where to embed the report with 'outputFile' option *(Implicitly tested)*
   - :white_check_mark: A link to a full test report will be included when the 'fullReportLink' option is provided
