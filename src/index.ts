@@ -29,14 +29,16 @@ class MyReporter implements Reporter {
     _suite = suite;
   }
 
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   onTestBegin(test: TestCase, result: TestResult) {
   }
 
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   onTestEnd(test: TestCase, result: TestResult) {
   }
   
   
-    
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   onEnd(result: FullResult) {
 
     function getOutcome(testCase) {
@@ -157,13 +159,13 @@ class MyReporter implements Reporter {
 
     function generateMarkdown(stringBuilder: string) {
       const existingContent = fs.existsSync(_outputFile) ? fs.readFileSync(_outputFile, 'utf8') : '';
-      let { placeholderStartString, placeholderEndString } = getPlaceholderNames(existingContent);
+      const { placeholderStartString, placeholderEndString } = getPlaceholderNames(existingContent);
       if (existingContent.includes(placeholderStartString)) {
         let endPlaceholderIndex = existingContent.indexOf(placeholderEndString);
         if (endPlaceholderIndex==-1) {
           endPlaceholderIndex = existingContent.length;
         }
-        let startPlaceholderIndex = existingContent.indexOf(placeholderStartString);
+        const startPlaceholderIndex = existingContent.indexOf(placeholderStartString);
         const newContent = existingContent.slice(0, startPlaceholderIndex) + placeholderStartString + stringBuilder + existingContent.slice(endPlaceholderIndex);
         fs.writeFileSync(_outputFile, newContent);
       } else {

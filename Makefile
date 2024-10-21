@@ -1,7 +1,10 @@
-.PHONY: test test-watch build release commit-types
+.PHONY: test lint test-watch build release commit-types
 
 test:
 	npm test
+
+lint:
+	npx eslint . --fix
 
 test-watch:
 	PWTEST_WATCH=1 npm test	
