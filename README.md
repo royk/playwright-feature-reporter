@@ -98,7 +98,7 @@ test.describe('Main heading', () => {
 });
 ```
 
-Tests can be nested under other tests by prefixing them with `- ` (space and dash). The amount of `-` characters determines the nesting level.
+Tests can be nested under other tests by prefixing them with `- ` (dash and space). The amount of `-` characters determines the nesting level.
 The dashes and space will be trimmed from the feature name.
 
 ```
