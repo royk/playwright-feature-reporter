@@ -95,8 +95,9 @@ class MyReporter implements Reporter {
     }
 
     function printSuite(s: Suite) {
-      const mdHeaderPrefix = '  '.repeat(nestedLevel) + '#'.repeat(nestedLevel+2);
-      const mdListPrefix = '  '.repeat(nestedLevel) + '-';
+      const myNestedLevel = nestedLevel;
+      const headerPrefix = '  '.repeat(nestedLevel) + '#'.repeat(nestedLevel+2);
+      
       if (s.type === PLAYWRIGHT_SUITE_TYPE_PROJECT) {
         projectCount++;
       }
@@ -113,7 +114,7 @@ class MyReporter implements Reporter {
         if (s.suites.length === 0 && printableTests.length === 0) {
           return;
         }
-        stringBuilder += `${mdHeaderPrefix} ${s.title}\n`;
+        stringBuilder += `${headerPrefix} ${s.title}\n`;
         nestedLevel++;
       }
       const testNames = [];
@@ -124,8 +125,9 @@ class MyReporter implements Reporter {
           return;
         }
         testNames.push(test.title);
+        const listPrefix = '  '.repeat(myNestedLevel) + '-';
         const comment = test.annotations?.find((a) => a.type === ANNOTATION_COMMENT)?.description;
-        stringBuilder += `${mdListPrefix} ${getOutcome(test)} ${test.title}${comment ? ` *(${comment})*` : ''}\n`;
+        stringBuilder += `${listPrefix} ${getOutcome(test)} ${test.title}${comment ? ` *(${comment})*` : ''}\n`;
       });
       s.suites.forEach((ss) => {
         printSuite(ss);
