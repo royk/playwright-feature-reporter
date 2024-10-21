@@ -128,7 +128,7 @@ class MyReporter implements Reporter {
         testNames.push(test.title);
         let testTitle = test.title;
         let additionalNesting = 0;
-        if (testTitle.startsWith('- ')) {
+        if (testTitle.startsWith('-')) {
           testTitle = testTitle.slice(2);
           additionalNesting = 1;
         }
