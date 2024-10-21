@@ -1,4 +1,4 @@
-.PHONY: test test-watch build release
+.PHONY: test test-watch build release commit-types
 
 test:
 	npm test
@@ -11,3 +11,6 @@ build:
 
 release:
 	npm run release
+
+commit-types:
+	git log --pretty=format:%s | grep -o '^[a-zA-Z]*' | sort | uniq -c | sort -nr
