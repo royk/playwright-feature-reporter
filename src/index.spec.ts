@@ -169,13 +169,13 @@ test.describe("Features", () => {
       expect(actualMarkdown).toBe(expectedMarkdown);
     });
 
-    test("Support nesting features under other features", () => {
+    test("- Support nesting features under other features", () => {
       mockTestCase2.title = `- ${caseTitle2}`;
       mockDescribBlock.tests.push(mockTestCase);
       mockDescribBlock.tests.push(mockTestCase2);
       reporter.onBegin({} as any, mockDescribBlock);
       reporter.onEnd({} as any);
-      const expectedMarkdown = `\n## ${featureTitle}\n- ${passingEmoji} ${caseTitle}\n- ${passingEmoji} ${caseTitle2}\n`;
+      const expectedMarkdown = `\n## ${featureTitle}\n- ${passingEmoji} ${caseTitle}\n  - ${passingEmoji} ${caseTitle2}\n`;
       const actualMarkdown = writeFileSyncStub.getCall(0)?.args[1];
       expect(actualMarkdown).toBe(expectedMarkdown);
     });
