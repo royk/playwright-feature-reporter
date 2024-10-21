@@ -168,6 +168,17 @@ test.describe("Features", () => {
       const actualMarkdown = writeFileSyncStub.getCall(0)?.args[1];
       expect(actualMarkdown).toBe(expectedMarkdown);
     });
+
+    test("Support nesting features under other features", () => {
+      mockTestCase2.title = `- ${caseTitle2}`;
+      mockDescribBlock.tests.push(mockTestCase);
+      mockDescribBlock.tests.push(mockTestCase2);
+      reporter.onBegin({} as any, mockDescribBlock);
+      reporter.onEnd({} as any);
+      const expectedMarkdown = `\n## ${featureTitle}\n- ${passingEmoji} ${caseTitle}\n- ${passingEmoji} ${caseTitle2}\n`;
+      const actualMarkdown = writeFileSyncStub.getCall(0)?.args[1];
+      expect(actualMarkdown).toBe(expectedMarkdown);
+    });
   });
   test.describe("Configuration", () => {
     test("Define where to embed the report with 'outputFile' option", 
@@ -192,9 +203,7 @@ test.describe("Features", () => {
 });
 
 test.describe("To do", () => {
-  test.skip("Support nesting features under other features", () => {
-
-  });
+  
   test.skip("Display generation date", () => {
 
   });

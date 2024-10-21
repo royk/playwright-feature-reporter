@@ -124,10 +124,15 @@ class MyReporter implements Reporter {
         if (testNames.includes(test.title)) {
           return;
         }
+       
         testNames.push(test.title);
+        let testTitle = test.title;
+        if (testTitle.startsWith('- ')) {
+          testTitle = testTitle.slice(2);
+        }
         const listPrefix = '  '.repeat(myNestedLevel) + '-';
         const comment = test.annotations?.find((a) => a.type === ANNOTATION_COMMENT)?.description;
-        stringBuilder += `${listPrefix} ${getOutcome(test)} ${test.title}${comment ? ` *(${comment})*` : ''}\n`;
+        stringBuilder += `${listPrefix} ${getOutcome(test)} ${testTitle}${comment ? ` *(${comment})*` : ''}\n`;
       });
       s.suites.forEach((ss) => {
         printSuite(ss);
