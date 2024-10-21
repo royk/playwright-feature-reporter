@@ -46,6 +46,17 @@ export default defineConfig({
   ],
 ```
 
+### Combining with other reporters
+This example takes advantage of the html reporter to attach a link to the full report:
+
+```
+export default defineConfig({
+  reporter: [
+    ['list'],
+    ['html'],
+    ['playwright-feature-reporter', {  outputFile: '../FEATURES.md', fullReportLink: 'playwright-report/index.html' }]
+  ],
+```
 ### Annotating tests
 
 You can annotate tests with the following annotations:
@@ -71,6 +82,33 @@ test.describe('Compatibility tests',
   {annotation: [{type: 'test-type', description: 'compatibility'}]}, () => {
     test('this test will be annotated with "compatibility"', () => {
     });
+});
+```
+
+### Indentations
+
+Nesting level of headers is determined by the nesting level of the describe blocks:
+
+```
+test.describe('Main heading', () => {
+  test.describe('Sub heading', () => {
+    test('Feature under sub heading', () => {
+    });
+  });
+});
+```
+
+Tests can be nested under other tests by prefixing them with `- ` (space and dash). The amount of `-` characters determines the nesting level.
+The dashes and space will be trimmed from the feature name.
+
+```
+test.describe('Main heading', () => {
+  test('Feature ', () => {
+  });
+  test('- Sub feature', () => {
+  });
+  test('-- Sub sub feature', () => {
+  });
 });
 ```
 
