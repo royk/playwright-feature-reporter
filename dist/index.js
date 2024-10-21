@@ -111,9 +111,9 @@ class MyReporter {
                 testNames.push(test.title);
                 let testTitle = test.title;
                 let additionalNesting = 0;
-                if (testTitle.startsWith('- ')) {
-                    testTitle = testTitle.slice(2);
-                    additionalNesting = 1;
+                if (testTitle.startsWith('-')) {
+                    additionalNesting = testTitle.indexOf(' ');
+                    testTitle = testTitle.slice(additionalNesting + 1);
                 }
                 const listPrefix = '  '.repeat(myNestedLevel + additionalNesting) + '-';
                 const comment = (_b = (_a = test.annotations) === null || _a === void 0 ? void 0 : _a.find((a) => a.type === ANNOTATION_COMMENT)) === null || _b === void 0 ? void 0 : _b.description;

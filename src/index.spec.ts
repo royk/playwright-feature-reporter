@@ -104,7 +104,7 @@ test.describe("Features", () => {
       const actualMarkdown = writeFileSyncStub.getCall(0)?.args[1];
       expect(actualMarkdown).toBe(expectedMarkdown);
     });
-    test("Describe blocks containing only non-behavioral tests are not shown in the report", () => {
+    test("- Describe blocks containing only non-behavioral tests are not shown in the report", () => {
       // describe block annotation is basically the same as a block whose all children have the same annotation
       const compatibilityType = 'compatibility';
       const compatibilityTest1 = mockTestCase;
@@ -133,7 +133,7 @@ test.describe("Features", () => {
       const actualMarkdown = writeFileSyncStub.getCall(0)?.args[1];
       expect(actualMarkdown).toBe(expectedContent);
     });
-    test("Omit the closing placeholder if it's the last content in the file", () => {
+    test("- Omit the closing placeholder if it's the last content in the file", () => {
       const initialContent = "This is static content";
       const oldContent = "this is old generated content";
       mockDescribBlock.tests.push(mockTestCase);
@@ -169,7 +169,7 @@ test.describe("Features", () => {
       expect(actualMarkdown).toBe(expectedMarkdown);
     });
 
-    test("- Support nesting features under other features", () => {
+    test("Features can nest under other features", () => {
       mockTestCase2.title = `- ${caseTitle2}`;
       mockDescribBlock.tests.push(mockTestCase);
       mockDescribBlock.tests.push(mockTestCase2);
@@ -179,7 +179,7 @@ test.describe("Features", () => {
       const actualMarkdown = writeFileSyncStub.getCall(0)?.args[1];
       expect(actualMarkdown).toBe(expectedMarkdown);
     });
-    test.skip("-- Support multiple levels of nesting", () => {
+    test("- Features can nest multiple levels deep", () => {
       mockTestCase2.title = `-- ${caseTitle2}`;
       mockDescribBlock.tests.push(mockTestCase);
       mockDescribBlock.tests.push(mockTestCase2);
