@@ -129,8 +129,8 @@ class MyReporter implements Reporter {
         let testTitle = test.title;
         let additionalNesting = 0;
         if (testTitle.startsWith('-')) {
-          testTitle = testTitle.slice(2);
-          additionalNesting = 1;
+          additionalNesting = testTitle.indexOf(' ');
+          testTitle = testTitle.slice(additionalNesting+1);
         }
         const listPrefix = '  '.repeat(myNestedLevel + additionalNesting) + '-';
         const comment = test.annotations?.find((a) => a.type === ANNOTATION_COMMENT)?.description;
