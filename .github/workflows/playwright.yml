@@ -20,20 +20,8 @@ jobs:
         key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
         restore-keys: |
           ${{ runner.os }}-node-
-    - name: Enable npm verbose logging
-      run: npm config set loglevel verbose
-    - name: Check if `x-feature-reporter` is available on npm
-      run: npm info x-feature-reporter
-    - name: Clear npm cache
-      run: npm cache clean --force      
     - name: Install dependencies
-      run: npm install --no-package-lock
-    - name: Check `x-feature-reporter` Directory Structure
-      run: ls -R node_modules/x-feature-reporter
-    - name: List Installed Packages
-      run: npm list --depth=0
-    - name: Check TypeScript Resolution
-      run: npx tsc --noEmit
+      run: npm ci
     - name: build
       run: npm run build
     - name: Run Playwright tests
