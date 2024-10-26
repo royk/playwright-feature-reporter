@@ -22,10 +22,11 @@ jobs:
           ${{ runner.os }}-node-
     - name: Enable npm verbose logging
       run: npm config set loglevel verbose
-    - name: Check `x-feature-reporter` Directory Structure
-      run: ls -R node_modules/x-feature-reporter
+    
     - name: Install dependencies
       run: npm install
+    - name: Check `x-feature-reporter` Directory Structure
+      run: ls -R node_modules/x-feature-reporter
     - name: List Installed Packages
       run: npm list --depth=0
     - name: Check TypeScript Resolution
