@@ -1,8 +1,7 @@
 import { test, expect } from '@playwright/test';
 import { Suite, TestCase, TestResult } from '@playwright/test/reporter';
 import MyReporter, { embeddingPlaceholder, embeddingPlaceholderEnd, 
-  oldPlaceholderStart, oldPlaceholderEnd,
-  ANNOTATION_TEST_TYPE, ANNOTATION_COMMENT, TEST_TYPE_BEHAVIOR, 
+  ANNOTATION_TEST_TYPE, TEST_TYPE_BEHAVIOR, 
   PLAYWRIGHT_SUITE_TYPE_DESCRIBE } from './index.ts';
 import sinon from 'sinon';
 import fs from 'fs';
@@ -18,12 +17,10 @@ let reporter: MyReporter;
   const caseTitle = 'case title';
   const caseTitle2 = 'case 2 title';
   const subfeatureTitle = 'Subfeature title';
-  const subfeatureTitle2 = 'Subfeature title 2';
   const outputFile = 'test-output.md';
   const passingEmoji = ':white_check_mark:';
   const failingEmoji = ':x:';
   const skippedEmoji = ':construction:';
-  const flakyEmoji = ':warning:';
   let writeFileSyncStub: sinon.SinonStub;
   test.beforeEach(() => {
     writeFileSyncStub = sinon.stub(fs, 'writeFileSync');
@@ -76,16 +73,6 @@ test.describe("Features", () => {
       reporter.onBegin({} as any, mockDescribBlock);
       reporter.onEnd({} as any);
       const expectedMarkdown = `\n## ${featureTitle}\n- ${failingEmoji} ${caseTitle}\n- ${skippedEmoji} ${caseTitle2}\n`;
-      const actualMarkdown = writeFileSyncStub.getCall(0)?.args[1];
-      expect(actualMarkdown).toBe(expectedMarkdown);
-    });
-    test("Comment annotations appear as *(italics)* after the feature description", () => {
-      const description = 'This is a comment';
-      mockTestCase.annotations = [{type: ANNOTATION_COMMENT, description}]
-      mockDescribBlock.tests.push(mockTestCase);
-      reporter.onBegin({} as any, mockDescribBlock);
-      reporter.onEnd({} as any);
-      const expectedMarkdown = `\n## ${featureTitle}\n- ${passingEmoji} ${caseTitle} *(${description})*\n`;
       const actualMarkdown = writeFileSyncStub.getCall(0)?.args[1];
       expect(actualMarkdown).toBe(expectedMarkdown);
     });
@@ -225,23 +212,4 @@ test.describe("To do", () => {
   });
 });
 
-test.describe("Compatibility", {annotation: [{type: ANNOTATION_TEST_TYPE, description: 'compatibility'}]}, () => {
-  test.afterEach(() => {
-    sinon.restore();
-  });
-  test("Compatible with old placeholder tag", () => {
-    const initialContent = "This is static content in the header";
-    const additionalContent = "this is additional content in the footer";
-    const oldContent = "this is old generated content";
-    mockDescribBlock.tests.push(mockTestCase);
-    sinon.stub(fs, 'existsSync').returns(true);
-    sinon.stub(fs, 'readFileSync').returns(initialContent+oldPlaceholderStart+oldContent+oldPlaceholderEnd+additionalContent);
-    reporter.onBegin({} as any, mockDescribBlock);
-    reporter.onEnd({} as any);
-    const expectedMarkdown = `\n## ${featureTitle}\n- ${passingEmoji} ${caseTitle}\n`;
-    const expectedContent = initialContent + oldPlaceholderStart + expectedMarkdown + oldPlaceholderEnd + additionalContent;
-    const actualMarkdown = writeFileSyncStub.getCall(0)?.args[1];
-    expect(actualMarkdown).toBe(expectedContent);
-  });
-});
 

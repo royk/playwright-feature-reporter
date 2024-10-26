@@ -1,6 +1,8 @@
 # playwright-feature-reporter
 A custom Playwright reporter designed to automatically generate or populate Markdown documentation for your application based on its test suites & cases.
 
+Based on [x-feature-reporter](https://github.com/x-feature/x-feature-reporter).
+
 The below Features and To-Do sections were auto-generated from this reporter's test cases.
 
 ## Installation
@@ -14,7 +16,6 @@ npm i -D playwright-feature-reporter
   ### Markdown generation
   - :white_check_mark: Describe blocks appear as headings. Nested describe blocks are nested headings
   - :white_check_mark: Tests appear as list items representing features. Each feature is visually marked as Passing :white_check_mark:, Failing :x: or Skipped :construction:
-  - :white_check_mark: Comment annotations appear as *(italics)* after the feature description
   - :white_check_mark: Tests can be annotated with test-types. Behavioral tests appear as features. Unannotated tests are assumed to be behavioral.
     - :white_check_mark: Describe blocks containing only non-behavioral tests are not shown in the report
   - :white_check_mark: Embed the report in an existing file between placeholders
@@ -23,14 +24,14 @@ npm i -D playwright-feature-reporter
   - :white_check_mark: Features can nest under other features
     - :white_check_mark: Features can nest multiple levels deep
   ### Configuration
-  - :white_check_mark: Define where to embed the report with 'outputFile' option *(Implicitly tested)*
+  - :white_check_mark: Define where to embed the report with 'outputFile' option
   - :white_check_mark: A link to a full test report will be included when the 'fullReportLink' option is provided
 ## To do
 - :construction: Display generation date
 - :construction: Support embedding different test types in different parts of the document
 - :construction: Support custom emojis
 
-[Test report](https://raw.githack.com/royk/playwright-feature-reporter/refs/heads/main/playwright-report/index.html)
+[Test report](playwright-report/index.html)
 <!-- playwright-feature-reporter--end -->
 
 ## Usage
