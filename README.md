@@ -63,14 +63,9 @@ export default defineConfig({
 You can annotate tests with the following annotations:
 
 - `test-type`: Used to annotate the type of test. Only tests with a test-type of `behavior` will be reported. Tests without the test-type annotation will be assumed to be `behavior` tests.
-- `comment`: Used to add a comment to a test. The comment will appear in parentheses after the test name.
 
 Example:
 ```
-test('Example of a test with a comment', 
-  {annotation: [{type: 'comment', description: 'This is an example comment'}]}, () => {
-});
-
 test('Example of a test with a test-type annotation', 
   {annotation: [{type: 'test-type', description: 'behavior'}]}, () => {
 });
