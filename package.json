@@ -1,6 +1,6 @@
 {
   "name": "playwright-feature-reporter",
-  "version": "1.5.2",
+  "version": "2.0.0",
   "description": "Custom Playwright reporter that generates a Markdown file documenting app features based on test cases",
   "author": "Roy Klein",
   "license": "Apache-2.0",
