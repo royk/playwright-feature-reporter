@@ -1,7 +1,7 @@
 # playwright-feature-reporter
 A custom Playwright reporter designed to automatically generate or populate Markdown documentation for your application based on its test suites & cases.
 
-Based on [x-feature-reporter](https://github.com/x-feature/x-feature-reporter).
+Based on [x-feature-reporter](https://github.com/royk/x-feature-reporter).
 
 The below Features and To-Do sections were auto-generated from this reporter's test cases.
 
