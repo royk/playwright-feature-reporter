@@ -20,8 +20,16 @@ jobs:
         key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
         restore-keys: |
           ${{ runner.os }}-node-
+    - name: Enable npm verbose logging
+      run: npm config set loglevel verbose
+    - name: Check `x-feature-reporter` Directory Structure
+      run: ls -R node_modules/x-feature-reporter
     - name: Install dependencies
       run: npm install
+    - name: List Installed Packages
+      run: npm list --depth=0
+    - name: Check TypeScript Resolution
+      run: npx tsc --noEmit
     - name: build
       run: npm run build
     - name: Run Playwright tests
