@@ -1,18 +1,14 @@
 import type {
     FullConfig, FullResult, Reporter, Suite, TestCase, TestResult
   } from '@playwright/test/reporter';
-import { XFeatureReporter, TestSuite as XTestSuite, TestResult as XTestResult } from 'x-feature-reporter';
+import { XFeatureReporter, TestSuite as XTestSuite, TestResult as XTestResult, XFeatureReporterOptions } from 'x-feature-reporter';
 let _suite: Suite;
 let _outputFile: string;
 let _fullReportLink: string;
-export const embeddingPlaceholder = "<!-- playwright-feature-reporter--start -->";
-export const embeddingPlaceholderEnd = "<!-- playwright-feature-reporter--end -->";
 
-
+export const embeddingPlaceholder = 'playwright-feature-reporter';
 export const ANNOTATION_TEST_TYPE = 'test-type';
-
 export const TEST_TYPE_BEHAVIOR = 'behavior';
-
 export const PLAYWRIGHT_SUITE_TYPE_DESCRIBE = 'describe';
 // TODO: Add some test that uses this type
 export const PLAYWRIGHT_SUITE_TYPE_PROJECT = 'project';
@@ -63,11 +59,14 @@ class MyReporter implements Reporter {
     return xSuite;
   }
   
-  
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   onEnd(result: FullResult) {
     const suite = this._convertSuiteToXFeatureReporter(_suite);
-    this.reporter.generateReport(_outputFile, suite, _fullReportLink);
+    const options: XFeatureReporterOptions = {
+      fullReportLink: _fullReportLink,
+      embeddingPlaceholder
+    };
+    this.reporter.generateReport(_outputFile, suite, options);
   }
 }
 
