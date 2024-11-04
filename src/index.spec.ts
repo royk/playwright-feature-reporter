@@ -120,7 +120,6 @@ test.describe('Markdown generation', () => {
     const expectedMarkdown = `\n## ${featureTitle}\n- ${passingEmoji} ${caseTitle}\n`;
     const expectedContent = initialContent + embeddingPlaceholderStart + expectedMarkdown + embeddingPlaceholderEnd + additionalContent;
     const actualMarkdown = writeFileSyncStub.getCall(0)?.args[1];
-    console.log(actualMarkdown);
     expect(actualMarkdown).toBe(expectedContent);
   });
   test("- Omit the closing placeholder if it's the last content in the file", () => {
@@ -179,6 +178,7 @@ test.describe('Markdown generation', () => {
     const actualMarkdown = writeFileSyncStub.getCall(0)?.args[1];
     expect(actualMarkdown).toBe(expectedMarkdown);
   });
+  
 });
 test.describe("Configuration", () => {
   test("Define where to embed the report with 'outputFile' option", 
