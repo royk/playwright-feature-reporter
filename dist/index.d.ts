@@ -1,7 +1,6 @@
 import type { FullConfig, FullResult, Reporter, Suite, TestCase, TestResult } from '@playwright/test/reporter';
 import { TestSuite as XTestSuite } from 'x-feature-reporter';
-export declare const embeddingPlaceholder = "<!-- playwright-feature-reporter--start -->";
-export declare const embeddingPlaceholderEnd = "<!-- playwright-feature-reporter--end -->";
+export declare const embeddingPlaceholder = "playwright-feature-reporter";
 export declare const ANNOTATION_TEST_TYPE = "test-type";
 export declare const TEST_TYPE_BEHAVIOR = "behavior";
 export declare const PLAYWRIGHT_SUITE_TYPE_DESCRIBE = "describe";

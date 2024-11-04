@@ -2,8 +2,7 @@ import { XFeatureReporter } from 'x-feature-reporter';
 let _suite;
 let _outputFile;
 let _fullReportLink;
-export const embeddingPlaceholder = "<!-- playwright-feature-reporter--start -->";
-export const embeddingPlaceholderEnd = "<!-- playwright-feature-reporter--end -->";
+export const embeddingPlaceholder = 'playwright-feature-reporter';
 export const ANNOTATION_TEST_TYPE = 'test-type';
 export const TEST_TYPE_BEHAVIOR = 'behavior';
 export const PLAYWRIGHT_SUITE_TYPE_DESCRIBE = 'describe';
@@ -53,7 +52,11 @@ class MyReporter {
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     onEnd(result) {
         const suite = this._convertSuiteToXFeatureReporter(_suite);
-        this.reporter.generateReport(_outputFile, suite, _fullReportLink);
+        const options = {
+            fullReportLink: _fullReportLink,
+            embeddingPlaceholder
+        };
+        this.reporter.generateReport(_outputFile, suite, options);
     }
 }
 export default MyReporter;
