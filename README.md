@@ -23,13 +23,13 @@ npm i -D playwright-feature-reporter
   - :white_check_mark: Same headings from across suites are shown only once
   - :white_check_mark: Features can nest under other features
     - :white_check_mark: Features can nest multiple levels deep
-    #### Configuration
-    - :white_check_mark: Define where to embed the report with 'outputFile' option
-    - :white_check_mark: A link to a full test report will be included when the 'fullReportLink' option is provided
-      ##### To do
-      - :construction: Display generation date
-      - :construction: Support embedding different test types in different parts of the document
-      - :construction: Support custom emojis
+  ### Configuration
+  - :white_check_mark: Define where to embed the report with 'outputFile' option
+  - :white_check_mark: A link to a full test report will be included when the 'fullReportLink' option is provided
+## To do
+- :construction: Display generation date
+- :construction: Support embedding different test types in different parts of the document
+- :construction: Support custom emojis
 
 [Test report](https://raw.githack.com/royk/playwright-feature-reporter/refs/heads/main/playwright-report/index.html)
 <!-- playwright-feature-reporter--end -->
