@@ -14,22 +14,22 @@ npm i -D playwright-feature-reporter
 <!-- playwright-feature-reporter--start -->
 ## Features
   ### Markdown generation
-  - :white_check_mark: Describe blocks appear as headings. Nested describe blocks are nested headings
-  - :white_check_mark: Tests appear as list items representing features. Each feature is visually marked as Passing :white_check_mark:, Failing :x: or Skipped :construction:
-  - :white_check_mark: Tests can be annotated with test-types. Behavioral tests appear as features. Unannotated tests are assumed to be behavioral.
-    - :white_check_mark: Describe blocks containing only non-behavioral tests are not shown in the report
-  - :white_check_mark: Embed the report in an existing file between placeholders
-    - :white_check_mark: Omit the closing placeholder if it's the last content in the file
-  - :white_check_mark: Same headings from across suites are shown only once
-  - :white_check_mark: Features can nest under other features
-    - :white_check_mark: Features can nest multiple levels deep
+  - ✅ Describe blocks appear as headings. Nested describe blocks are nested headings
+  - ✅ Tests appear as list items representing features. Each feature is visually marked as Passing ✅, Failing ❌ or Skipped 🚧
+  - ✅ Tests can be annotated with test-types. Behavioral tests appear as features. Unannotated tests are assumed to be behavioral.
+    - ✅ Describe blocks containing only non-behavioral tests are not shown in the report
+  - ✅ Embed the report in an existing file between placeholders
+    - ✅ Omit the closing placeholder if it's the last content in the file
+  - ✅ Same headings from across suites are shown only once
+  - ✅ Features can nest under other features
+    - ✅ Features can nest multiple levels deep
   ### Configuration
-  - :white_check_mark: Define where to embed the report with 'outputFile' option
-  - :white_check_mark: A link to a full test report will be included when the 'fullReportLink' option is provided
+  - ✅ Define where to embed the report with 'outputFile' option
+  - ✅ A link to a full test report will be included when the 'fullReportLink' option is provided
 ## To do
-- :construction: Display generation date
-- :construction: Support embedding different test types in different parts of the document
-- :construction: Support custom emojis
+- 🚧 Display generation date
+- 🚧 Support embedding different test types in different parts of the document
+- 🚧 Support custom emojis
 
 [Test report](https://raw.githack.com/royk/playwright-feature-reporter/refs/heads/main/playwright-report/index.html)
 <!-- playwright-feature-reporter--end -->
