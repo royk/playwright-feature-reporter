@@ -25,7 +25,7 @@
     "release": "release-it"
   },
   "dependencies": {
-    "x-feature-reporter": "^2.0.1"
+    "x-feature-reporter": "^2.1.0"
   },
   "devDependencies": {
     "@eslint/js": "^9.13.0",

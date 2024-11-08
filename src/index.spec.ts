@@ -5,7 +5,7 @@ import MyReporter, { embeddingPlaceholder,
   PLAYWRIGHT_SUITE_TYPE_DESCRIBE } from './index.ts';
 import sinon from 'sinon';
 import fs from 'fs';
-import { mock } from 'node:test';
+import { TEST_PREFIX_PASSED, TEST_PREFIX_FAILED, TEST_PREFIX_SKIPPED } from 'x-feature-reporter';
 
 let reporter: MyReporter;
 let mockDescribBlock: Suite;
@@ -18,9 +18,6 @@ const caseTitle = 'case title';
 const caseTitle2 = 'case 2 title';
 const subfeatureTitle = 'Subfeature title';
 const outputFile = 'test-output.md';
-const passingEmoji = ':white_check_mark:';
-const failingEmoji = ':x:';
-const skippedEmoji = ':construction:';
 let writeFileSyncStub: sinon.SinonStub;
 const embeddingPlaceholderStart = `<!-- ${embeddingPlaceholder}--start -->`;
 const embeddingPlaceholderEnd = `<!-- ${embeddingPlaceholder}--end -->`;
@@ -63,18 +60,18 @@ test.describe('Markdown generation', () => {
     reporter.onBegin({} as any, mockDescribBlock);
     reporter.onEnd({} as any);
 
-    const expectedMarkdown = `\n## ${featureTitle}\n  ### ${subfeatureTitle}\n  - ${passingEmoji} ${caseTitle}\n`;
+    const expectedMarkdown = `\n## ${featureTitle}\n  ### ${subfeatureTitle}\n  - ${TEST_PREFIX_PASSED} ${caseTitle}\n`;
     const actualMarkdown = writeFileSyncStub.getCall(0)?.args[1];
     expect(actualMarkdown).toBe(expectedMarkdown);
   });
-  test(`Tests appear as list items representing features. Each feature is visually marked as Passing ${passingEmoji}, Failing ${failingEmoji} or Skipped ${skippedEmoji}`, () => {
+  test(`Tests appear as list items representing features. Each feature is visually marked as Passing ${TEST_PREFIX_PASSED}, Failing ${TEST_PREFIX_FAILED} or Skipped ${TEST_PREFIX_SKIPPED}`, () => {
     mockTestCase.outcome = sinon.stub().returns('unexpected');
     mockTestCase2.outcome = sinon.stub().returns('skipped');  
     mockDescribBlock.tests.push(mockTestCase);
     mockDescribBlock.tests.push(mockTestCase2);
     reporter.onBegin({} as any, mockDescribBlock);
     reporter.onEnd({} as any);
-    const expectedMarkdown = `\n## ${featureTitle}\n- ${failingEmoji} ${caseTitle}\n- ${skippedEmoji} ${caseTitle2}\n`;
+    const expectedMarkdown = `\n## ${featureTitle}\n- ${TEST_PREFIX_FAILED} ${caseTitle}\n- ${TEST_PREFIX_SKIPPED} ${caseTitle2}\n`;
     const actualMarkdown = writeFileSyncStub.getCall(0)?.args[1];
     expect(actualMarkdown).toBe(expectedMarkdown);
   });
@@ -89,7 +86,7 @@ test.describe('Markdown generation', () => {
     mockDescribBlock.tests.push(behavioralTest);
     reporter.onBegin({} as any, mockDescribBlock);
     reporter.onEnd({} as any);
-    const expectedMarkdown = `\n## ${featureTitle}\n- ${passingEmoji} ${behavioralTest.title}\n`;
+    const expectedMarkdown = `\n## ${featureTitle}\n- ${TEST_PREFIX_PASSED} ${behavioralTest.title}\n`;
     const actualMarkdown = writeFileSyncStub.getCall(0)?.args[1];
     expect(actualMarkdown).toBe(expectedMarkdown);
   });
@@ -117,7 +114,7 @@ test.describe('Markdown generation', () => {
     sinon.stub(fs, 'readFileSync').returns(initialContent+embeddingPlaceholderStart+oldContent+embeddingPlaceholderEnd+additionalContent);
     reporter.onBegin({} as any, mockDescribBlock);
     reporter.onEnd({} as any);
-    const expectedMarkdown = `\n## ${featureTitle}\n- ${passingEmoji} ${caseTitle}\n`;
+    const expectedMarkdown = `\n## ${featureTitle}\n- ${TEST_PREFIX_PASSED} ${caseTitle}\n`;
     const expectedContent = initialContent + embeddingPlaceholderStart + expectedMarkdown + embeddingPlaceholderEnd + additionalContent;
     const actualMarkdown = writeFileSyncStub.getCall(0)?.args[1];
     expect(actualMarkdown).toBe(expectedContent);
@@ -130,7 +127,7 @@ test.describe('Markdown generation', () => {
     sinon.stub(fs, 'readFileSync').returns(initialContent+embeddingPlaceholderStart+oldContent+embeddingPlaceholderEnd);
     reporter.onBegin({} as any, mockDescribBlock);
     reporter.onEnd({} as any);
-    const expectedMarkdown = `\n## ${featureTitle}\n- ${passingEmoji} ${caseTitle}\n`;
+    const expectedMarkdown = `\n## ${featureTitle}\n- ${TEST_PREFIX_PASSED} ${caseTitle}\n`;
     const expectedContent = initialContent + embeddingPlaceholderStart + expectedMarkdown + embeddingPlaceholderEnd;
     const actualMarkdown = writeFileSyncStub.getCall(0)?.args[1];
     expect(actualMarkdown).toBe(expectedContent);
@@ -153,7 +150,7 @@ test.describe('Markdown generation', () => {
     reporter.onBegin({} as any, parentSuite);
     reporter.onEnd({} as any);
 
-    const expectedMarkdown = `\n## ${featureTitle}\n- ${passingEmoji} ${caseTitle}\n- ${passingEmoji} ${caseTitle2}\n`;
+    const expectedMarkdown = `\n## ${featureTitle}\n- ${TEST_PREFIX_PASSED} ${caseTitle}\n- ${TEST_PREFIX_PASSED} ${caseTitle2}\n`;
     const actualMarkdown = writeFileSyncStub.getCall(0)?.args[1];
     expect(actualMarkdown).toBe(expectedMarkdown);
   });
@@ -164,7 +161,7 @@ test.describe('Markdown generation', () => {
     mockDescribBlock.tests.push(mockTestCase2);
     reporter.onBegin({} as any, mockDescribBlock);
     reporter.onEnd({} as any);
-    const expectedMarkdown = `\n## ${featureTitle}\n- ${passingEmoji} ${caseTitle}\n  - ${passingEmoji} ${caseTitle2}\n`;
+    const expectedMarkdown = `\n## ${featureTitle}\n- ${TEST_PREFIX_PASSED} ${caseTitle}\n  - ${TEST_PREFIX_PASSED} ${caseTitle2}\n`;
     const actualMarkdown = writeFileSyncStub.getCall(0)?.args[1];
     expect(actualMarkdown).toBe(expectedMarkdown);
   });
@@ -174,7 +171,7 @@ test.describe('Markdown generation', () => {
     mockDescribBlock.tests.push(mockTestCase2);
     reporter.onBegin({} as any, mockDescribBlock);
     reporter.onEnd({} as any);
-    const expectedMarkdown = `\n## ${featureTitle}\n- ${passingEmoji} ${caseTitle}\n    - ${passingEmoji} ${caseTitle2}\n`;
+    const expectedMarkdown = `\n## ${featureTitle}\n- ${TEST_PREFIX_PASSED} ${caseTitle}\n    - ${TEST_PREFIX_PASSED} ${caseTitle2}\n`;
     const actualMarkdown = writeFileSyncStub.getCall(0)?.args[1];
     expect(actualMarkdown).toBe(expectedMarkdown);
   });
@@ -191,7 +188,7 @@ test.describe("Configuration", () => {
     reporter.onBegin({} as any, mockDescribBlock);
     reporter.onEnd({} as any);
     const expectedLink = `[Test report](${fullReportLink})`;
-    const expectedMarkdown = `\n## ${featureTitle}\n- ${passingEmoji} ${caseTitle}\n\n${expectedLink}\n`;
+    const expectedMarkdown = `\n## ${featureTitle}\n- ${TEST_PREFIX_PASSED} ${caseTitle}\n\n${expectedLink}\n`;
     const actualMarkdown = writeFileSyncStub.getCall(0)?.args[1];
     expect(actualMarkdown).toBe(expectedMarkdown);
   });
