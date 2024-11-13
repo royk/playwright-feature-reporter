@@ -1,8 +1,8 @@
 import type {
     FullConfig, FullResult, Reporter, Suite, TestCase, TestResult
   } from '@playwright/test/reporter';
-import { XFeatureReporter, TestSuite as XTestSuite, TestResult as XTestResult } from 'x-feature-reporter';
-import { MarkdownAdapter } from 'x-feature-reporter/adapters/markdown';
+import { XFeatureReporter, XTestSuite as XTestSuite, XTestResult as XTestResult } from 'x-feature-reporter';
+import { MarkdownAdapter, MarkdownAdapterOptions } from 'x-feature-reporter/adapters/markdown';
 
 export const embeddingPlaceholder = 'playwright-feature-reporter';
 export const ANNOTATION_TEST_TYPE = 'test-type';
@@ -63,7 +63,7 @@ class MyReporter implements Reporter {
       outputFile: this.options.outputFile,
       fullReportLink: this.options.fullReportLink,
       embeddingPlaceholder
-    }));
+    } as MarkdownAdapterOptions));
     reporter.generateReport(xsuite);
   }
 }

@@ -1,7 +1,5 @@
 import { XFeatureReporter } from 'x-feature-reporter';
-let _suite;
-let _outputFile;
-let _fullReportLink;
+import { MarkdownAdapter } from 'x-feature-reporter/adapters/markdown';
 export const embeddingPlaceholder = 'playwright-feature-reporter';
 export const ANNOTATION_TEST_TYPE = 'test-type';
 export const TEST_TYPE_BEHAVIOR = 'behavior';
@@ -10,12 +8,10 @@ export const PLAYWRIGHT_SUITE_TYPE_DESCRIBE = 'describe';
 export const PLAYWRIGHT_SUITE_TYPE_PROJECT = 'project';
 class MyReporter {
     constructor(options = {}) {
-        _outputFile = options.outputFile || 'FEATURES.md';
-        _fullReportLink = options.fullReportLink;
-        this.reporter = new XFeatureReporter();
+        this.options = options;
     }
     onBegin(config, suite) {
-        _suite = suite;
+        this.suite = suite;
     }
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     onTestBegin(test, result) {
@@ -51,12 +47,13 @@ class MyReporter {
     }
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     onEnd(result) {
-        const suite = this._convertSuiteToXFeatureReporter(_suite);
-        const options = {
-            fullReportLink: _fullReportLink,
+        const xsuite = this._convertSuiteToXFeatureReporter(this.suite);
+        const reporter = new XFeatureReporter(new MarkdownAdapter({
+            outputFile: this.options.outputFile,
+            fullReportLink: this.options.fullReportLink,
             embeddingPlaceholder
-        };
-        this.reporter.generateReport(_outputFile, suite, options);
+        }));
+        reporter.generateReport(xsuite);
     }
 }
 export default MyReporter;
