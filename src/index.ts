@@ -4,8 +4,6 @@ import type {
 import { XFeatureReporter, TestSuite as XTestSuite, TestResult as XTestResult } from 'x-feature-reporter';
 import { MarkdownAdapter } from 'x-feature-reporter/adapters/markdown';
 let _suite: Suite;
-let _outputFile: string;
-let _fullReportLink: string;
 
 export const embeddingPlaceholder = 'playwright-feature-reporter';
 export const ANNOTATION_TEST_TYPE = 'test-type';
@@ -15,9 +13,9 @@ export const PLAYWRIGHT_SUITE_TYPE_DESCRIBE = 'describe';
 export const PLAYWRIGHT_SUITE_TYPE_PROJECT = 'project';
 
 class MyReporter implements Reporter {
+  private options: { outputFile?: string, fullReportLink?: string };
   constructor(options: { outputFile?: string, fullReportLink?: string } = {}) {
-    _outputFile = options.outputFile || 'FEATURES.md';
-    _fullReportLink = options.fullReportLink;
+    this.options = options;
   }
   onBegin(config: FullConfig, suite: Suite) {
     _suite = suite;
@@ -62,8 +60,8 @@ class MyReporter implements Reporter {
   onEnd(result: FullResult) {
     const suite = this._convertSuiteToXFeatureReporter(_suite);
     const reporter = new XFeatureReporter(new MarkdownAdapter({
-      outputFile: _outputFile,
-      fullReportLink: _fullReportLink,
+      outputFile: this.options.outputFile,
+      fullReportLink: this.options.fullReportLink,
       embeddingPlaceholder
     }));
     reporter.generateReport(suite);
