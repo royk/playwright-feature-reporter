@@ -1,7 +1,8 @@
 import type {
     FullConfig, FullResult, Reporter, Suite, TestCase, TestResult
   } from '@playwright/test/reporter';
-import { XFeatureReporter, TestSuite as XTestSuite, TestResult as XTestResult, XFeatureReporterOptions } from 'x-feature-reporter';
+import { XFeatureReporter, TestSuite as XTestSuite, TestResult as XTestResult } from 'x-feature-reporter';
+import { MarkdownAdapter } from 'x-feature-reporter/adapters/markdown';
 let _suite: Suite;
 let _outputFile: string;
 let _fullReportLink: string;
@@ -14,11 +15,9 @@ export const PLAYWRIGHT_SUITE_TYPE_DESCRIBE = 'describe';
 export const PLAYWRIGHT_SUITE_TYPE_PROJECT = 'project';
 
 class MyReporter implements Reporter {
-  private reporter: XFeatureReporter;
   constructor(options: { outputFile?: string, fullReportLink?: string } = {}) {
     _outputFile = options.outputFile || 'FEATURES.md';
     _fullReportLink = options.fullReportLink;
-    this.reporter = new XFeatureReporter();
   }
   onBegin(config: FullConfig, suite: Suite) {
     _suite = suite;
@@ -62,11 +61,12 @@ class MyReporter implements Reporter {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   onEnd(result: FullResult) {
     const suite = this._convertSuiteToXFeatureReporter(_suite);
-    const options: XFeatureReporterOptions = {
+    const reporter = new XFeatureReporter(new MarkdownAdapter({
+      outputFile: _outputFile,
       fullReportLink: _fullReportLink,
       embeddingPlaceholder
-    };
-    this.reporter.generateReport(_outputFile, suite, options);
+    }));
+    reporter.generateReport(suite);
   }
 }
 

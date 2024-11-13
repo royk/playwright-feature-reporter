@@ -5,7 +5,7 @@ import MyReporter, { embeddingPlaceholder,
   PLAYWRIGHT_SUITE_TYPE_DESCRIBE } from './index.ts';
 import sinon from 'sinon';
 import fs from 'fs';
-import { TEST_PREFIX_PASSED, TEST_PREFIX_FAILED, TEST_PREFIX_SKIPPED } from 'x-feature-reporter';
+import { TEST_PREFIX_PASSED, TEST_PREFIX_FAILED, TEST_PREFIX_SKIPPED } from 'x-feature-reporter/adapters/markdown';
 
 let reporter: MyReporter;
 let mockDescribBlock: Suite;
