@@ -3,7 +3,6 @@ import type {
   } from '@playwright/test/reporter';
 import { XFeatureReporter, TestSuite as XTestSuite, TestResult as XTestResult } from 'x-feature-reporter';
 import { MarkdownAdapter } from 'x-feature-reporter/adapters/markdown';
-let _suite: Suite;
 
 export const embeddingPlaceholder = 'playwright-feature-reporter';
 export const ANNOTATION_TEST_TYPE = 'test-type';
@@ -14,11 +13,12 @@ export const PLAYWRIGHT_SUITE_TYPE_PROJECT = 'project';
 
 class MyReporter implements Reporter {
   private options: { outputFile?: string, fullReportLink?: string };
+  private suite: Suite;
   constructor(options: { outputFile?: string, fullReportLink?: string } = {}) {
     this.options = options;
   }
   onBegin(config: FullConfig, suite: Suite) {
-    _suite = suite;
+    this.suite = suite;
   }
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -58,13 +58,13 @@ class MyReporter implements Reporter {
   
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   onEnd(result: FullResult) {
-    const suite = this._convertSuiteToXFeatureReporter(_suite);
+    const xsuite = this._convertSuiteToXFeatureReporter(this.suite);
     const reporter = new XFeatureReporter(new MarkdownAdapter({
       outputFile: this.options.outputFile,
       fullReportLink: this.options.fullReportLink,
       embeddingPlaceholder
     }));
-    reporter.generateReport(suite);
+    reporter.generateReport(xsuite);
   }
 }
 
