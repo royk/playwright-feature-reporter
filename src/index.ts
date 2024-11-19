@@ -34,6 +34,7 @@ class MyReporter implements Reporter {
       case 'skipped': return 'skipped';
       case 'expected': return 'passed';
       case 'unexpected': return 'failed';
+      case 'flaky': return 'failed';
     }
     return outcome;
   }

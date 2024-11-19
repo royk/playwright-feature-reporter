@@ -75,6 +75,16 @@ test.describe('Markdown generation', () => {
     const actualMarkdown = writeFileSyncStub.getCall(0)?.args[1];
     expect(actualMarkdown).toBe(expectedMarkdown);
   });
+  test('Flaky tests display failed emoji', 
+    {annotation: [{type: 'test-type', description: 'regression'}]}, () => {
+      mockTestCase.outcome = sinon.stub().returns('flaky');
+      mockDescribBlock.tests.push(mockTestCase);
+      reporter.onBegin({} as any, mockDescribBlock);
+      reporter.onEnd({} as any);
+      const expectedMarkdown = `\n## ${featureTitle}\n- ${TEST_PREFIX_FAILED} ${caseTitle}\n`;
+      const actualMarkdown = writeFileSyncStub.getCall(0)?.args[1];
+      expect(actualMarkdown).toBe(expectedMarkdown);
+  });
   test("Tests can be annotated with test-types. Behavioral tests appear as features. Unannotated tests are assumed to be behavioral.", () => {
     const compatibilityType = 'compatibility';
     const behavioralType = TEST_TYPE_BEHAVIOR;
