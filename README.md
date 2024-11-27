@@ -24,10 +24,8 @@ npm i -D playwright-feature-reporter
  - ✅ Features can nest under other features
  - ✅ Features can nest multiple levels deep
 ### Configuration
- - ✅ Define where to embed the report with 'outputFile' option
  - ✅ A link to a full test report will be included when the 'fullReportLink' option is provided
-## To do
- - 🚧 Display generation date
+### To do
  - 🚧 Support embedding different test types in different parts of the document
  - 🚧 Support custom emojis
 
