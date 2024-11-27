@@ -60,7 +60,7 @@ test.describe('Markdown generation', () => {
     reporter.onBegin({} as any, mockDescribBlock);
     reporter.onEnd({} as any);
 
-    const expectedMarkdown = `\n## ${featureTitle}\n  ### ${subfeatureTitle}\n  - ${TEST_PREFIX_PASSED} ${caseTitle}\n`;
+    const expectedMarkdown = `\n## ${featureTitle}\n### ${subfeatureTitle}\n - ${TEST_PREFIX_PASSED} ${caseTitle}\n`;
     const actualMarkdown = writeFileSyncStub.getCall(0)?.args[1];
     expect(actualMarkdown).toBe(expectedMarkdown);
   });
@@ -71,7 +71,7 @@ test.describe('Markdown generation', () => {
     mockDescribBlock.tests.push(mockTestCase2);
     reporter.onBegin({} as any, mockDescribBlock);
     reporter.onEnd({} as any);
-    const expectedMarkdown = `\n## ${featureTitle}\n- ${TEST_PREFIX_FAILED} ${caseTitle}\n- ${TEST_PREFIX_SKIPPED} ${caseTitle2}\n`;
+    const expectedMarkdown = `\n## ${featureTitle}\n - ${TEST_PREFIX_FAILED} ${caseTitle}\n - ${TEST_PREFIX_SKIPPED} ${caseTitle2}\n`;
     const actualMarkdown = writeFileSyncStub.getCall(0)?.args[1];
     expect(actualMarkdown).toBe(expectedMarkdown);
   });
@@ -81,7 +81,7 @@ test.describe('Markdown generation', () => {
       mockDescribBlock.tests.push(mockTestCase);
       reporter.onBegin({} as any, mockDescribBlock);
       reporter.onEnd({} as any);
-      const expectedMarkdown = `\n## ${featureTitle}\n- ${TEST_PREFIX_FAILED} ${caseTitle}\n`;
+      const expectedMarkdown = `\n## ${featureTitle}\n - ${TEST_PREFIX_FAILED} ${caseTitle}\n`;
       const actualMarkdown = writeFileSyncStub.getCall(0)?.args[1];
       expect(actualMarkdown).toBe(expectedMarkdown);
   });
@@ -96,7 +96,7 @@ test.describe('Markdown generation', () => {
     mockDescribBlock.tests.push(behavioralTest);
     reporter.onBegin({} as any, mockDescribBlock);
     reporter.onEnd({} as any);
-    const expectedMarkdown = `\n## ${featureTitle}\n- ${TEST_PREFIX_PASSED} ${behavioralTest.title}\n`;
+    const expectedMarkdown = `\n## ${featureTitle}\n - ${TEST_PREFIX_PASSED} ${behavioralTest.title}\n`;
     const actualMarkdown = writeFileSyncStub.getCall(0)?.args[1];
     expect(actualMarkdown).toBe(expectedMarkdown);
   });
@@ -124,7 +124,7 @@ test.describe('Markdown generation', () => {
     sinon.stub(fs, 'readFileSync').returns(initialContent+embeddingPlaceholderStart+oldContent+embeddingPlaceholderEnd+additionalContent);
     reporter.onBegin({} as any, mockDescribBlock);
     reporter.onEnd({} as any);
-    const expectedMarkdown = `\n## ${featureTitle}\n- ${TEST_PREFIX_PASSED} ${caseTitle}\n`;
+    const expectedMarkdown = `\n## ${featureTitle}\n - ${TEST_PREFIX_PASSED} ${caseTitle}\n`;
     const expectedContent = initialContent + embeddingPlaceholderStart + expectedMarkdown + embeddingPlaceholderEnd + additionalContent;
     const actualMarkdown = writeFileSyncStub.getCall(0)?.args[1];
     expect(actualMarkdown).toBe(expectedContent);
@@ -137,7 +137,7 @@ test.describe('Markdown generation', () => {
     sinon.stub(fs, 'readFileSync').returns(initialContent+embeddingPlaceholderStart+oldContent+embeddingPlaceholderEnd);
     reporter.onBegin({} as any, mockDescribBlock);
     reporter.onEnd({} as any);
-    const expectedMarkdown = `\n## ${featureTitle}\n- ${TEST_PREFIX_PASSED} ${caseTitle}\n`;
+    const expectedMarkdown = `\n## ${featureTitle}\n - ${TEST_PREFIX_PASSED} ${caseTitle}\n`;
     const expectedContent = initialContent + embeddingPlaceholderStart + expectedMarkdown + embeddingPlaceholderEnd;
     const actualMarkdown = writeFileSyncStub.getCall(0)?.args[1];
     expect(actualMarkdown).toBe(expectedContent);
@@ -160,7 +160,7 @@ test.describe('Markdown generation', () => {
     reporter.onBegin({} as any, parentSuite);
     reporter.onEnd({} as any);
 
-    const expectedMarkdown = `\n## ${featureTitle}\n- ${TEST_PREFIX_PASSED} ${caseTitle}\n- ${TEST_PREFIX_PASSED} ${caseTitle2}\n`;
+    const expectedMarkdown = `\n## ${featureTitle}\n - ${TEST_PREFIX_PASSED} ${caseTitle}\n - ${TEST_PREFIX_PASSED} ${caseTitle2}\n`;
     const actualMarkdown = writeFileSyncStub.getCall(0)?.args[1];
     expect(actualMarkdown).toBe(expectedMarkdown);
   });
@@ -171,7 +171,7 @@ test.describe('Markdown generation', () => {
     mockDescribBlock.tests.push(mockTestCase2);
     reporter.onBegin({} as any, mockDescribBlock);
     reporter.onEnd({} as any);
-    const expectedMarkdown = `\n## ${featureTitle}\n- ${TEST_PREFIX_PASSED} ${caseTitle}\n  - ${TEST_PREFIX_PASSED} ${caseTitle2}\n`;
+    const expectedMarkdown = `\n## ${featureTitle}\n - ${TEST_PREFIX_PASSED} ${caseTitle}\n - ${TEST_PREFIX_PASSED} ${caseTitle2}\n`;
     const actualMarkdown = writeFileSyncStub.getCall(0)?.args[1];
     expect(actualMarkdown).toBe(expectedMarkdown);
   });
@@ -181,7 +181,7 @@ test.describe('Markdown generation', () => {
     mockDescribBlock.tests.push(mockTestCase2);
     reporter.onBegin({} as any, mockDescribBlock);
     reporter.onEnd({} as any);
-    const expectedMarkdown = `\n## ${featureTitle}\n- ${TEST_PREFIX_PASSED} ${caseTitle}\n    - ${TEST_PREFIX_PASSED} ${caseTitle2}\n`;
+    const expectedMarkdown = `\n## ${featureTitle}\n - ${TEST_PREFIX_PASSED} ${caseTitle}\n - ${TEST_PREFIX_PASSED} ${caseTitle2}\n`;
     const actualMarkdown = writeFileSyncStub.getCall(0)?.args[1];
     expect(actualMarkdown).toBe(expectedMarkdown);
   });
@@ -198,7 +198,7 @@ test.describe("Configuration", () => {
     reporter.onBegin({} as any, mockDescribBlock);
     reporter.onEnd({} as any);
     const expectedLink = `[Test report](${fullReportLink})`;
-    const expectedMarkdown = `\n## ${featureTitle}\n- ${TEST_PREFIX_PASSED} ${caseTitle}\n\n${expectedLink}\n`;
+    const expectedMarkdown = `\n## ${featureTitle}\n - ${TEST_PREFIX_PASSED} ${caseTitle}\n\n${expectedLink}\n`;
     const actualMarkdown = writeFileSyncStub.getCall(0)?.args[1];
     expect(actualMarkdown).toBe(expectedMarkdown);
   });
