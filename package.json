@@ -24,9 +24,6 @@
     "test": "npx playwright test",
     "release": "release-it"
   },
-  "dependencies": {
-    "x-feature-reporter": "^3.1.0"
-  },
   "devDependencies": {
     "@eslint/js": "^9.13.0",
     "@playwright/test": "^1.48.0",
@@ -45,5 +42,8 @@
     "github": {
       "release": true
     }
+  },
+  "dependencies": {
+    "x-feature-reporter": "^3.1.0"
   }
 }
