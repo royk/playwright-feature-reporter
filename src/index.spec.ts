@@ -8,7 +8,7 @@ import MyReporter, { embeddingPlaceholder,
   import { TEST_PREFIX_PASSED, TEST_PREFIX_FAILED, TEST_PREFIX_SKIPPED } from 'x-feature-reporter/adapters/markdown';
   
 let reporter: MyReporter;
-let mockDescribBlock: Suite;
+let mockDescribeBlock: Suite;
 let mockDescribeBlock2: Suite;
 let mockTestCase: TestCase;
 let mockTestCase2: TestCase;
@@ -25,7 +25,7 @@ test.beforeEach(() => {
   writeFileSyncStub = sinon.stub(fs, 'writeFileSync');
   writeFileSyncStub.returns(undefined);
   reporter = new MyReporter({ outputFile });
-  mockDescribBlock = {
+  mockDescribeBlock = {
     type: PLAYWRIGHT_SUITE_TYPE_DESCRIBE,
     title: featureTitle,
     tests: [],
@@ -55,9 +55,9 @@ test.describe("Features", () => {
   });
   test.describe('Markdown generation', () => {
     test("Describe blocks appear as headings. Nested describe blocks are nested headings", () => {
-      mockDescribBlock.suites.push(mockDescribeBlock2);
+      mockDescribeBlock.suites.push(mockDescribeBlock2);
       mockDescribeBlock2.tests.push(mockTestCase);
-      reporter.onBegin({} as any, mockDescribBlock);
+      reporter.onBegin({} as any, mockDescribeBlock);
       reporter.onEnd({} as any);
       
       const expectedMarkdown = `\n## ${featureTitle}\n### ${subfeatureTitle}\n - ${TEST_PREFIX_PASSED} ${caseTitle}\n`;
@@ -67,9 +67,9 @@ test.describe("Features", () => {
     test(`Tests appear as list items representing features. Each feature is visually marked as Passing ${TEST_PREFIX_PASSED}, Failing ${TEST_PREFIX_FAILED} or Skipped ${TEST_PREFIX_SKIPPED}`, () => {
       mockTestCase.outcome = sinon.stub().returns('unexpected');
       mockTestCase2.outcome = sinon.stub().returns('skipped');  
-      mockDescribBlock.tests.push(mockTestCase);
-      mockDescribBlock.tests.push(mockTestCase2);
-      reporter.onBegin({} as any, mockDescribBlock);
+      mockDescribeBlock.tests.push(mockTestCase);
+      mockDescribeBlock.tests.push(mockTestCase2);
+      reporter.onBegin({} as any, mockDescribeBlock);
       reporter.onEnd({} as any);
       const expectedMarkdown = `\n## ${featureTitle}\n - ${TEST_PREFIX_FAILED} ${caseTitle}\n - ${TEST_PREFIX_SKIPPED} ${caseTitle2}\n`;
       const actualMarkdown = writeFileSyncStub.getCall(0)?.args[1];
@@ -78,8 +78,8 @@ test.describe("Features", () => {
     test('Flaky tests display failed emoji', 
       {annotation: [{type: 'test-type', description: 'regression'}]}, () => {
         mockTestCase.outcome = sinon.stub().returns('flaky');
-        mockDescribBlock.tests.push(mockTestCase);
-        reporter.onBegin({} as any, mockDescribBlock);
+        mockDescribeBlock.tests.push(mockTestCase);
+        reporter.onBegin({} as any, mockDescribeBlock);
         reporter.onEnd({} as any);
         const expectedMarkdown = `\n## ${featureTitle}\n - ${TEST_PREFIX_FAILED} ${caseTitle}\n`;
         const actualMarkdown = writeFileSyncStub.getCall(0)?.args[1];
@@ -92,9 +92,9 @@ test.describe("Features", () => {
         const behavioralTest = mockTestCase2; 
         compatibilityTest.annotations = [{type: ANNOTATION_TEST_TYPE, description: compatibilityType}]
         behavioralTest.annotations = [{type: ANNOTATION_TEST_TYPE, description: behavioralType}]
-        mockDescribBlock.tests.push(compatibilityTest);
-        mockDescribBlock.tests.push(behavioralTest);
-        reporter.onBegin({} as any, mockDescribBlock);
+        mockDescribeBlock.tests.push(compatibilityTest);
+        mockDescribeBlock.tests.push(behavioralTest);
+        reporter.onBegin({} as any, mockDescribeBlock);
         reporter.onEnd({} as any);
         const expectedMarkdown = `\n## ${featureTitle}\n - ${TEST_PREFIX_PASSED} ${behavioralTest.title}\n`;
         const actualMarkdown = writeFileSyncStub.getCall(0)?.args[1];
@@ -107,9 +107,9 @@ test.describe("Features", () => {
         const compatibilityTest2 = mockTestCase2; 
         compatibilityTest1.annotations = [{type: ANNOTATION_TEST_TYPE, description: compatibilityType}]
         compatibilityTest2.annotations = [{type: ANNOTATION_TEST_TYPE, description: compatibilityType}]
-        mockDescribBlock.tests.push(compatibilityTest1);
-        mockDescribBlock.tests.push(compatibilityTest2);
-        reporter.onBegin({} as any, mockDescribBlock);
+        mockDescribeBlock.tests.push(compatibilityTest1);
+        mockDescribeBlock.tests.push(compatibilityTest2);
+        reporter.onBegin({} as any, mockDescribeBlock);
         reporter.onEnd({} as any);
         const expectedMarkdown = `\n`;
         const actualMarkdown = writeFileSyncStub.getCall(0)?.args[1];
@@ -119,10 +119,10 @@ test.describe("Features", () => {
         const initialContent = "This is static content in the header";
         const additionalContent = "this is additional content in the footer";
         const oldContent = "this is old generated content";
-        mockDescribBlock.tests.push(mockTestCase);
+        mockDescribeBlock.tests.push(mockTestCase);
         sinon.stub(fs, 'existsSync').returns(true);
         sinon.stub(fs, 'readFileSync').returns(initialContent+embeddingPlaceholderStart+oldContent+embeddingPlaceholderEnd+additionalContent);
-        reporter.onBegin({} as any, mockDescribBlock);
+        reporter.onBegin({} as any, mockDescribeBlock);
         reporter.onEnd({} as any);
         const expectedMarkdown = `\n## ${featureTitle}\n - ${TEST_PREFIX_PASSED} ${caseTitle}\n`;
         const expectedContent = initialContent + embeddingPlaceholderStart + expectedMarkdown + embeddingPlaceholderEnd + additionalContent;
@@ -132,10 +132,10 @@ test.describe("Features", () => {
       test("- Omit the closing placeholder if it's the last content in the file", () => {
         const initialContent = "This is static content";
         const oldContent = "this is old generated content";
-        mockDescribBlock.tests.push(mockTestCase);
+        mockDescribeBlock.tests.push(mockTestCase);
         sinon.stub(fs, 'existsSync').returns(true);
         sinon.stub(fs, 'readFileSync').returns(initialContent+embeddingPlaceholderStart+oldContent+embeddingPlaceholderEnd);
-        reporter.onBegin({} as any, mockDescribBlock);
+        reporter.onBegin({} as any, mockDescribeBlock);
         reporter.onEnd({} as any);
         const expectedMarkdown = `\n## ${featureTitle}\n - ${TEST_PREFIX_PASSED} ${caseTitle}\n`;
         const expectedContent = initialContent + embeddingPlaceholderStart + expectedMarkdown + embeddingPlaceholderEnd;
@@ -150,12 +150,12 @@ test.describe("Features", () => {
           tests: [],
           suites: [],
         } as unknown as Suite;
-        mockDescribBlock.tests.push(mockTestCase);
+        mockDescribeBlock.tests.push(mockTestCase);
         mockSuite2.tests.push(mockTestCase2);
         const parentSuite = {
           type: 'root',
           tests: [],
-          suites: [mockDescribBlock, mockSuite2],
+          suites: [mockDescribeBlock, mockSuite2],
         } as unknown as Suite;
         reporter.onBegin({} as any, parentSuite);
         reporter.onEnd({} as any);
@@ -167,9 +167,9 @@ test.describe("Features", () => {
       
       test("Features can nest under other features", () => {
         mockTestCase2.title = `- ${caseTitle2}`;
-        mockDescribBlock.tests.push(mockTestCase);
-        mockDescribBlock.tests.push(mockTestCase2);
-        reporter.onBegin({} as any, mockDescribBlock);
+        mockDescribeBlock.tests.push(mockTestCase);
+        mockDescribeBlock.tests.push(mockTestCase2);
+        reporter.onBegin({} as any, mockDescribeBlock);
         reporter.onEnd({} as any);
         const expectedMarkdown = `\n## ${featureTitle}\n - ${TEST_PREFIX_PASSED} ${caseTitle}\n - ${TEST_PREFIX_PASSED} ${caseTitle2}\n`;
         const actualMarkdown = writeFileSyncStub.getCall(0)?.args[1];
@@ -177,9 +177,9 @@ test.describe("Features", () => {
       });
       test("- Features can nest multiple levels deep", () => {
         mockTestCase2.title = `-- ${caseTitle2}`;
-        mockDescribBlock.tests.push(mockTestCase);
-        mockDescribBlock.tests.push(mockTestCase2);
-        reporter.onBegin({} as any, mockDescribBlock);
+        mockDescribeBlock.tests.push(mockTestCase);
+        mockDescribeBlock.tests.push(mockTestCase2);
+        reporter.onBegin({} as any, mockDescribeBlock);
         reporter.onEnd({} as any);
         const expectedMarkdown = `\n## ${featureTitle}\n - ${TEST_PREFIX_PASSED} ${caseTitle}\n - ${TEST_PREFIX_PASSED} ${caseTitle2}\n`;
         const actualMarkdown = writeFileSyncStub.getCall(0)?.args[1];
@@ -191,8 +191,8 @@ test.describe("Features", () => {
     test("A link to a full test report will be included when the 'fullReportLink' option is provided", () => {
       const fullReportLink = 'full-report.html';
       reporter = new MyReporter({ outputFile, fullReportLink });
-      mockDescribBlock.tests.push(mockTestCase);
-      reporter.onBegin({} as any, mockDescribBlock);
+      mockDescribeBlock.tests.push(mockTestCase);
+      reporter.onBegin({} as any, mockDescribeBlock);
       reporter.onEnd({} as any);
       const expectedLink = `[Test report](${fullReportLink})`;
       const expectedMarkdown = `\n## ${featureTitle}\n - ${TEST_PREFIX_PASSED} ${caseTitle}\n\n${expectedLink}\n`;
