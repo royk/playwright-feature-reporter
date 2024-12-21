@@ -8,7 +8,8 @@ export const PLAYWRIGHT_SUITE_TYPE_DESCRIBE = 'describe';
 export const PLAYWRIGHT_SUITE_TYPE_PROJECT = 'project';
 class MyReporter {
     constructor(options = {}) {
-        this.options = options;
+        var _a;
+        this.options = Object.assign(Object.assign({}, options), { reportProjects: (_a = options.reportProjects) !== null && _a !== void 0 ? _a : false });
     }
     onBegin(config, suite) {
         this.suite = suite;
@@ -29,9 +30,14 @@ class MyReporter {
         return outcome;
     }
     _convertSuiteToXFeatureReporter(s) {
+        // only describe blocks are visible by default. Projects are visible only when the option 'reportProjects' is true.
+        const visible = (s.type === PLAYWRIGHT_SUITE_TYPE_DESCRIBE ||
+            (s.type === PLAYWRIGHT_SUITE_TYPE_PROJECT && this.options.reportProjects == true));
+        // if projects are not reported, clear their titles so that their children share the same ancestry path (causes merging)
+        const title = this.options.reportProjects == false && s.type === PLAYWRIGHT_SUITE_TYPE_PROJECT ? '' : s.title;
         const xSuite = {
-            title: s.type === PLAYWRIGHT_SUITE_TYPE_PROJECT ? '' : s.title,
-            transparent: s.type !== PLAYWRIGHT_SUITE_TYPE_DESCRIBE,
+            title,
+            transparent: !visible,
             suites: [],
             tests: [],
         };
