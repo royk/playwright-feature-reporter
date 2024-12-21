@@ -132,6 +132,11 @@ For example:
 ### Output file
 The output file is defined with the `outputFile` option.
 
+### Report projects
+By default, projects are not reported. This is to avoid duplicate entries in the report (where every test is reported each time per project).
+
+If you want the projects to be reported, set the `reportProjects` option to true. Each project will be reported as a header and its features will be nested under it.
+
 ### Full report link
 You can include a link to a full test report with the `fullReportLink` option. This will include the link at the bottom of the generated report.
 
