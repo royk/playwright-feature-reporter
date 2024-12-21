@@ -30,7 +30,7 @@ class MyReporter {
     }
     _convertSuiteToXFeatureReporter(s) {
         const xSuite = {
-            title: s.title,
+            title: s.type === PLAYWRIGHT_SUITE_TYPE_PROJECT ? '' : s.title,
             transparent: s.type !== PLAYWRIGHT_SUITE_TYPE_DESCRIBE,
             suites: [],
             tests: [],

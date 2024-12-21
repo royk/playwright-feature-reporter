@@ -2,7 +2,8 @@ import { test, expect } from '@playwright/test';
 import { Suite, TestCase, TestResult } from '@playwright/test/reporter';
 import MyReporter, { embeddingPlaceholder, 
   ANNOTATION_TEST_TYPE, TEST_TYPE_BEHAVIOR, 
-  PLAYWRIGHT_SUITE_TYPE_DESCRIBE } from './index.ts';
+  PLAYWRIGHT_SUITE_TYPE_DESCRIBE, 
+  PLAYWRIGHT_SUITE_TYPE_PROJECT} from './index.ts';
   import sinon from 'sinon';
   import fs from 'fs';
   import { TEST_PREFIX_PASSED, TEST_PREFIX_FAILED, TEST_PREFIX_SKIPPED } from 'x-feature-reporter/adapters/markdown';
@@ -54,6 +55,32 @@ test.describe("Features", () => {
     sinon.restore();
   });
   test.describe('Markdown generation', () => {
+    test("Multiple project don't create duplicate entries. Their features are merged", () => {
+      const project1 = {
+        type: PLAYWRIGHT_SUITE_TYPE_PROJECT,
+        title: 'project1',
+        suites: [mockDescribeBlock, mockDescribeBlock2],
+        tests: [],
+      } as unknown as Suite;
+      const project2 = {
+        type: PLAYWRIGHT_SUITE_TYPE_PROJECT,
+        title: 'project2',
+        suites: [mockDescribeBlock2],
+        tests: [],
+      } as unknown as Suite;
+      const rootSuite = {
+        type: 'root',
+        suites: [project1, project2],
+        tests: [],
+      } as unknown as Suite;
+      mockDescribeBlock.tests.push(mockTestCase);
+      mockDescribeBlock2.tests.push(mockTestCase2);
+      reporter.onBegin({} as any, rootSuite);
+      reporter.onEnd({} as any);
+      const expectedMarkdown = `\n## ${featureTitle}\n - ${TEST_PREFIX_PASSED} ${caseTitle}\n## ${subfeatureTitle}\n - ${TEST_PREFIX_PASSED} ${caseTitle2}\n`;
+      const actualMarkdown = writeFileSyncStub.getCall(0)?.args[1];
+      expect(actualMarkdown).toBe(expectedMarkdown);
+    });
     test("Describe blocks appear as headings. Nested describe blocks are nested headings", () => {
       mockDescribeBlock.suites.push(mockDescribeBlock2);
       mockDescribeBlock2.tests.push(mockTestCase);

@@ -41,7 +41,7 @@ class MyReporter implements Reporter {
 
   _convertSuiteToXFeatureReporter(s: Suite) {
     const xSuite = {
-      title: s.title,
+      title: s.type === PLAYWRIGHT_SUITE_TYPE_PROJECT ? '' : s.title,
       transparent: s.type !== PLAYWRIGHT_SUITE_TYPE_DESCRIBE,
       suites: [],
       tests: [],

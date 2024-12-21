@@ -19,6 +19,12 @@ export default defineConfig({
   projects: [
     {
       name: 'no-browser'
+    },
+    {
+      name: 'chromium',
+      use: {
+        browserName: 'chromium',
+      },
     }
 
   ]

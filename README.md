@@ -14,6 +14,7 @@ npm i -D playwright-feature-reporter
 <!-- playwright-feature-reporter--start -->
 ## Features
 ### Markdown generation
+ - ✅ Multiple project don't create duplicate entries. Their features are merged
  - ✅ Describe blocks appear as headings. Nested describe blocks are nested headings
  - ✅ Tests appear as list items representing features. Each feature is visually marked as Passing ✅, Failing ❌ or Skipped 🚧
  - ✅ Tests can be annotated with test-types. Behavioral tests appear as features. Unannotated tests are assumed to be behavioral.
@@ -29,7 +30,7 @@ npm i -D playwright-feature-reporter
  - 🚧 Support embedding different test types in different parts of the document
  - 🚧 Support custom emojis
 
-[Test report](https://raw.githack.com/royk/playwright-feature-reporter/refs/heads/main/playwright-report/index.html)
+[Test report](playwright-report/index.html)
 <!-- playwright-feature-reporter--end -->
 
 ## Usage
