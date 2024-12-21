@@ -12,9 +12,13 @@ export const PLAYWRIGHT_SUITE_TYPE_DESCRIBE = 'describe';
 export const PLAYWRIGHT_SUITE_TYPE_PROJECT = 'project';
 
 class MyReporter implements Reporter {
-  private options: { outputFile?: string, fullReportLink?: string };
+  // todo: create type
+  private options: { outputFile?: string, fullReportLink?: string, reportProjects?: boolean };
   private suite: Suite;
-  constructor(options: { outputFile?: string, fullReportLink?: string } = {}) {
+  constructor(options: { outputFile?: string, fullReportLink?: string, reportProjects?: boolean } = {}) {
+    if (options.reportProjects==undefined) {
+      options.reportProjects = false;
+    }
     this.options = options;
   }
   onBegin(config: FullConfig, suite: Suite) {
@@ -40,9 +44,16 @@ class MyReporter implements Reporter {
   }
 
   _convertSuiteToXFeatureReporter(s: Suite) {
+    let isTransparent = true;
+    if (s.type === PLAYWRIGHT_SUITE_TYPE_DESCRIBE) {
+      isTransparent = false;
+    }
+    if (s.type === PLAYWRIGHT_SUITE_TYPE_PROJECT && this.options.reportProjects==true) {
+      isTransparent = false;
+    }
     const xSuite = {
-      title: s.type === PLAYWRIGHT_SUITE_TYPE_PROJECT ? '' : s.title,
-      transparent: s.type !== PLAYWRIGHT_SUITE_TYPE_DESCRIBE,
+      title: this.options.reportProjects==false && s.type === PLAYWRIGHT_SUITE_TYPE_PROJECT ? '' : s.title,
+      transparent: isTransparent,
       suites: [],
       tests: [],
     } as XTestSuite;

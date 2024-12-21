@@ -55,7 +55,7 @@ test.describe("Features", () => {
     sinon.restore();
   });
   test.describe('Markdown generation', () => {
-    test("Multiple project don't create duplicate entries. Their features are merged", () => {
+    test("By default, multiple project don't create duplicate entries. Their features are merged", () => {
       const project1 = {
         type: PLAYWRIGHT_SUITE_TYPE_PROJECT,
         title: 'project1',
@@ -223,6 +223,35 @@ test.describe("Features", () => {
       reporter.onEnd({} as any);
       const expectedLink = `[Test report](${fullReportLink})`;
       const expectedMarkdown = `\n## ${featureTitle}\n - ${TEST_PREFIX_PASSED} ${caseTitle}\n\n${expectedLink}\n`;
+      const actualMarkdown = writeFileSyncStub.getCall(0)?.args[1];
+      expect(actualMarkdown).toBe(expectedMarkdown);
+    });
+    test("Projects are reported separately as headers when the option 'reportProjects' is true", () => {
+      reporter = new MyReporter({ outputFile, reportProjects: true });
+      const projectTitle1 = 'project1';
+      const projectTitle2 = 'project2';
+      const project1 = {
+        type: PLAYWRIGHT_SUITE_TYPE_PROJECT,
+        title: projectTitle1,
+        suites: [mockDescribeBlock, mockDescribeBlock2],
+        tests: [],
+      } as unknown as Suite;
+      const project2 = {
+        type: PLAYWRIGHT_SUITE_TYPE_PROJECT,
+        title: projectTitle2,
+        suites: [mockDescribeBlock2],
+        tests: [],
+      } as unknown as Suite;
+      const rootSuite = {
+        type: 'root',
+        suites: [project1, project2],
+        tests: [],
+      } as unknown as Suite;
+      mockDescribeBlock.tests.push(mockTestCase);
+      mockDescribeBlock2.tests.push(mockTestCase2);
+      reporter.onBegin({} as any, rootSuite);
+      reporter.onEnd({} as any);
+      const expectedMarkdown = `\n## ${projectTitle1}\n### ${featureTitle}\n - ${TEST_PREFIX_PASSED} ${caseTitle}\n### ${subfeatureTitle}\n - ${TEST_PREFIX_PASSED} ${caseTitle2}\n## ${projectTitle2}\n### ${subfeatureTitle}\n - ${TEST_PREFIX_PASSED} ${caseTitle2}\n`;
       const actualMarkdown = writeFileSyncStub.getCall(0)?.args[1];
       expect(actualMarkdown).toBe(expectedMarkdown);
     });
