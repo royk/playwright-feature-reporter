@@ -49,13 +49,9 @@ class MyReporter implements Reporter {
   }
 
   _convertSuiteToXFeatureReporter(s: Suite) {
-    let isTransparent = true;
-    if (s.type === PLAYWRIGHT_SUITE_TYPE_DESCRIBE) {
-      isTransparent = false;
-    }
-    if (s.type === PLAYWRIGHT_SUITE_TYPE_PROJECT && this.options.reportProjects==true) {
-      isTransparent = false;
-    }
+    // only describe blocks are visible by default. Projects are visible only when the option 'reportProjects' is true.
+    const isTransparent = !(s.type === PLAYWRIGHT_SUITE_TYPE_DESCRIBE ||
+      (s.type === PLAYWRIGHT_SUITE_TYPE_PROJECT && this.options.reportProjects==true));
     const xSuite = {
       title: this.options.reportProjects==false && s.type === PLAYWRIGHT_SUITE_TYPE_PROJECT ? '' : s.title,
       transparent: isTransparent,
