@@ -14,7 +14,7 @@ npm i -D playwright-feature-reporter
 <!-- playwright-feature-reporter--start -->
 ## Features
 ### Markdown generation
- - ✅ Multiple project don't create duplicate entries. Their features are merged
+ - ✅ By default, multiple project don't create duplicate entries. Their features are merged
  - ✅ Describe blocks appear as headings. Nested describe blocks are nested headings
  - ✅ Tests appear as list items representing features. Each feature is visually marked as Passing ✅, Failing ❌ or Skipped 🚧
  - ✅ Tests can be annotated with test-types. Behavioral tests appear as features. Unannotated tests are assumed to be behavioral.
@@ -26,6 +26,7 @@ npm i -D playwright-feature-reporter
  - ✅ Features can nest multiple levels deep
 ### Configuration
  - ✅ A link to a full test report will be included when the 'fullReportLink' option is provided
+ - ✅ Projects are reported separately as headers when the option 'reportProjects' is true
 ### To do
  - 🚧 Support embedding different test types in different parts of the document
  - 🚧 Support custom emojis
