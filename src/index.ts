@@ -52,8 +52,10 @@ class MyReporter implements Reporter {
     // only describe blocks are visible by default. Projects are visible only when the option 'reportProjects' is true.
     const isTransparent = !(s.type === PLAYWRIGHT_SUITE_TYPE_DESCRIBE ||
       (s.type === PLAYWRIGHT_SUITE_TYPE_PROJECT && this.options.reportProjects==true));
+    // if projects are not reported, clear project titles so that their children share the same ancestry path
+    const title = this.options.reportProjects==false && s.type === PLAYWRIGHT_SUITE_TYPE_PROJECT ? '' : s.title;
     const xSuite = {
-      title: this.options.reportProjects==false && s.type === PLAYWRIGHT_SUITE_TYPE_PROJECT ? '' : s.title,
+      title,
       transparent: isTransparent,
       suites: [],
       tests: [],
