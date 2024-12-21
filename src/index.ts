@@ -11,21 +11,20 @@ export const PLAYWRIGHT_SUITE_TYPE_DESCRIBE = 'describe';
 // TODO: Add some test that uses this type
 export const PLAYWRIGHT_SUITE_TYPE_PROJECT = 'project';
 
-type ReporterOptions = { 
-  outputFile?: string, 
-  fullReportLink?: string, 
-  reportProjects?: boolean 
-};
+interface ReporterOptions {
+  outputFile?: string;
+  fullReportLink?: string;
+  reportProjects?: boolean;
+}
 
 class MyReporter implements Reporter {
-  // todo: create type
   private options: ReporterOptions;
   private suite: Suite;
   constructor(options: ReporterOptions = {}) {
-    if (options.reportProjects==undefined) {
-      options.reportProjects = false;
-    }
-    this.options = options;
+    this.options = {
+      ...options,
+      reportProjects: options.reportProjects ?? false
+    };
   }
   onBegin(config: FullConfig, suite: Suite) {
     this.suite = suite;
