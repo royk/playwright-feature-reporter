@@ -50,13 +50,13 @@ class MyReporter implements Reporter {
 
   _convertSuiteToXFeatureReporter(s: Suite) {
     // only describe blocks are visible by default. Projects are visible only when the option 'reportProjects' is true.
-    const transparent = !(s.type === PLAYWRIGHT_SUITE_TYPE_DESCRIBE ||
+    const visible = (s.type === PLAYWRIGHT_SUITE_TYPE_DESCRIBE ||
       (s.type === PLAYWRIGHT_SUITE_TYPE_PROJECT && this.options.reportProjects==true));
-    // if projects are not reported, clear project titles so that their children share the same ancestry path
+    // if projects are not reported, clear their titles so that their children share the same ancestry path (causes merging)
     const title = this.options.reportProjects==false && s.type === PLAYWRIGHT_SUITE_TYPE_PROJECT ? '' : s.title;
     const xSuite = {
       title,
-      transparent,
+      transparent: !visible,
       suites: [],
       tests: [],
     } as XTestSuite;
