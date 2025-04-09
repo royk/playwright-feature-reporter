@@ -5,19 +5,28 @@ import type { XTestSuite as XTestSuite, XTestResult as XTestResult, XAdapter } f
 import type { MarkdownAdapterOptions } from 'x-feature-reporter/adapters/markdown';
 import { MarkdownAdapter } from 'x-feature-reporter/adapters/markdown';
 import { XFeatureReporter } from 'x-feature-reporter';
+
 export const embeddingPlaceholder = 'playwright-feature-reporter';
 export const ANNOTATION_TEST_TYPE = 'test-type';
 export const TEST_TYPE_BEHAVIOR = 'behavior';
 export const PLAYWRIGHT_SUITE_TYPE_DESCRIBE = 'describe';
-// TODO: Add some test that uses this type
 export const PLAYWRIGHT_SUITE_TYPE_PROJECT = 'project';
 
-interface ReporterOptions {
+// Re-export XAdapter type for consumers
+export type { XAdapter, XTestSuite, XTestResult } from 'x-feature-reporter';
+
+
+export interface ReporterOptions {
   outputFile?: string;
   fullReportLink?: string;
   reportProjects?: boolean;
-  adapter?: XAdapter;
+  adapter?: AdapterConstructor;
+  adapterOptions?: Record<string, unknown>;
 }
+
+// Define a type for adapter constructors
+export type AdapterConstructor = new (options: Omit<ReporterOptions, 'adapter'>) => XAdapter;
+
 
 class MyReporter implements Reporter {
   private options: ReporterOptions;
@@ -77,15 +86,19 @@ class MyReporter implements Reporter {
   onEnd(result: FullResult) {
     const xsuite = this._convertSuiteToXFeatureReporter(this.suite);
     let adapter: XAdapter;
+    
     if (!this.options.adapter) {
+      // Use default MarkdownAdapter if no adapter is provided
       adapter = new MarkdownAdapter({
         outputFile: this.options.outputFile,
         fullReportLink: this.options.fullReportLink,
         embeddingPlaceholder
       } as MarkdownAdapterOptions);
     } else {
-      adapter = this.options.adapter;
+      // Instantiate the provided adapter with the adapterOptions
+      adapter = new this.options.adapter({...this.options,  ...this.options.adapterOptions});
     }
+    
     const reporter = new XFeatureReporter(adapter);
     reporter.generateReport(xsuite);
   }

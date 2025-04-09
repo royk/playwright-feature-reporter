@@ -4,7 +4,6 @@ export const embeddingPlaceholder = 'playwright-feature-reporter';
 export const ANNOTATION_TEST_TYPE = 'test-type';
 export const TEST_TYPE_BEHAVIOR = 'behavior';
 export const PLAYWRIGHT_SUITE_TYPE_DESCRIBE = 'describe';
-// TODO: Add some test that uses this type
 export const PLAYWRIGHT_SUITE_TYPE_PROJECT = 'project';
 class MyReporter {
     constructor(options = {}) {
@@ -55,11 +54,20 @@ class MyReporter {
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     onEnd(result) {
         const xsuite = this._convertSuiteToXFeatureReporter(this.suite);
-        const reporter = new XFeatureReporter(new MarkdownAdapter({
-            outputFile: this.options.outputFile,
-            fullReportLink: this.options.fullReportLink,
-            embeddingPlaceholder
-        }));
+        let adapter;
+        if (!this.options.adapter) {
+            // Use default MarkdownAdapter if no adapter is provided
+            adapter = new MarkdownAdapter({
+                outputFile: this.options.outputFile,
+                fullReportLink: this.options.fullReportLink,
+                embeddingPlaceholder
+            });
+        }
+        else {
+            // Instantiate the provided adapter with the adapterOptions
+            adapter = new this.options.adapter(Object.assign(Object.assign({}, this.options), this.options.adapterOptions));
+        }
+        const reporter = new XFeatureReporter(adapter);
         reporter.generateReport(xsuite);
     }
 }

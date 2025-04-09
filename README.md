@@ -25,14 +25,12 @@ npm i -D playwright-feature-reporter
  - ✅ Features can nest under other features
  - ✅ Features can nest multiple levels deep
 ### Configuration
- - ✅ Custom adapter can be provided
+ - ✅ Custom adapter can be provided as a constructor
+ - ✅ Adapter is instantiated with the provided options
  - ✅ A link to a full test report will be included when the 'fullReportLink' option is provided
  - ✅ Projects are reported separately as headers when the option 'reportProjects' is true
-### To do
- - 🚧 Support embedding different test types in different parts of the document
- - 🚧 Support custom emojis
 
-[Test report](https://raw.githack.com/royk/playwright-feature-reporter/refs/heads/main/playwright-report/index.html)
+[Test report](playwright-report/index.html)
 <!-- playwright-feature-reporter--end -->
 
 ## Usage
@@ -40,13 +38,48 @@ npm i -D playwright-feature-reporter
 ### Basic usage
 Include as a reporter in your `playwright.config.ts`. eg:
 
-```
+```typescript
+import { defineConfig } from '@playwright/test';
+
 export default defineConfig({
   reporter: [
-    ['list'],
-    ['playwright-feature-reporter', {  outputFile: '../FEATURES.md' }]
-  ],
+    ['playwright-feature-reporter', { 
+      outputFile: './README.md',
+      fullReportLink: 'https://raw.githack.com/your-repo/playwright-report/index.html'
+    }]
+  ]
+});
 ```
+
+### Using a custom adapter
+
+You can provide a custom adapter class that implements the `XAdapter` interface from `x-feature-reporter`:
+
+```typescript
+import { defineConfig } from '@playwright/test';
+import { MyCustomAdapter } from 'my-custom-adapter-package';
+
+export default defineConfig({
+  reporter: [
+    ['playwright-feature-reporter', { 
+      adapter: MyCustomAdapter,
+      adapterOptions: {
+        // adapter-specific options
+      }
+    }]
+  ]
+});
+```
+
+The adapter class must implement the `XAdapter` interface from `x-feature-reporter`:
+
+```typescript
+interface XAdapter {
+  generateReport(suite: XTestSuite): void;
+}
+```
+
+The adapter will be instantiated by the reporter with the provided `adapterOptions`.
 
 ### Combining with other reporters
 This example takes advantage of the html reporter to attach a link to the full report:

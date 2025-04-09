@@ -1,15 +1,19 @@
 import type { FullConfig, FullResult, Reporter, TestCase, TestResult, Suite } from '@playwright/test/reporter';
-import type { XTestSuite as XTestSuite } from 'x-feature-reporter';
+import type { XTestSuite as XTestSuite, XAdapter } from 'x-feature-reporter';
 export declare const embeddingPlaceholder = "playwright-feature-reporter";
 export declare const ANNOTATION_TEST_TYPE = "test-type";
 export declare const TEST_TYPE_BEHAVIOR = "behavior";
 export declare const PLAYWRIGHT_SUITE_TYPE_DESCRIBE = "describe";
 export declare const PLAYWRIGHT_SUITE_TYPE_PROJECT = "project";
-interface ReporterOptions {
+export type { XAdapter, XTestSuite, XTestResult } from 'x-feature-reporter';
+export interface ReporterOptions {
     outputFile?: string;
     fullReportLink?: string;
     reportProjects?: boolean;
+    adapter?: AdapterConstructor;
+    adapterOptions?: Record<string, unknown>;
 }
+export type AdapterConstructor = new (options: Omit<ReporterOptions, 'adapter'>) => XAdapter;
 declare class MyReporter implements Reporter {
     private options;
     private suite;
