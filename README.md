@@ -25,6 +25,7 @@ npm i -D playwright-feature-reporter
  - ✅ Features can nest under other features
  - ✅ Features can nest multiple levels deep
 ### Configuration
+ - ✅ Custom adapter can be provided
  - ✅ A link to a full test report will be included when the 'fullReportLink' option is provided
  - ✅ Projects are reported separately as headers when the option 'reportProjects' is true
 ### To do

@@ -6,7 +6,7 @@ import MyReporter, { embeddingPlaceholder,
   PLAYWRIGHT_SUITE_TYPE_PROJECT} from './index.ts';
 import sinon from 'sinon';
 import fs from 'fs';
-import { TEST_PREFIX_PASSED, TEST_PREFIX_FAILED, TEST_PREFIX_SKIPPED } from 'x-feature-reporter/adapters/markdown';
+import { TEST_PREFIX_PASSED, TEST_PREFIX_FAILED, TEST_PREFIX_SKIPPED, XAdapter } from 'x-feature-reporter/adapters/markdown';
 
 let reporter: MyReporter;
 let mockDescribeBlock: Suite;
@@ -215,6 +215,16 @@ test.describe("Features", () => {
       
     });
   test.describe("Configuration", () => {
+    test("Custom adapter can be provided", () => {
+      const stub = sinon.stub();
+      const customAdapter = {
+        generateReport: stub,
+      } as unknown as XAdapter;
+      reporter = new MyReporter({ outputFile, adapter: customAdapter });
+      reporter.onBegin({} as any, mockDescribeBlock);
+      reporter.onEnd({} as any);
+      expect(stub.calledOnce).toBe(true);
+    });
     test("A link to a full test report will be included when the 'fullReportLink' option is provided", () => {
       const fullReportLink = 'full-report.html';
       reporter = new MyReporter({ outputFile, fullReportLink });
