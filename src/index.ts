@@ -1,9 +1,10 @@
 import type {
-    FullConfig, FullResult, Reporter, Suite, TestCase, TestResult
+    FullConfig, FullResult, Reporter, TestCase, TestResult, Suite
   } from '@playwright/test/reporter';
-import { XFeatureReporter, XTestSuite as XTestSuite, XTestResult as XTestResult } from 'x-feature-reporter';
-import { MarkdownAdapter, MarkdownAdapterOptions } from 'x-feature-reporter/adapters/markdown';
-
+import type { XTestSuite as XTestSuite, XTestResult as XTestResult } from 'x-feature-reporter';
+import type { MarkdownAdapterOptions } from 'x-feature-reporter/adapters/markdown';
+import { MarkdownAdapter } from 'x-feature-reporter/adapters/markdown';
+import { XFeatureReporter } from 'x-feature-reporter';
 export const embeddingPlaceholder = 'playwright-feature-reporter';
 export const ANNOTATION_TEST_TYPE = 'test-type';
 export const TEST_TYPE_BEHAVIOR = 'behavior';

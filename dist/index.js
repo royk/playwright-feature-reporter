@@ -1,5 +1,5 @@
-import { XFeatureReporter } from 'x-feature-reporter';
 import { MarkdownAdapter } from 'x-feature-reporter/adapters/markdown';
+import { XFeatureReporter } from 'x-feature-reporter';
 export const embeddingPlaceholder = 'playwright-feature-reporter';
 export const ANNOTATION_TEST_TYPE = 'test-type';
 export const TEST_TYPE_BEHAVIOR = 'behavior';

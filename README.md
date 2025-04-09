@@ -31,7 +31,7 @@ npm i -D playwright-feature-reporter
  - 🚧 Support embedding different test types in different parts of the document
  - 🚧 Support custom emojis
 
-[Test report](https://raw.githack.com/royk/playwright-feature-reporter/refs/heads/main/playwright-report/index.html)
+[Test report](playwright-report/index.html)
 <!-- playwright-feature-reporter--end -->
 
 ## Usage

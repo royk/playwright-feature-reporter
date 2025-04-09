@@ -1,13 +1,13 @@
 import { test, expect } from '@playwright/test';
-import { Suite, TestCase, TestResult } from '@playwright/test/reporter';
+import type { Suite, TestCase, TestResult } from '@playwright/test/reporter';
 import MyReporter, { embeddingPlaceholder, 
   ANNOTATION_TEST_TYPE, TEST_TYPE_BEHAVIOR, 
   PLAYWRIGHT_SUITE_TYPE_DESCRIBE, 
   PLAYWRIGHT_SUITE_TYPE_PROJECT} from './index.ts';
-  import sinon from 'sinon';
-  import fs from 'fs';
-  import { TEST_PREFIX_PASSED, TEST_PREFIX_FAILED, TEST_PREFIX_SKIPPED } from 'x-feature-reporter/adapters/markdown';
-  
+import sinon from 'sinon';
+import fs from 'fs';
+import { TEST_PREFIX_PASSED, TEST_PREFIX_FAILED, TEST_PREFIX_SKIPPED } from 'x-feature-reporter/adapters/markdown';
+
 let reporter: MyReporter;
 let mockDescribeBlock: Suite;
 let mockDescribeBlock2: Suite;
