@@ -53,14 +53,16 @@ class MyReporter {
     }
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     onEnd(result) {
+        var _a;
         const xsuite = this._convertSuiteToXFeatureReporter(this.suite);
         let adapter;
+        this.options.embeddingPlaceholder = (_a = this.options.embeddingPlaceholder) !== null && _a !== void 0 ? _a : embeddingPlaceholder;
         if (!this.options.adapter) {
             // Use default MarkdownAdapter if no adapter is provided
             adapter = new MarkdownAdapter({
                 outputFile: this.options.outputFile,
                 fullReportLink: this.options.fullReportLink,
-                embeddingPlaceholder
+                embeddingPlaceholder: this.options.embeddingPlaceholder
             });
         }
         else {

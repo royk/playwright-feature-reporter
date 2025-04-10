@@ -20,6 +20,7 @@ export interface ReporterOptions {
   outputFile?: string;
   fullReportLink?: string;
   reportProjects?: boolean;
+  embeddingPlaceholder?: string;
   adapter?: AdapterConstructor;
   adapterOptions?: Record<string, unknown>;
 }
@@ -86,13 +87,13 @@ class MyReporter implements Reporter {
   onEnd(result: FullResult) {
     const xsuite = this._convertSuiteToXFeatureReporter(this.suite);
     let adapter: XAdapter;
-    
+    this.options.embeddingPlaceholder = this.options.embeddingPlaceholder ?? embeddingPlaceholder;
     if (!this.options.adapter) {
       // Use default MarkdownAdapter if no adapter is provided
       adapter = new MarkdownAdapter({
         outputFile: this.options.outputFile,
         fullReportLink: this.options.fullReportLink,
-        embeddingPlaceholder
+        embeddingPlaceholder: this.options.embeddingPlaceholder
       } as MarkdownAdapterOptions);
     } else {
       // Instantiate the provided adapter with the adapterOptions

@@ -10,6 +10,7 @@ export interface ReporterOptions {
     outputFile?: string;
     fullReportLink?: string;
     reportProjects?: boolean;
+    embeddingPlaceholder?: string;
     adapter?: AdapterConstructor;
     adapterOptions?: Record<string, unknown>;
 }
