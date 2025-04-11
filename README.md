@@ -29,7 +29,7 @@ npm i -D playwright-feature-reporter
  - ✅ A link to a full test report will be included when the 'fullReportLink' option is provided
  - ✅ Projects are reported separately as headers when the option 'reportProjects' is true
 
-[Test report](playwright-report/index.html)
+[Test report](https://raw.githack.com/royk/playwright-feature-reporter/refs/heads/main/playwright-report/index.html)
 <!-- playwright-feature-reporter--end -->
 
 ## Usage
