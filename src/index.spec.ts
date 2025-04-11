@@ -230,7 +230,7 @@ test.describe("Features", () => {
   });
   
 test.describe("Configuration", () => {
-    test.only("outputFormat can be set to 'json'", () => {
+    test("outputFormat can be set to 'json'", () => {
       reporter = new MyReporter({ 
         outputFile, 
         outputFormat: 'json',

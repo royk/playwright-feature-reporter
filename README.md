@@ -13,8 +13,21 @@ npm i -D playwright-feature-reporter
 
 <!-- playwright-feature-reporter--start -->
 ## Features
+### Markdown generation
+ - ✅ By default, multiple project don't create duplicate entries. Their features are merged
+ - ✅ Describe blocks appear as headings. Nested describe blocks are nested headings
+ - ✅ Tests appear as list items representing features. Each feature is visually marked as Passing ✅, Failing ❌ or Skipped 🚧
+ - ✅ Tests can be annotated with test-types. Behavioral tests appear as features. Unannotated tests are assumed to be behavioral.
+ - ✅ Describe blocks containing only non-behavioral tests are not shown in the report
+ - ✅ Embed the report in an existing file between placeholders
+ - ✅ Omit the closing placeholder if it's the last content in the file
+ - ✅ Same headings from across suites are shown only once
+ - ✅ Features can nest under other features
+ - ✅ Features can nest multiple levels deep
 ### Configuration
  - ✅ outputFormat can be set to 'json'
+ - ✅ A link to a full test report will be included when the 'fullReportLink' option is provided
+ - ✅ Projects are reported separately as headers when the option 'reportProjects' is true
 
 [Test report](playwright-report/index.html)
 <!-- playwright-feature-reporter--end -->
