@@ -90,7 +90,6 @@ class MyReporter implements Reporter {
         embeddingPlaceholder: this.options.embeddingPlaceholder
       } as MarkdownAdapterOptions);
     } else {
-      console.log('outputFormat is json');
       adapter = new JsonAdapter({
         outputFile: this.options.outputFile,
       } as JsonAdapterOptions);
