@@ -1,5 +1,6 @@
 import { MarkdownAdapter } from 'x-feature-reporter/adapters/markdown';
 import { XFeatureReporter } from 'x-feature-reporter';
+import { JsonAdapter } from 'x-feature-reporter/adapters/json';
 export const embeddingPlaceholder = 'playwright-feature-reporter';
 export const ANNOTATION_TEST_TYPE = 'test-type';
 export const TEST_TYPE_BEHAVIOR = 'behavior';
@@ -57,8 +58,10 @@ class MyReporter {
         const xsuite = this._convertSuiteToXFeatureReporter(this.suite);
         let adapter;
         this.options.embeddingPlaceholder = (_a = this.options.embeddingPlaceholder) !== null && _a !== void 0 ? _a : embeddingPlaceholder;
-        if (!this.options.adapter) {
-            // Use default MarkdownAdapter if no adapter is provided
+        if (!this.options.outputFormat) {
+            this.options.outputFormat = 'markdown';
+        }
+        if (this.options.outputFormat === 'markdown') {
             adapter = new MarkdownAdapter({
                 outputFile: this.options.outputFile,
                 fullReportLink: this.options.fullReportLink,
@@ -66,8 +69,9 @@ class MyReporter {
             });
         }
         else {
-            // Instantiate the provided adapter with the adapterOptions
-            adapter = new this.options.adapter(Object.assign(Object.assign({}, this.options), this.options.adapterOptions));
+            adapter = new JsonAdapter({
+                outputFile: this.options.outputFile,
+            });
         }
         const reporter = new XFeatureReporter(adapter);
         reporter.generateReport(xsuite);
