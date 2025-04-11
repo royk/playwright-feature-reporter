@@ -1,10 +1,11 @@
 import type {
     FullConfig, FullResult, Reporter, TestCase, TestResult, Suite
   } from '@playwright/test/reporter';
-import type { XTestSuite as XTestSuite, XTestResult as XTestResult, XAdapter } from 'x-feature-reporter';
+import type { XTestSuite as XTestSuite, XTestResult as XTestResult, XAdapter, JsonAdapterOptions } from 'x-feature-reporter';
 import type { MarkdownAdapterOptions } from 'x-feature-reporter/adapters/markdown';
 import { MarkdownAdapter } from 'x-feature-reporter/adapters/markdown';
 import { XFeatureReporter } from 'x-feature-reporter';
+import { JsonAdapter } from 'x-feature-reporter/adapters/json';
 
 export const embeddingPlaceholder = 'playwright-feature-reporter';
 export const ANNOTATION_TEST_TYPE = 'test-type';
@@ -12,22 +13,13 @@ export const TEST_TYPE_BEHAVIOR = 'behavior';
 export const PLAYWRIGHT_SUITE_TYPE_DESCRIBE = 'describe';
 export const PLAYWRIGHT_SUITE_TYPE_PROJECT = 'project';
 
-// Re-export XAdapter type for consumers
-export type { XAdapter, XTestSuite, XTestResult } from 'x-feature-reporter';
-
-
 export interface ReporterOptions {
   outputFile?: string;
+  outputFormat?: 'markdown' | 'json';
   fullReportLink?: string;
   reportProjects?: boolean;
   embeddingPlaceholder?: string;
-  adapter?: AdapterConstructor;
-  adapterOptions?: Record<string, unknown>;
 }
-
-// Define a type for adapter constructors
-export type AdapterConstructor = new (options: Omit<ReporterOptions, 'adapter'>) => XAdapter;
-
 
 class MyReporter implements Reporter {
   private options: ReporterOptions;
@@ -88,16 +80,20 @@ class MyReporter implements Reporter {
     const xsuite = this._convertSuiteToXFeatureReporter(this.suite);
     let adapter: XAdapter;
     this.options.embeddingPlaceholder = this.options.embeddingPlaceholder ?? embeddingPlaceholder;
-    if (!this.options.adapter) {
-      // Use default MarkdownAdapter if no adapter is provided
+    if (!this.options.outputFormat) {
+      this.options.outputFormat = 'markdown';
+    }
+    if (this.options.outputFormat === 'markdown') {
       adapter = new MarkdownAdapter({
         outputFile: this.options.outputFile,
         fullReportLink: this.options.fullReportLink,
         embeddingPlaceholder: this.options.embeddingPlaceholder
       } as MarkdownAdapterOptions);
     } else {
-      // Instantiate the provided adapter with the adapterOptions
-      adapter = new this.options.adapter({...this.options,  ...this.options.adapterOptions});
+      console.log('outputFormat is json');
+      adapter = new JsonAdapter({
+        outputFile: this.options.outputFile,
+      } as JsonAdapterOptions);
     }
     
     const reporter = new XFeatureReporter(adapter);

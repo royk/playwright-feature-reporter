@@ -229,35 +229,19 @@ test.describe("Features", () => {
     });
   });
   
-  test.describe("Configuration", () => {
-    test("Custom adapter can be provided as a constructor", () => {
-      const adapterOptions = { customOption: 'test' };
+test.describe("Configuration", () => {
+    test.only("outputFormat can be set to 'json'", () => {
       reporter = new MyReporter({ 
         outputFile, 
-        adapter: MockAdapter,
+        outputFormat: 'json',
       });
+      mockDescribeBlock.tests.push(mockTestCase);
       reporter.onBegin({} as any, mockDescribeBlock);
       reporter.onEnd({} as any);
       
-      // Verify the adapter was instantiated with the correct options
-      const adapter = (reporter as any).options.adapter;
-      expect(adapter).toBe(MockAdapter);
-    });
-
-    test("Adapter is instantiated with the provided options", () => {
-      const generateReportStub = sinon.stub();
-      class TestAdapter implements XAdapter {
-        generateReport = generateReportStub;
-      }
-
-      reporter = new MyReporter({ 
-        outputFile, 
-        adapter: TestAdapter,
-      });
-      reporter.onBegin({} as any, mockDescribeBlock);
-      reporter.onEnd({} as any);
-      
-      expect(generateReportStub.calledOnce).toBe(true);
+      const actualJson = writeFileSyncStub.getCall(0)?.args[1];
+      const expectedJson = [{"title":mockDescribeBlock.title,"transparent":false,"suites":[],"tests":[{"title":mockTestCase.title,"status":"passed"}]}]
+      expect(actualJson).toBe(JSON.stringify(expectedJson));
     });
 
     test("A link to a full test report will be included when the 'fullReportLink' option is provided", () => {

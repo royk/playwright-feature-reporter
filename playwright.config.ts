@@ -1,7 +1,7 @@
 import { defineConfig, devices } from '@playwright/test';
 
 const isWatch = process.env.PWTEST_WATCH === '1';
-const localReporter = isWatch ? 'list' : [['list'],['html'],['./dist/index.js', { outputFile: './README.md', fullReportLink: 'playwright-report/index.html' }]];
+const localReporter = isWatch ? 'list' : [['list'],['./dist/index.js', { outputFile: './README.md', fullReportLink: 'playwright-report/index.html' }]];
 export default defineConfig({
   testDir: './src',
   fullyParallel: true,
