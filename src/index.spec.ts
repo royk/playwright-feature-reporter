@@ -234,7 +234,7 @@ import MyReporter, { embeddingPlaceholder,
           reporter = new MyReporter({ 
             outputFile, 
             outputFormat: 'json',
-            oldResultsFile: './test-data/old-results-input.json'
+            lastResultsFile: './test-data/old-results-input.json'
           });
           mockDescribeBlock.tests.push(mockTestCase);
           reporter.onBegin({} as any, mockDescribeBlock);

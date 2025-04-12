@@ -19,7 +19,7 @@ export interface ReporterOptions {
   fullReportLink?: string;
   reportProjects?: boolean;
   embeddingPlaceholder?: string;
-  oldResultsFile?: string;
+  lastResultsFile?: string;
 }
 
 class MyReporter implements Reporter {
@@ -97,7 +97,7 @@ class MyReporter implements Reporter {
     }
     
     const reporter = new XFeatureReporter(adapter);
-    reporter.generateReport(xsuite, this.options.oldResultsFile);
+    reporter.generateReport(xsuite, this.options.lastResultsFile);
   }
 }
 
